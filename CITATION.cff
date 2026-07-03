@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the paper below."
+title: "Dictionaries, not Darwin: set-level selection beats the evolution loop in LLM-based equation discovery"
+authors:
+  - family-names: Li
+    given-names: Pan
+year: 2026
+license: MIT
+repository-code: "https://github.com/panli0/ptb-search"
+abstract: "This repository contains code, configurations, result tables, figure scripts, and audit artifacts for PTB-Search, a train-only set-level sparse recombination approach for LLM-based equation discovery."
