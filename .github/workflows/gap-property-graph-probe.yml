@@ -1,0 +1,76 @@
+name: gap-property-graph-probe
+on:
+  push:
+    branches: [dart-public-data-run]
+    paths: [RUN_GAP_PROPERTY]
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dart-public-data-run
+      - name: Checkout pinned official GAP source
+        uses: actions/checkout@v4
+        with:
+          repository: gap-system/gap
+          ref: 8636b5a96cff81c21e9d386872f9f2922a90887a
+          path: _upstream/gap
+      - name: Extract author-declared true methods
+        run: |
+          set -euxo pipefail
+          rm -rf gap_public && mkdir gap_public
+          python - <<'PY'
+          from pathlib import Path
+          import re,json
+          root=Path('_upstream/gap')
+          hits=[]
+          for p in list((root/'lib').glob('*.gd'))+list((root/'lib').glob('*.gi')):
+              s=p.read_text(errors='replace')
+              for m in re.finditer(r'InstallTrueMethod\s*\(',s):
+                  start=m.start(); i=m.end(); depth=1
+                  while i<len(s) and depth:
+                      if s[i]=='(': depth+=1
+                      elif s[i]==')': depth-=1
+                      i+=1
+                  call=s[start:i]
+                  if len(call)>3000: continue
+                  line=s.count('\n',0,start)+1
+                  hits.append({'file':str(p.relative_to(root)),'line':line,'call':re.sub(r'\s+',' ',call)})
+          Path('gap_public/TRUE_METHODS.json').write_text(json.dumps(hits,indent=2)+'\n')
+          # Focus on group-looking unary implications for inspection.
+          focus=[]
+          for h in hits:
+              c=h['call']
+              if any(x in c for x in ['IsAbelian','IsCyclic','IsNilpotent','IsSolvable','IsSupersolvable','IsPerfect','IsSimple','IsPGroup','IsElementaryAbelian','IsMonomial','IsPolycyclic','IsFinite','IsTrivial']):
+                  focus.append(h)
+          Path('gap_public/GROUP_TRUE_METHODS.json').write_text(json.dumps(focus,indent=2)+'\n')
+          print('all_true_methods',len(hits),'group_focus',len(focus))
+          for h in focus[:200]: print(h['file'],h['line'],h['call'][:500])
+          PY
+      - name: Install distro GAP + SmallGrp for runtime truth probe
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq gap gap-smallgrp >/dev/null
+          gap -q <<'GAP' > gap_public/RUNTIME.txt
+          Print("GAP_VERSION=",GAPInfo.Version,"\n");
+          if LoadPackage("smallgrp")=fail then Error("smallgrp unavailable"); fi;
+          Print("SMALLGRP_LOADED\n");
+          props := [ IsAbelian, IsCyclic, IsNilpotentGroup, IsSolvableGroup, IsSupersolvableGroup, IsPerfectGroup, IsSimpleGroup ];
+          for p in props do Print(NameFunction(p),"\n"); od;
+          G := SmallGroup(60,5);;
+          Print("A5:"); for p in props do Print(" ",p(G)); od; Print("\n");
+          G := SmallGroup(8,3);;
+          Print("D8-ish:"); for p in props do Print(" ",p(G)); od; Print("\n");
+          QUIT;
+          GAP
+          cat gap_public/RUNTIME.txt
+      - name: Commit probe
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+panli0@users.noreply.github.com
+          git add gap_public
+          git commit -m 'Probe GAP author-declared property implications' || true
+          git push origin HEAD:dart-public-data-run
