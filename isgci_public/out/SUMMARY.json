@@ -1,105 +1,105 @@
 {
   "bundle_sha256": "e7416cb0231157c69fdd94be11fac54302755098ad2a0997faa66b7070a17f29",
-  "compact_b85_bytes": 64495,
+  "compact_b85_bytes": 188304,
   "direct_inclusions_accepted": 5069,
-  "first_actions_total": 5467,
+  "first_actions_total": 146674,
   "first_splits": [
     {
-      "eligible_sources": 363,
+      "eligible_sources": 411,
       "seed": 20260816,
-      "test_actions": 271,
+      "test_actions": 1200,
       "test_sources": 20,
-      "train_actions": 4825,
-      "train_family_count": 30,
-      "train_sources": 343
+      "train_actions": 23440,
+      "train_family_count": 97,
+      "train_sources": 391
     },
     {
-      "eligible_sources": 363,
+      "eligible_sources": 411,
       "seed": 20260817,
-      "test_actions": 272,
+      "test_actions": 1200,
       "test_sources": 20,
-      "train_actions": 4824,
-      "train_family_count": 30,
-      "train_sources": 343
+      "train_actions": 23440,
+      "train_family_count": 97,
+      "train_sources": 391
     },
     {
-      "eligible_sources": 363,
+      "eligible_sources": 411,
       "seed": 20260818,
-      "test_actions": 287,
+      "test_actions": 1200,
       "test_sources": 20,
-      "train_actions": 4809,
-      "train_family_count": 30,
-      "train_sources": 343
+      "train_actions": 23440,
+      "train_family_count": 99,
+      "train_sources": 391
     },
     {
-      "eligible_sources": 363,
+      "eligible_sources": 411,
       "seed": 20260819,
-      "test_actions": 278,
+      "test_actions": 1200,
       "test_sources": 20,
-      "train_actions": 4818,
-      "train_family_count": 30,
-      "train_sources": 343
+      "train_actions": 23440,
+      "train_family_count": 99,
+      "train_sources": 391
     },
     {
-      "eligible_sources": 363,
+      "eligible_sources": 411,
       "seed": 20260820,
-      "test_actions": 283,
+      "test_actions": 1200,
       "test_sources": 20,
-      "train_actions": 4813,
-      "train_family_count": 30,
-      "train_sources": 343
+      "train_actions": 23440,
+      "train_family_count": 99,
+      "train_sources": 391
     }
   ],
   "forbidden_classes_exact_evaluable": 411,
   "forbidden_classes_missing_pattern": 288,
   "full_sccs": 1231,
   "graphclasses": 1691,
-  "last_actions_total": 5467,
+  "last_actions_total": 146674,
   "last_splits": [
     {
-      "eligible_sources": 363,
+      "eligible_sources": 411,
       "seed": 20260816,
-      "test_actions": 271,
+      "test_actions": 1200,
       "test_sources": 20,
-      "train_actions": 4825,
-      "train_family_count": 91,
-      "train_sources": 343
+      "train_actions": 23440,
+      "train_family_count": 174,
+      "train_sources": 391
     },
     {
-      "eligible_sources": 363,
+      "eligible_sources": 411,
       "seed": 20260817,
-      "test_actions": 272,
+      "test_actions": 1200,
       "test_sources": 20,
-      "train_actions": 4824,
-      "train_family_count": 94,
-      "train_sources": 343
+      "train_actions": 23440,
+      "train_family_count": 173,
+      "train_sources": 391
     },
     {
-      "eligible_sources": 363,
+      "eligible_sources": 411,
       "seed": 20260818,
-      "test_actions": 287,
+      "test_actions": 1200,
       "test_sources": 20,
-      "train_actions": 4809,
-      "train_family_count": 94,
-      "train_sources": 343
+      "train_actions": 23440,
+      "train_family_count": 175,
+      "train_sources": 391
     },
     {
-      "eligible_sources": 363,
+      "eligible_sources": 411,
       "seed": 20260819,
-      "test_actions": 278,
+      "test_actions": 1200,
       "test_sources": 20,
-      "train_actions": 4818,
-      "train_family_count": 94,
-      "train_sources": 343
+      "train_actions": 23440,
+      "train_family_count": 173,
+      "train_sources": 391
     },
     {
-      "eligible_sources": 363,
+      "eligible_sources": 411,
       "seed": 20260820,
-      "test_actions": 283,
+      "test_actions": 1200,
       "test_sources": 20,
-      "train_actions": 4813,
-      "train_family_count": 93,
-      "train_sources": 343
+      "train_actions": 23440,
+      "train_family_count": 176,
+      "train_sources": 391
     }
   ],
   "official_smallgraphs": 602,
@@ -108,5 +108,5 @@
   "semantics": "official published inclusion edges; SCC/closure; exact official forbidden-smallgraph definitions evaluated on official graph6 by induced-subgraph isomorphism; no unknown->false",
   "source": "ISGCI official data.zip",
   "truth_signature_families": 598,
-  "witnessable_pairs": 5467
+  "witnessable_pairs": 146674
 }

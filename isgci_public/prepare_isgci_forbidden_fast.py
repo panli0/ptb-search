@@ -90,18 +90,22 @@ def main():
   of.append(k2f[k])
  for u,v in S.edges():
   if any(((t>>u)&1) and ((f>>v)&1) for t,f,_ in fam):raise RuntimeError('official inclusion contradicted')
- W=defaultdict(list)
+ W={}
  for oi,fi in enumerate(of):
   t,f,_=fam[fi]
   while t:
    z=t&-t;u=z.bit_length()-1;t-=z;m=f
-   while m:y=m&-m;v=y.bit_length()-1;m-=y
-   if u!=v and not nx.has_path(S,u,v):W[(u,v)].append(oi)
+   while m:
+    y=m&-m;v=y.bit_length()-1;m-=y
+    if u!=v:
+     key=(u,v)
+     if key not in W: W[key]=[oi,oi]
+     else: W[key][1]=oi
  P={'meta':{'source':'ISGCI official data.zip','bundle_sha256':x.bundle_sha,'graphclasses':len(C),'direct_inclusions_accepted':len(acc),'full_sccs':len(scc),'official_smallgraphs':len(names),'forbidden_classes_exact_evaluable':len(ev),'forbidden_classes_missing_pattern':missing,'selected_scc_nodes':N,'selected_transitive_reduction_edges':R.number_of_edges(),'truth_signature_families':len(fam),'witnessable_pairs':len(W),'semantics':'official published inclusion edges; SCC/closure; exact official forbidden-smallgraph definitions evaluated on official graph6 by induced-subgraph isomorphism; no unknown->false'},'dag_edges':sorted([list(e) for e in R.edges()]),'families':[[format(t,'x'),format(f,'x')] for t,f,_ in fam],'backends':{}}
  for b in ('first','last'):
   A=[]
   for (u,v),ois in sorted(W.items()):
-   oi=min(ois) if b=='first' else max(ois);A.append((u,v,of[oi]))
+   oi=ois[0] if b=='first' else ois[1];A.append((u,v,of[oi]))
   P['backends'][b]={'actions_total':len(A),'splits':[split(A,s) for s in SEEDS],'global_family_ids_b85':base64.b85encode(zlib.compress(bytes(q[2] for q in A),9)).decode()}
  raw=json.dumps(P,separators=(',',':'),sort_keys=True).encode();pack=base64.b85encode(zlib.compress(raw,9)).decode();(O/'ISGCI_FORBIDDEN_COMPACT.b85').write_text(pack+'\n')
  sm=P['meta']|{'first_actions_total':P['backends']['first']['actions_total'],'last_actions_total':P['backends']['last']['actions_total'],'compact_b85_bytes':len(pack),'first_splits':[{k:s[k] for k in ('seed','eligible_sources','train_sources','test_sources','train_actions','test_actions','train_family_count')} for s in P['backends']['first']['splits']],'last_splits':[{k:s[k] for k in ('seed','eligible_sources','train_sources','test_sources','train_actions','test_actions','train_family_count')} for s in P['backends']['last']['splits']]};(O/'SUMMARY.json').write_text(json.dumps(sm,indent=2,sort_keys=True)+'\n')
