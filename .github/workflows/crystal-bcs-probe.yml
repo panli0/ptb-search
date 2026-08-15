@@ -16,8 +16,8 @@ jobs:
         run: |
           set -euxo pipefail
           rm -rf crystal_public && mkdir crystal_public
-          curl -L --fail --retry 3 https://www.cryst.ehu.es/cryst/maxsub.html -o crystal_public/maxsub.html
-          curl -L --fail --retry 3 https://www.cryst.ehu.es/cryst/subgroupgraph.html -o crystal_public/subgroupgraph.html
+          curl -L --fail --retry 3 https://cryst.ehu.es/cryst/maxsub.html -o crystal_public/maxsub.html
+          curl -L --fail --retry 3 https://cryst.ehu.es/cryst/subgroupgraph.html -o crystal_public/subgroupgraph.html
           python - <<'PY'
           from pathlib import Path
           import re,json
