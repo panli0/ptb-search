@@ -33,7 +33,7 @@ jobs:
           cp isgci_public/unpacked/smallgraphs.txt isgci_public/smallgraphs.txt
           python -m pip install --quiet networkx==3.3
           BUNDLE_SHA=$(cut -d' ' -f1 isgci_public/DATA_SHA256.txt)
-          python isgci_public/prepare_isgci_forbidden.py \
+          python isgci_public/prepare_isgci_forbidden_fast.py \
             --xml isgci_public/unpacked/isgci_sage.xml \
             --smallgraphs isgci_public/unpacked/smallgraphs.txt \
             --out isgci_public/out \
