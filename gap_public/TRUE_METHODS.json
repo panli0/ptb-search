@@ -1,0 +1,2202 @@
+[
+  {
+    "file": "lib/vec8bit.gd",
+    "line": 76,
+    "call": "InstallTrueMethod( IsConstantTimeAccessList, IsList and Is8BitVectorRep )"
+  },
+  {
+    "file": "lib/vec8bit.gd",
+    "line": 77,
+    "call": "InstallTrueMethod( IsSmallList, IsList and Is8BitVectorRep )"
+  },
+  {
+    "file": "lib/vec8bit.gd",
+    "line": 78,
+    "call": "InstallTrueMethod( IsListDefault, IsList and Is8BitVectorRep )"
+  },
+  {
+    "file": "lib/ffe.gd",
+    "line": 287,
+    "call": "InstallTrueMethod(IsLogOrderedFFE, IsFFE and IsInternalRep)"
+  },
+  {
+    "file": "lib/grpramat.gd",
+    "line": 45,
+    "call": "InstallTrueMethod( IsCyclotomicMatrixGroup, IsRationalMatrixGroup )"
+  },
+  {
+    "file": "lib/grpramat.gd",
+    "line": 73,
+    "call": "InstallTrueMethod( IsRationalMatrixGroup, IsIntegerMatrixGroup )"
+  },
+  {
+    "file": "lib/mapping.gd",
+    "line": 365,
+    "call": "InstallTrueMethod( IsGeneralMapping, IsConstantTimeAccessGeneralMapping )"
+  },
+  {
+    "file": "lib/mapping.gd",
+    "line": 384,
+    "call": "InstallTrueMethod( IsGeneralMapping, IsEndoGeneralMapping )"
+  },
+  {
+    "file": "lib/mapping.gd",
+    "line": 1484,
+    "call": "InstallTrueMethod( IsBijective, IsGeneralMapping and IsOne )"
+  },
+  {
+    "file": "lib/mapping.gd",
+    "line": 1492,
+    "call": "InstallTrueMethod( IsSingleValued, IsGeneralMapping and IsZero )"
+  },
+  {
+    "file": "lib/mapping.gd",
+    "line": 1493,
+    "call": "InstallTrueMethod( IsTotal, IsGeneralMapping and IsZero )"
+  },
+  {
+    "file": "lib/magma.gd",
+    "line": 134,
+    "call": "InstallTrueMethod( IsMagmaWithInverses, # IsFiniteOrderElementCollection and IsMagma )"
+  },
+  {
+    "file": "lib/magma.gd",
+    "line": 137,
+    "call": "InstallTrueMethod( IsMagmaWithInverses, IsFiniteOrderElementCollection and IsMagmaWithOne )"
+  },
+  {
+    "file": "lib/magma.gd",
+    "line": 514,
+    "call": "InstallTrueMethod( IsAssociative, IsAssociativeElementCollection )"
+  },
+  {
+    "file": "lib/magma.gd",
+    "line": 522,
+    "call": "InstallTrueMethod( IsAssociative, IsMagma and IsTrivial )"
+  },
+  {
+    "file": "lib/magma.gd",
+    "line": 554,
+    "call": "InstallTrueMethod( IsCommutative, IsCommutativeElementCollection )"
+  },
+  {
+    "file": "lib/magma.gd",
+    "line": 562,
+    "call": "InstallTrueMethod( IsCommutative, IsMagma and IsTrivial )"
+  },
+  {
+    "file": "lib/magma.gd",
+    "line": 590,
+    "call": "InstallTrueMethod( IsMagma, IsFinitelyGeneratedMagma )"
+  },
+  {
+    "file": "lib/magma.gd",
+    "line": 595,
+    "call": "InstallTrueMethod( IsFinitelyGeneratedMagma, IsMagma and IsFinite )"
+  },
+  {
+    "file": "lib/lierep.gd",
+    "line": 275,
+    "call": "InstallTrueMethod( IsGroup, IsWeylGroup )"
+  },
+  {
+    "file": "lib/quotsys.gd",
+    "line": 46,
+    "call": "InstallTrueMethod( IsQuotientSystem, IsPQuotientSystem )"
+  },
+  {
+    "file": "lib/quotsys.gd",
+    "line": 58,
+    "call": "InstallTrueMethod( IsQuotientSystem, IsNilpQuotientSystem )"
+  },
+  {
+    "file": "lib/tom.gd",
+    "line": 1954,
+    "call": "InstallTrueMethod( IsTableOfMarksWithGens, IsTableOfMarks and HasStraightLineProgramsTom )"
+  },
+  {
+    "file": "lib/tom.gd",
+    "line": 1956,
+    "call": "InstallTrueMethod( IsTableOfMarksWithGens, IsTableOfMarks and HasGeneratorsSubgroupsTom)"
+  },
+  {
+    "file": "lib/ring.gd",
+    "line": 610,
+    "call": "InstallTrueMethod( IsIntegralRing, IsRing and IsMagmaWithInversesIfNonzero and IsNonTrivial )"
+  },
+  {
+    "file": "lib/ring.gd",
+    "line": 612,
+    "call": "InstallTrueMethod( IsIntegralRing, IsRing and IsCyclotomicCollection and IsNonTrivial )"
+  },
+  {
+    "file": "lib/ring.gd",
+    "line": 643,
+    "call": "InstallTrueMethod( IsJacobianRing, IsJacobianElementCollection and IsRing )"
+  },
+  {
+    "file": "lib/ring.gd",
+    "line": 670,
+    "call": "InstallTrueMethod( IsAnticommutative, IsRing and IsZeroSquaredRing )"
+  },
+  {
+    "file": "lib/ring.gd",
+    "line": 672,
+    "call": "InstallTrueMethod( IsZeroSquaredRing, IsZeroSquaredElementCollection and IsRing )"
+  },
+  {
+    "file": "lib/ring.gd",
+    "line": 704,
+    "call": "InstallTrueMethod( IsZeroMultiplicationRing, IsRing and IsTrivial )"
+  },
+  {
+    "file": "lib/ring.gd",
+    "line": 706,
+    "call": "InstallTrueMethod( IsZeroSquaredRing, IsRing and IsZeroMultiplicationRing )"
+  },
+  {
+    "file": "lib/ring.gd",
+    "line": 707,
+    "call": "InstallTrueMethod( IsAssociative, IsRing and IsZeroMultiplicationRing )"
+  },
+  {
+    "file": "lib/ring.gd",
+    "line": 708,
+    "call": "InstallTrueMethod( IsCommutative, IsRing and IsZeroMultiplicationRing )"
+  },
+  {
+    "file": "lib/algsc.gd",
+    "line": 120,
+    "call": "InstallTrueMethod( IsCanonicalBasis, IsCanonicalBasisFullSCAlgebra )"
+  },
+  {
+    "file": "lib/algsc.gd",
+    "line": 143,
+    "call": "InstallTrueMethod( IsFiniteDimensional, IsFreeLeftModule and IsSCAlgebraObjCollection )"
+  },
+  {
+    "file": "lib/gprd.gd",
+    "line": 564,
+    "call": "InstallTrueMethod(IsGeneratorsOfMagmaWithInverses, IsWreathProductElementCollection)"
+  },
+  {
+    "file": "lib/morpheus.gd",
+    "line": 70,
+    "call": "InstallTrueMethod( IsGroup, IsGroupOfAutomorphisms )"
+  },
+  {
+    "file": "lib/morpheus.gd",
+    "line": 87,
+    "call": "InstallTrueMethod( IsGroup, IsGroupOfAutomorphismsFiniteGroup )"
+  },
+  {
+    "file": "lib/morpheus.gd",
+    "line": 89,
+    "call": "InstallTrueMethod( IsGroupOfAutomorphisms,IsGroupOfAutomorphismsFiniteGroup)"
+  },
+  {
+    "file": "lib/morpheus.gd",
+    "line": 90,
+    "call": "InstallTrueMethod( IsFinite,IsGroupOfAutomorphismsFiniteGroup)"
+  },
+  {
+    "file": "lib/morpheus.gd",
+    "line": 91,
+    "call": "InstallTrueMethod( IsHandledByNiceMonomorphism, IsGroupOfAutomorphismsFiniteGroup)"
+  },
+  {
+    "file": "lib/morpheus.gd",
+    "line": 151,
+    "call": "InstallTrueMethod( IsGroupOfAutomorphisms,IsAutomorphismGroup )"
+  },
+  {
+    "file": "lib/semitran.gd",
+    "line": 20,
+    "call": "InstallTrueMethod(IsSemigroup, IsFullTransformationSemigroup)"
+  },
+  {
+    "file": "lib/matobj1.gd",
+    "line": 148,
+    "call": "InstallTrueMethod( IsMatrixOrMatrixObj, IsMatrix )"
+  },
+  {
+    "file": "lib/matobj1.gd",
+    "line": 326,
+    "call": "InstallTrueMethod( HasNumberRows, IsMatrixOrMatrixObj and IsPlistRep)"
+  },
+  {
+    "file": "lib/matobj1.gd",
+    "line": 330,
+    "call": "InstallTrueMethod( HasNumberColumns, IsMatrixOrMatrixObj and IsPlistRep )"
+  },
+  {
+    "file": "lib/ratfun.gd",
+    "line": 255,
+    "call": "InstallTrueMethod( IsPolynomialFunction, IsPolynomial )"
+  },
+  {
+    "file": "lib/ratfun.gd",
+    "line": 299,
+    "call": "InstallTrueMethod( IsRationalFunction, IsUnivariateRationalFunction )"
+  },
+  {
+    "file": "lib/ratfun.gd",
+    "line": 339,
+    "call": "InstallTrueMethod( IsUnivariateRationalFunction, IsLaurentPolynomial )"
+  },
+  {
+    "file": "lib/ratfun.gd",
+    "line": 340,
+    "call": "InstallTrueMethod( IsLaurentPolynomial, IsUnivariatePolynomial )"
+  },
+  {
+    "file": "lib/ratfun.gd",
+    "line": 358,
+    "call": "InstallTrueMethod( IsUnivariateRationalFunction, IsConstantRationalFunction )"
+  },
+  {
+    "file": "lib/ratfun.gd",
+    "line": 375,
+    "call": "InstallTrueMethod( IsConstantRationalFunction,IsZeroRationalFunction )"
+  },
+  {
+    "file": "lib/ghom.gd",
+    "line": 268,
+    "call": "InstallTrueMethod( IsGroupGeneralMapping, MappingOfWhichItIsAsGGMBI )"
+  },
+  {
+    "file": "lib/ghom.gd",
+    "line": 507,
+    "call": "InstallTrueMethod( IsBijective, IsConjugatorIsomorphism )"
+  },
+  {
+    "file": "lib/ghom.gd",
+    "line": 508,
+    "call": "InstallTrueMethod( IsGroupHomomorphism, IsConjugatorIsomorphism )"
+  },
+  {
+    "file": "lib/ghom.gd",
+    "line": 509,
+    "call": "InstallTrueMethod( IsConjugatorAutomorphism, IsInnerAutomorphism )"
+  },
+  {
+    "file": "lib/grppc.gd",
+    "line": 47,
+    "call": "InstallTrueMethod( CanEasilySortElements, IsPcGroup and IsFinite )"
+  },
+  {
+    "file": "lib/grppc.gd",
+    "line": 54,
+    "call": "InstallTrueMethod( KnowsHowToDecompose, IsPcGroup )"
+  },
+  {
+    "file": "lib/grppc.gd",
+    "line": 61,
+    "call": "InstallTrueMethod( IsGeneratorsOfMagmaWithInverses, IsMultiplicativeElementWithInverseByPolycyclicCollectorCollection )"
+  },
+  {
+    "file": "lib/grppc.gd",
+    "line": 321,
+    "call": "InstallTrueMethod(IsGroup,CanEasilyComputePcgs)"
+  },
+  {
+    "file": "lib/grppc.gd",
+    "line": 388,
+    "call": "InstallTrueMethod( IsSolvableGroup, IsPcGroup )"
+  },
+  {
+    "file": "lib/pcgspcg.gd",
+    "line": 33,
+    "call": "InstallTrueMethod(IsCanonicalPcgs,IsFamilyPcgs)"
+  },
+  {
+    "file": "lib/pcgspcg.gd",
+    "line": 34,
+    "call": "InstallTrueMethod(IsParentPcgsFamilyPcgs,IsFamilyPcgs)"
+  },
+  {
+    "file": "lib/grpperm.gd",
+    "line": 51,
+    "call": "InstallTrueMethod( IsSubsetLocallyFiniteGroup, IsPermCollection )"
+  },
+  {
+    "file": "lib/grpperm.gd",
+    "line": 58,
+    "call": "InstallTrueMethod( CanEasilySortElements, IsPermGroup and IsFinite )"
+  },
+  {
+    "file": "lib/grpperm.gd",
+    "line": 64,
+    "call": "InstallTrueMethod( KnowsHowToDecompose, IsPermGroup )"
+  },
+  {
+    "file": "lib/grpperm.gd",
+    "line": 71,
+    "call": "InstallTrueMethod( IsGeneratorsOfMagmaWithInverses, IsPermCollection )"
+  },
+  {
+    "file": "lib/matrix.gd",
+    "line": 217,
+    "call": "InstallTrueMethod( IsSquareMatrix, IsSymmetricMatrix )"
+  },
+  {
+    "file": "lib/matrix.gd",
+    "line": 253,
+    "call": "InstallTrueMethod( IsSquareMatrix, IsAntisymmetricMatrix )"
+  },
+  {
+    "file": "lib/reesmat.gd",
+    "line": 56,
+    "call": "InstallTrueMethod( IsSemigroup, IsReesMatrixSemigroup )"
+  },
+  {
+    "file": "lib/reesmat.gd",
+    "line": 58,
+    "call": "InstallTrueMethod( IsSemigroup, IsReesZeroMatrixSemigroup )"
+  },
+  {
+    "file": "lib/reesmat.gd",
+    "line": 60,
+    "call": "InstallTrueMethod(IsReesMatrixSemigroup, IsReesMatrixSubsemigroup and IsWholeFamily)"
+  },
+  {
+    "file": "lib/reesmat.gd",
+    "line": 62,
+    "call": "InstallTrueMethod(IsReesZeroMatrixSemigroup, IsReesZeroMatrixSubsemigroup and IsWholeFamily)"
+  },
+  {
+    "file": "lib/vecmat.gd",
+    "line": 275,
+    "call": "InstallTrueMethod( IsConstantTimeAccessList, IsList and IsGF2VectorRep )"
+  },
+  {
+    "file": "lib/vecmat.gd",
+    "line": 276,
+    "call": "InstallTrueMethod( IsSmallList, IsList and IsGF2VectorRep )"
+  },
+  {
+    "file": "lib/vecmat.gd",
+    "line": 278,
+    "call": "InstallTrueMethod( IsOrdinaryMatrix, IsMatrix and IsGF2MatrixRep )"
+  },
+  {
+    "file": "lib/vecmat.gd",
+    "line": 279,
+    "call": "InstallTrueMethod( IsConstantTimeAccessList, IsList and IsGF2MatrixRep )"
+  },
+  {
+    "file": "lib/vecmat.gd",
+    "line": 280,
+    "call": "InstallTrueMethod( IsSmallList, IsList and IsGF2MatrixRep )"
+  },
+  {
+    "file": "lib/algebra.gd",
+    "line": 2035,
+    "call": "InstallTrueMethod( IsFiniteDimensional, IsMatrixFLMLOR )"
+  },
+  {
+    "file": "lib/vspc.gd",
+    "line": 85,
+    "call": "InstallTrueMethod( IsFreeLeftModule, IsLeftModule and IsLeftActedOnByDivisionRing )"
+  },
+  {
+    "file": "lib/vspc.gd",
+    "line": 126,
+    "call": "InstallTrueMethod( IsGaussianSpace, IsVectorSpace and IsFullMatrixModule )"
+  },
+  {
+    "file": "lib/vspc.gd",
+    "line": 129,
+    "call": "InstallTrueMethod( IsGaussianSpace, IsVectorSpace and IsFullRowModule )"
+  },
+  {
+    "file": "lib/vspc.gd",
+    "line": 730,
+    "call": "InstallTrueMethod( IsFinite, IsSubspacesVectorSpace )"
+  },
+  {
+    "file": "lib/pcgsspec.gd",
+    "line": 34,
+    "call": "InstallTrueMethod( IsPcgs, IsSpecialPcgs )"
+  },
+  {
+    "file": "lib/pcgsspec.gd",
+    "line": 36,
+    "call": "InstallTrueMethod(IsPcgsCentralSeries,IsSpecialPcgs)"
+  },
+  {
+    "file": "lib/pcgsspec.gd",
+    "line": 37,
+    "call": "InstallTrueMethod(IsPcgsElementaryAbelianSeries,IsSpecialPcgs)"
+  },
+  {
+    "file": "lib/pcgsspec.gd",
+    "line": 253,
+    "call": "InstallTrueMethod( IsPcgs, IsInducedPcgsWrtSpecialPcgs )"
+  },
+  {
+    "file": "lib/pcgsspec.gd",
+    "line": 268,
+    "call": "InstallTrueMethod( IsPcgs, IsCanonicalPcgsWrtSpecialPcgs )"
+  },
+  {
+    "file": "lib/list.gd",
+    "line": 111,
+    "call": "InstallTrueMethod( IsConstantTimeAccessList, IsList and IsInternalRep )"
+  },
+  {
+    "file": "lib/list.gd",
+    "line": 134,
+    "call": "InstallTrueMethod( IsList, IsSmallList )"
+  },
+  {
+    "file": "lib/list.gd",
+    "line": 136,
+    "call": "InstallTrueMethod( IsSmallList, IsList and IsInternalRep )"
+  },
+  {
+    "file": "lib/list.gd",
+    "line": 137,
+    "call": "InstallTrueMethod( IsFinite, IsList and IsSmallList )"
+  },
+  {
+    "file": "lib/list.gd",
+    "line": 138,
+    "call": "InstallTrueMethod( IsSmallList, IsList and IsEmpty )"
+  },
+  {
+    "file": "lib/list.gd",
+    "line": 159,
+    "call": "InstallTrueMethod(HasLength,IsPlistRep)"
+  },
+  {
+    "file": "lib/list.gd",
+    "line": 402,
+    "call": "InstallTrueMethod( IsDenseList, IsList and IsEmpty )"
+  },
+  {
+    "file": "lib/list.gd",
+    "line": 442,
+    "call": "InstallTrueMethod( IsHomogeneousList, IsList and IsCollection )"
+  },
+  {
+    "file": "lib/list.gd",
+    "line": 444,
+    "call": "InstallTrueMethod( IsHomogeneousList, IsList and IsEmpty )"
+  },
+  {
+    "file": "lib/list.gd",
+    "line": 451,
+    "call": "InstallTrueMethod( IsFinite, IsHomogeneousList and IsInternalRep )"
+  },
+  {
+    "file": "lib/list.gd",
+    "line": 490,
+    "call": "InstallTrueMethod( IsList, IsSortedList )"
+  },
+  {
+    "file": "lib/list.gd",
+    "line": 532,
+    "call": "InstallTrueMethod( IsSortedList, IsSSortedList )"
+  },
+  {
+    "file": "lib/list.gd",
+    "line": 533,
+    "call": "InstallTrueMethod( IsSSortedList, IsList and IsEmpty )"
+  },
+  {
+    "file": "lib/list.gd",
+    "line": 569,
+    "call": "InstallTrueMethod( IsDuplicateFree, IsList and IsSSortedList )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 80,
+    "call": "InstallTrueMethod( IsFiniteOrderElementCollection, IsGroup and IsFinite )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 163,
+    "call": "InstallTrueMethod( IsCyclic, IsGroup and IsTrivial )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 165,
+    "call": "InstallTrueMethod( IsCommutative, IsGroup and IsCyclic )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 191,
+    "call": "InstallTrueMethod( IsElementaryAbelian, IsGroup and IsTrivial )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 193,
+    "call": "InstallTrueMethod( IsCommutative, IsGroup and IsElementaryAbelian )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 217,
+    "call": "InstallTrueMethod( IsGroup, IsFinitelyGeneratedGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 223,
+    "call": "InstallTrueMethod( IsFinitelyGeneratedGroup, IsGroup and IsFinitelyGeneratedMagma )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 224,
+    "call": "InstallTrueMethod( HasIsFinitelyGeneratedGroup, IsGroup and HasIsFinitelyGeneratedMagma )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 225,
+    "call": "InstallTrueMethod( IsFinitelyGeneratedMagma, IsFinitelyGeneratedGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 226,
+    "call": "InstallTrueMethod( HasIsFinitelyGeneratedMagma, HasIsFinitelyGeneratedGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 249,
+    "call": "InstallTrueMethod( IsFinite, IsFinitelyGeneratedGroup and IsGroup and IsSubsetLocallyFiniteGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 252,
+    "call": "InstallTrueMethod( IsSubsetLocallyFiniteGroup, IsFinite and IsGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 262,
+    "call": "InstallTrueMethod( IsSubsetLocallyFiniteGroup, IsFFECollection and IsMagmaWithInverses )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 354,
+    "call": "InstallTrueMethod(CanEasilyTestMembership, IsFinite and CanComputeSizeAnySubgroup)"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 356,
+    "call": "InstallTrueMethod(CanComputeSize,CanComputeSizeAnySubgroup)"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 358,
+    "call": "InstallTrueMethod( CanComputeSize, IsTrivial )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 362,
+    "call": "InstallTrueMethod( CanComputeSizeAnySubgroup, IsTrivial )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 363,
+    "call": "InstallTrueMethod( CanEasilyTestMembership, IsTrivial )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 450,
+    "call": "InstallTrueMethod( IsGroup, IsPGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 455,
+    "call": "InstallTrueMethod( IsPGroup, IsGroup and IsTrivial )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 456,
+    "call": "InstallTrueMethod( IsPGroup, IsGroup and IsElementaryAbelian )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 483,
+    "call": "InstallTrueMethod( IsPGroup, IsPowerfulPGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 489,
+    "call": "InstallTrueMethod( IsPowerfulPGroup, IsFinite and IsPGroup and IsAbelian )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 514,
+    "call": "InstallTrueMethod( IsPGroup, IsRegularPGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 520,
+    "call": "InstallTrueMethod( IsRegularPGroup, IsFinite and IsPGroup and IsAbelian )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 615,
+    "call": "InstallTrueMethod( IsGroup, IsNilpotentGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 623,
+    "call": "InstallTrueMethod( IsNilpotentGroup, IsGroup and IsCommutative )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 625,
+    "call": "InstallTrueMethod( IsNilpotentGroup, IsGroup and IsPGroup and IsFinite )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 643,
+    "call": "InstallTrueMethod( IsGroup, IsPerfectGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 650,
+    "call": "InstallTrueMethod( IsPerfectGroup, IsGroup and IsTrivial )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 670,
+    "call": "InstallTrueMethod( IsGroup and IsNonTrivial, IsSimpleGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 675,
+    "call": "InstallTrueMethod( HasIsAbelian, IsNonabelianSimpleGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 676,
+    "call": "InstallTrueMethod( HasIsNilpotentGroup, IsNonabelianSimpleGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 677,
+    "call": "InstallTrueMethod( HasIsSolvableGroup, IsNonabelianSimpleGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 682,
+    "call": "InstallTrueMethod( IsCyclic, IsSimpleGroup and IsAbelian )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 683,
+    "call": "InstallTrueMethod( IsPGroup, IsSimpleGroup and IsAbelian )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 684,
+    "call": "InstallTrueMethod( HasIsPerfectGroup, IsSimpleGroup and IsAbelian )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 685,
+    "call": "InstallTrueMethod( HasIsNonabelianSimpleGroup, IsSimpleGroup and IsAbelian )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 711,
+    "call": "InstallTrueMethod( IsNonabelianSimpleGroup, IsSporadicSimpleGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 766,
+    "call": "InstallTrueMethod( IsGroup and IsNonTrivial, IsAlmostSimpleGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 769,
+    "call": "InstallTrueMethod( IsAlmostSimpleGroup, IsNonabelianSimpleGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 799,
+    "call": "InstallTrueMethod( IsGroup and IsNonTrivial, IsQuasisimpleGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 802,
+    "call": "InstallTrueMethod( IsQuasisimpleGroup, IsNonabelianSimpleGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 803,
+    "call": "InstallTrueMethod( IsPerfectGroup, IsQuasisimpleGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 824,
+    "call": "InstallTrueMethod( IsGroup, IsSupersolvableGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 832,
+    "call": "InstallTrueMethod( IsSupersolvableGroup, IsNilpotentGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 851,
+    "call": "InstallTrueMethod( IsGroup, IsMonomialGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 856,
+    "call": "InstallTrueMethod( IsMonomialGroup, IsSupersolvableGroup and IsFinite )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 881,
+    "call": "InstallTrueMethod( IsGroup, IsSolvableGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 893,
+    "call": "InstallTrueMethod( IsSolvableGroup, IsMonomialGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 894,
+    "call": "InstallTrueMethod( IsSolvableGroup, IsSupersolvableGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 897,
+    "call": "InstallTrueMethod( HasIsPerfectGroup, IsGroup and IsSolvableGroup and IsNonTrivial )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 900,
+    "call": "InstallTrueMethod( HasIsSolvableGroup, IsNonabelianSimpleGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 920,
+    "call": "InstallTrueMethod( IsGroup, IsPolycyclicGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 921,
+    "call": "InstallTrueMethod( IsSolvableGroup, IsPolycyclicGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 922,
+    "call": "InstallTrueMethod( IsPolycyclicGroup, IsSolvableGroup and IsFinite )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 923,
+    "call": "InstallTrueMethod( IsPolycyclicGroup, IsNilpotentGroup and IsFinitelyGeneratedGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 984,
+    "call": "InstallTrueMethod( HasIsInfiniteAbelianizationGroup, IsGroup and IsFinite )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 986,
+    "call": "InstallTrueMethod( IsInfiniteAbelianizationGroup, IsSolvableGroup and IsTorsionFree )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 1883,
+    "call": "InstallTrueMethod( IsFrattiniFree, IsGroup and IsTrivial )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 1887,
+    "call": "InstallTrueMethod( IsFrattiniFree, IsGroup and IsElementaryAbelian )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 1892,
+    "call": "InstallTrueMethod( IsFrattiniFree, IsGroup and IsFinite and IsSimpleGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 1897,
+    "call": "InstallTrueMethod( IsElementaryAbelian, IsGroup and IsFinite and IsPGroup and IsFrattiniFree )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 1899,
+    "call": "InstallTrueMethod( IsCommutative, IsGroup and IsFinite and IsNilpotentGroup and IsFrattiniFree )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 1939,
+    "call": "InstallTrueMethod( IsFittingFree, IsGroup and IsTrivial )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 1942,
+    "call": "InstallTrueMethod( IsFittingFree, IsGroup and IsFinite and IsNonabelianSimpleGroup )"
+  },
+  {
+    "file": "lib/grp.gd",
+    "line": 1945,
+    "call": "InstallTrueMethod( IsFrattiniFree, IsGroup and IsFinite and IsFittingFree )"
+  },
+  {
+    "file": "lib/semipperm.gd",
+    "line": 24,
+    "call": "InstallTrueMethod(IsInverseSemigroup, IsSymmetricInverseSemigroup)"
+  },
+  {
+    "file": "lib/ideal.gd",
+    "line": 202,
+    "call": "InstallTrueMethod( IsLeftIdealInParent, IsTwoSidedIdealInParent )"
+  },
+  {
+    "file": "lib/ideal.gd",
+    "line": 203,
+    "call": "InstallTrueMethod( IsRightIdealInParent, IsTwoSidedIdealInParent )"
+  },
+  {
+    "file": "lib/ideal.gd",
+    "line": 204,
+    "call": "InstallTrueMethod( IsTwoSidedIdealInParent, IsLeftIdealInParent and IsRightIdealInParent )"
+  },
+  {
+    "file": "lib/semicong.gd",
+    "line": 120,
+    "call": "InstallTrueMethod(IsLeftSemigroupCongruence,IsSemigroupCongruence)"
+  },
+  {
+    "file": "lib/semicong.gd",
+    "line": 121,
+    "call": "InstallTrueMethod(IsRightSemigroupCongruence,IsSemigroupCongruence)"
+  },
+  {
+    "file": "lib/rwspcgrp.gd",
+    "line": 36,
+    "call": "InstallTrueMethod(IsSubsetLocallyFiniteGroup, IsElementFinitePolycyclicGroupCollection)"
+  },
+  {
+    "file": "lib/fitfree.gd",
+    "line": 56,
+    "call": "InstallTrueMethod(IsFinite,CanComputeFittingFree)"
+  },
+  {
+    "file": "lib/fitfree.gd",
+    "line": 57,
+    "call": "InstallTrueMethod(IsGroup,CanComputeFittingFree)"
+  },
+  {
+    "file": "lib/fitfree.gd",
+    "line": 59,
+    "call": "InstallTrueMethod(CanComputeFittingFree, IsPermGroup)"
+  },
+  {
+    "file": "lib/fitfree.gd",
+    "line": 60,
+    "call": "InstallTrueMethod(CanComputeFittingFree, IsPcGroup)"
+  },
+  {
+    "file": "lib/fitfree.gd",
+    "line": 168,
+    "call": "InstallTrueMethod(CanComputeFittingFree,HasFittingFreeLiftSetup)"
+  },
+  {
+    "file": "lib/oprt.gd",
+    "line": 384,
+    "call": "InstallTrueMethod(CanEasilyDetermineCanonicalRepresentativeExternalSet, HasCanonicalRepresentativeDeterminatorOfExternalSet)"
+  },
+  {
+    "file": "lib/oprt.gd",
+    "line": 386,
+    "call": "InstallTrueMethod(CanEasilyDetermineCanonicalRepresentativeExternalSet, HasCanonicalRepresentativeOfExternalSet)"
+  },
+  {
+    "file": "lib/oprt.gd",
+    "line": 1947,
+    "call": "InstallTrueMethod( IsPrimitive, IsNaturalSymmetricGroup )"
+  },
+  {
+    "file": "lib/oprt.gd",
+    "line": 1948,
+    "call": "InstallTrueMethod( IsPrimitive, IsNaturalAlternatingGroup )"
+  },
+  {
+    "file": "lib/oprt.gd",
+    "line": 1949,
+    "call": "InstallTrueMethod( IsTransitive, IsPrimitive and IsPermGroup )"
+  },
+  {
+    "file": "lib/oprt.gd",
+    "line": 2053,
+    "call": "InstallTrueMethod( IsRegular, IsTransitive and IsSemiRegular )"
+  },
+  {
+    "file": "lib/mgmring.gd",
+    "line": 505,
+    "call": "InstallTrueMethod( IsRing, IsGroupRing )"
+  },
+  {
+    "file": "lib/pcgsind.gd",
+    "line": 266,
+    "call": "InstallTrueMethod(IsInducedPcgs, IsCanonicalPcgs)"
+  },
+  {
+    "file": "lib/pcgsind.gd",
+    "line": 312,
+    "call": "InstallTrueMethod(IsInducedPcgs, IsParentPcgsFamilyPcgs)"
+  },
+  {
+    "file": "lib/mgmcong.gd",
+    "line": 130,
+    "call": "InstallTrueMethod(IsMagmaCongruence, IsEquivalenceRelation and RespectsMultiplication)"
+  },
+  {
+    "file": "lib/mgmcong.gd",
+    "line": 133,
+    "call": "InstallTrueMethod(IsMagmaCongruence, IsLeftMagmaCongruence and IsRightMagmaCongruence)"
+  },
+  {
+    "file": "lib/ctblfuns.gd",
+    "line": 1142,
+    "call": "InstallTrueMethod( IsClassFunction, IsVirtualCharacter )"
+  },
+  {
+    "file": "lib/ctblfuns.gd",
+    "line": 1153,
+    "call": "InstallTrueMethod( IsVirtualCharacter, IsCharacter )"
+  },
+  {
+    "file": "lib/rws.gd",
+    "line": 215,
+    "call": "InstallTrueMethod( IsBuiltFromMagma, IsBuiltFromMagmaWithOne )"
+  },
+  {
+    "file": "lib/rws.gd",
+    "line": 222,
+    "call": "InstallTrueMethod( IsBuiltFromMagmaWithOne, IsBuiltFromMagmaWithInverses )"
+  },
+  {
+    "file": "lib/rws.gd",
+    "line": 255,
+    "call": "InstallTrueMethod( IsBuiltFromMagmaWithInverses, IsBuiltFromGroup )"
+  },
+  {
+    "file": "lib/algfp.gd",
+    "line": 47,
+    "call": "InstallTrueMethod( IsSubalgebraFpAlgebra, IsAlgebra and IsElementOfFpAlgebraCollection )"
+  },
+  {
+    "file": "lib/invsgp.gd",
+    "line": 23,
+    "call": "InstallTrueMethod(IsGeneratorsOfSemigroup, IsGeneratorsOfInverseSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 257,
+    "call": "InstallTrueMethod(IsGeneratorsOfSemigroup, IsSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 258,
+    "call": "InstallTrueMethod(IsGeneratorsOfSemigroup, IsAssociativeElementCollection)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 261,
+    "call": "InstallTrueMethod(IsGeneratorsOfSemigroup, IsAssociativeElementCollColl)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 461,
+    "call": "InstallTrueMethod( IsSemigroup, IsZeroGroup )"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 479,
+    "call": "InstallTrueMethod( IsSemigroup, IsSimpleSemigroup )"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 498,
+    "call": "InstallTrueMethod( IsSemigroup, IsZeroSimpleSemigroup )"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 533,
+    "call": "InstallTrueMethod( IsSemigroup, IsReesCongruenceSemigroup )"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 617,
+    "call": "InstallTrueMethod(IsSemigroup, IsRegularSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 649,
+    "call": "InstallTrueMethod(IsSemigroup, IsInverseSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 712,
+    "call": "InstallTrueMethod(IsSemigroup, IsBrandtSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 715,
+    "call": "InstallTrueMethod(IsSemigroup, IsCliffordSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 718,
+    "call": "InstallTrueMethod(IsSemigroup, IsCommutativeSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 721,
+    "call": "InstallTrueMethod(IsSemigroup, IsCompletelyRegularSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 724,
+    "call": "InstallTrueMethod(IsSemigroup, IsCompletelySimpleSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 727,
+    "call": "InstallTrueMethod(IsSemigroup, IsGroupAsSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 732,
+    "call": "InstallTrueMethod(IsSemigroup, IsLeftZeroSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 735,
+    "call": "InstallTrueMethod(IsSemigroup, IsMonogenicSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 738,
+    "call": "InstallTrueMethod(IsSemigroup, IsMonoidAsSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 741,
+    "call": "InstallTrueMethod(IsSemigroup, IsNilpotentSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 744,
+    "call": "InstallTrueMethod(IsSemigroup, IsOrthodoxSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 747,
+    "call": "InstallTrueMethod(IsSemigroup, IsRectangularBand)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 750,
+    "call": "InstallTrueMethod(IsSemigroup, IsRightZeroSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 753,
+    "call": "InstallTrueMethod(IsSemigroup, IsSemiband)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 758,
+    "call": "InstallTrueMethod(IsSemigroup, IsZeroSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 760,
+    "call": "InstallTrueMethod(IsMonoidAsSemigroup, IsMagmaWithOne and IsSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 761,
+    "call": "InstallTrueMethod(IsGroupAsSemigroup, IsMagmaWithInverses and IsSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 762,
+    "call": "InstallTrueMethod(IsGroupAsSemigroup, IsInverseSemigroup and IsSimpleSemigroup and IsFinite)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 763,
+    "call": "InstallTrueMethod(IsGroupAsSemigroup, IsCommutative and IsSimpleSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 764,
+    "call": "InstallTrueMethod(IsBand, IsSemilattice and IsSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 765,
+    "call": "InstallTrueMethod(IsBrandtSemigroup, IsInverseSemigroup and IsZeroSimpleSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 766,
+    "call": "InstallTrueMethod(IsCliffordSemigroup, IsSemilattice and IsSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 767,
+    "call": "InstallTrueMethod(IsCompletelyRegularSemigroup, IsCliffordSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 768,
+    "call": "InstallTrueMethod(IsCompletelyRegularSemigroup, IsSimpleSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 769,
+    "call": "InstallTrueMethod(IsCompletelySimpleSemigroup, IsSimpleSemigroup and IsFinite)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 770,
+    "call": "InstallTrueMethod(IsIdempotentGenerated, IsBand and IsSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 771,
+    "call": "InstallTrueMethod(IsInverseSemigroup, IsSemilattice and IsSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 772,
+    "call": "InstallTrueMethod(IsInverseSemigroup, IsCliffordSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 773,
+    "call": "InstallTrueMethod(IsInverseSemigroup, IsGroupAsSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 774,
+    "call": "InstallTrueMethod(IsLeftZeroSemigroup, IsInverseSemigroup and IsTrivial)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 775,
+    "call": "InstallTrueMethod(IsRegularSemigroup, IsInverseSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 776,
+    "call": "InstallTrueMethod(IsRegularSemigroup, IsSimpleSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 777,
+    "call": "InstallTrueMethod(IsOrthodoxSemigroup, IsInverseSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 778,
+    "call": "InstallTrueMethod(IsRightZeroSemigroup, IsInverseSemigroup and IsTrivial)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 779,
+    "call": "InstallTrueMethod(IsSemiband, IsIdempotentGenerated and IsSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 780,
+    "call": "InstallTrueMethod(IsSemilattice, IsSemigroup and IsCommutative and IsBand)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 781,
+    "call": "InstallTrueMethod(IsSimpleSemigroup, IsGroupAsSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gd",
+    "line": 782,
+    "call": "InstallTrueMethod(IsZeroSemigroup, IsInverseSemigroup and IsTrivial)"
+  },
+  {
+    "file": "lib/smgideal.gd",
+    "line": 55,
+    "call": "InstallTrueMethod(IsLeftMagmaIdeal, IsLeftSemigroupIdeal)"
+  },
+  {
+    "file": "lib/smgideal.gd",
+    "line": 56,
+    "call": "InstallTrueMethod(IsRightMagmaIdeal, IsRightSemigroupIdeal)"
+  },
+  {
+    "file": "lib/smgideal.gd",
+    "line": 57,
+    "call": "InstallTrueMethod(IsMagmaIdeal, IsSemigroupIdeal)"
+  },
+  {
+    "file": "lib/grpnames.gd",
+    "line": 452,
+    "call": "InstallTrueMethod( IsGroup, IsDihedralGroup )"
+  },
+  {
+    "file": "lib/grpnames.gd",
+    "line": 453,
+    "call": "InstallTrueMethod( IsDihedralGroup, HasDihedralGenerators )"
+  },
+  {
+    "file": "lib/grpnames.gd",
+    "line": 502,
+    "call": "InstallTrueMethod( IsGroup, IsDicyclicGroup )"
+  },
+  {
+    "file": "lib/grpnames.gd",
+    "line": 503,
+    "call": "InstallTrueMethod( IsDicyclicGroup, HasDicyclicGenerators )"
+  },
+  {
+    "file": "lib/grpnames.gd",
+    "line": 504,
+    "call": "InstallTrueMethod( IsGroup, IsGeneralisedQuaternionGroup )"
+  },
+  {
+    "file": "lib/grpnames.gd",
+    "line": 505,
+    "call": "InstallTrueMethod( IsGeneralisedQuaternionGroup, HasGeneralisedQuaternionGenerators )"
+  },
+  {
+    "file": "lib/grpnames.gd",
+    "line": 529,
+    "call": "InstallTrueMethod( IsGroup, IsQuasiDihedralGroup )"
+  },
+  {
+    "file": "lib/grpnames.gd",
+    "line": 547,
+    "call": "InstallTrueMethod( IsGroup, IsPSL )"
+  },
+  {
+    "file": "lib/mapphomo.gd",
+    "line": 126,
+    "call": "InstallTrueMethod( RespectsOne, RespectsMultiplication and RespectsInverses )"
+  },
+  {
+    "file": "lib/mapphomo.gd",
+    "line": 308,
+    "call": "InstallTrueMethod( RespectsZero, RespectsAddition and RespectsAdditiveInverses )"
+  },
+  {
+    "file": "lib/mapphomo.gd",
+    "line": 418,
+    "call": "InstallTrueMethod( RespectsAdditiveInverses, RespectsScalarMultiplication )"
+  },
+  {
+    "file": "lib/mapphomo.gd",
+    "line": 609,
+    "call": "InstallTrueMethod( IsAlgebraHomomorphism, IsFieldHomomorphism )"
+  },
+  {
+    "file": "lib/mapphomo.gd",
+    "line": 796,
+    "call": "InstallTrueMethod( TranformsOneIntoZero, TransformsMultiplicationIntoAddition and TransformsInversesIntoAdditiveInverses )"
+  },
+  {
+    "file": "lib/mapphomo.gd",
+    "line": 925,
+    "call": "InstallTrueMethod( TransformsAdditiveInversesIntoInverses, TransformsAdditionIntoMultiplication and TransformsAdditiveInversesIntoInverses )"
+  },
+  {
+    "file": "lib/vspchom.gd",
+    "line": 367,
+    "call": "InstallTrueMethod( IsFiniteDimensional, IsLinearMappingsModule )"
+  },
+  {
+    "file": "lib/zmodnz.gd",
+    "line": 126,
+    "call": "InstallTrueMethod( IsFinite, IsZmodnZObjNonprimeCollection and IsDuplicateFree )"
+  },
+  {
+    "file": "lib/zmodnz.gd",
+    "line": 134,
+    "call": "InstallTrueMethod(IsEuclideanRing, IsZmodnZObjNonprimeCollection and IsWholeFamily and IsRing)"
+  },
+  {
+    "file": "lib/zmodnz.gd",
+    "line": 277,
+    "call": "InstallTrueMethod( IsFinite, IsZmodnZObjNonprimeCollCollColl and IsRingElementCollCollColl and IsGroup and IsFinitelyGeneratedGroup )"
+  },
+  {
+    "file": "lib/mat8bit.gd",
+    "line": 76,
+    "call": "InstallTrueMethod( IsConstantTimeAccessList, IsList and Is8BitMatrixRep )"
+  },
+  {
+    "file": "lib/mat8bit.gd",
+    "line": 77,
+    "call": "InstallTrueMethod( IsSmallList, IsList and Is8BitMatrixRep )"
+  },
+  {
+    "file": "lib/mat8bit.gd",
+    "line": 78,
+    "call": "InstallTrueMethod( IsListDefault, IsList and Is8BitMatrixRep )"
+  },
+  {
+    "file": "lib/wordass.gd",
+    "line": 354,
+    "call": "InstallTrueMethod(IsSemigroup, IsFreeSemigroup)"
+  },
+  {
+    "file": "lib/wordass.gd",
+    "line": 357,
+    "call": "InstallTrueMethod(IsMonoid, IsFreeMonoid)"
+  },
+  {
+    "file": "lib/wordass.gd",
+    "line": 361,
+    "call": "InstallTrueMethod(IsGroup, IsFreeGroup)"
+  },
+  {
+    "file": "lib/wordass.gd",
+    "line": 367,
+    "call": "InstallTrueMethod( IsGeneratorsOfMagmaWithInverses, IsAssocWordWithInverseCollection )"
+  },
+  {
+    "file": "lib/cyclotom.gd",
+    "line": 53,
+    "call": "InstallTrueMethod( IsIntegralRing, IsCyclotomicCollection and IsRing and IsNonTrivial )"
+  },
+  {
+    "file": "lib/fldabnum.gd",
+    "line": 79,
+    "call": "InstallTrueMethod( IsField, IsNumberField )"
+  },
+  {
+    "file": "lib/fldabnum.gd",
+    "line": 107,
+    "call": "InstallTrueMethod( IsNumberField, IsAbelianNumberField )"
+  },
+  {
+    "file": "lib/fldabnum.gd",
+    "line": 133,
+    "call": "InstallTrueMethod( IsFieldControlledByGaloisGroup, IsField and IsAbelianNumberField )"
+  },
+  {
+    "file": "lib/fldabnum.gd",
+    "line": 170,
+    "call": "InstallTrueMethod( IsAbelianNumberField, IsCyclotomicField )"
+  },
+  {
+    "file": "lib/fldabnum.gd",
+    "line": 251,
+    "call": "InstallTrueMethod( IsCyclotomicField, IsRationals )"
+  },
+  {
+    "file": "lib/pperm.gd",
+    "line": 89,
+    "call": "InstallTrueMethod(IsGeneratorsOfInverseSemigroup, IsPartialPermCollection)"
+  },
+  {
+    "file": "lib/algrep.gd",
+    "line": 148,
+    "call": "InstallTrueMethod( IsLeftModule, IsAlgebraModule )"
+  },
+  {
+    "file": "lib/algrep.gd",
+    "line": 162,
+    "call": "InstallTrueMethod( IsLeftModule, IsLeftAlgebraModule )"
+  },
+  {
+    "file": "lib/ctbl.gd",
+    "line": 1263,
+    "call": "InstallTrueMethod( IsAbelian, IsOrdinaryTable and IsCyclic )"
+  },
+  {
+    "file": "lib/ctbl.gd",
+    "line": 1264,
+    "call": "InstallTrueMethod( IsAbelian, IsOrdinaryTable and IsElementaryAbelian )"
+  },
+  {
+    "file": "lib/ctbl.gd",
+    "line": 1265,
+    "call": "InstallTrueMethod( IsMonomialCharacterTable, IsOrdinaryTable and IsSupersolvableCharacterTable and IsFinite )"
+  },
+  {
+    "file": "lib/ctbl.gd",
+    "line": 1267,
+    "call": "InstallTrueMethod( IsNilpotentCharacterTable, IsOrdinaryTable and IsAbelian )"
+  },
+  {
+    "file": "lib/ctbl.gd",
+    "line": 1269,
+    "call": "InstallTrueMethod( IsPerfectCharacterTable, IsOrdinaryTable and IsQuasisimpleCharacterTable )"
+  },
+  {
+    "file": "lib/ctbl.gd",
+    "line": 1271,
+    "call": "InstallTrueMethod( IsSimpleCharacterTable, IsOrdinaryTable and IsSporadicSimpleCharacterTable )"
+  },
+  {
+    "file": "lib/ctbl.gd",
+    "line": 1273,
+    "call": "InstallTrueMethod( IsSolvableCharacterTable, IsOrdinaryTable and IsSupersolvableCharacterTable )"
+  },
+  {
+    "file": "lib/ctbl.gd",
+    "line": 1275,
+    "call": "InstallTrueMethod( IsSolvableCharacterTable, IsOrdinaryTable and IsMonomialCharacterTable )"
+  },
+  {
+    "file": "lib/ctbl.gd",
+    "line": 1277,
+    "call": "InstallTrueMethod( IsSupersolvableCharacterTable, IsOrdinaryTable and IsNilpotentCharacterTable )"
+  },
+  {
+    "file": "lib/basis.gd",
+    "line": 153,
+    "call": "InstallTrueMethod( IsBasis, IsCanonicalBasis )"
+  },
+  {
+    "file": "lib/basis.gd",
+    "line": 182,
+    "call": "InstallTrueMethod( IsCanonicalBasis, IsCanonicalBasisFullRowModule )"
+  },
+  {
+    "file": "lib/basis.gd",
+    "line": 184,
+    "call": "InstallTrueMethod( IsSmallList, IsList and IsCanonicalBasisFullRowModule )"
+  },
+  {
+    "file": "lib/basis.gd",
+    "line": 213,
+    "call": "InstallTrueMethod( IsCanonicalBasis, IsCanonicalBasisFullMatrixModule )"
+  },
+  {
+    "file": "lib/basis.gd",
+    "line": 215,
+    "call": "InstallTrueMethod( IsSmallList, IsList and IsCanonicalBasisFullMatrixModule )"
+  },
+  {
+    "file": "lib/basis.gd",
+    "line": 899,
+    "call": "InstallTrueMethod( IsFreeLeftModule, ValueGlobal( name ) )"
+  },
+  {
+    "file": "lib/grpfp.gd",
+    "line": 227,
+    "call": "InstallTrueMethod(CanEasilyTestMembership, IsSubgroupFgGroup and IsWholeFamily)"
+  },
+  {
+    "file": "lib/grpfp.gd",
+    "line": 303,
+    "call": "InstallTrueMethod(IsSubgroupFpGroup,IsGroup and IsElementOfFpGroupCollection)"
+  },
+  {
+    "file": "lib/grpfp.gd",
+    "line": 306,
+    "call": "InstallTrueMethod(IsSubgroupFpGroup,IsGroup and IsAssocWordCollection)"
+  },
+  {
+    "file": "lib/grpfp.gd",
+    "line": 313,
+    "call": "InstallTrueMethod( IsGeneratorsOfMagmaWithInverses, IsElementOfFpGroupCollection )"
+  },
+  {
+    "file": "lib/grpfp.gd",
+    "line": 649,
+    "call": "InstallTrueMethod(CanEasilyTestMembership, IsSubgroupFpGroup and HasCosetTableInWholeGroup)"
+  },
+  {
+    "file": "lib/coll.gd",
+    "line": 1436,
+    "call": "InstallTrueMethod( IsNonTrivial, IsEmpty )"
+  },
+  {
+    "file": "lib/coll.gd",
+    "line": 1437,
+    "call": "InstallTrueMethod( HasIsTrivial, IsNonTrivial )"
+  },
+  {
+    "file": "lib/coll.gd",
+    "line": 1438,
+    "call": "InstallTrueMethod( HasIsEmpty, IsTrivial )"
+  },
+  {
+    "file": "lib/coll.gd",
+    "line": 1439,
+    "call": "InstallTrueMethod( HasIsNonTrivial, IsTrivial )"
+  },
+  {
+    "file": "lib/coll.gd",
+    "line": 1472,
+    "call": "InstallTrueMethod( IsFinite, IsTrivial )"
+  },
+  {
+    "file": "lib/coll.gd",
+    "line": 1473,
+    "call": "InstallTrueMethod( IsFinite, IsEmpty )"
+  },
+  {
+    "file": "lib/coll.gd",
+    "line": 3518,
+    "call": "InstallTrueMethod(CanEasilyCompareElements,CanEasilySortElements)"
+  },
+  {
+    "file": "lib/coll.gd",
+    "line": 3558,
+    "call": "InstallTrueMethod( CanComputeSize, HasSize )"
+  },
+  {
+    "file": "lib/field.gd",
+    "line": 86,
+    "call": "InstallTrueMethod( IsCommutative, IsDivisionRing and IsFinite )"
+  },
+  {
+    "file": "lib/field.gd",
+    "line": 125,
+    "call": "InstallTrueMethod( IsField, IsPrimeField )"
+  },
+  {
+    "file": "lib/field.gd",
+    "line": 517,
+    "call": "InstallTrueMethod( IsFieldControlledByGaloisGroup, IsField and IsFFECollection )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 49,
+    "call": "InstallTrueMethod( IsExtAElement, IsExtAElementCollection )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 77,
+    "call": "InstallTrueMethod( IsNearAdditiveElement, IsNearAdditiveElementList )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 79,
+    "call": "InstallTrueMethod( IsNearAdditiveElementList, IsNearAdditiveElementTable )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 109,
+    "call": "InstallTrueMethod( IsNearAdditiveElementWithZero, IsNearAdditiveElementWithZeroList )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 112,
+    "call": "InstallTrueMethod( IsNearAdditiveElementWithZeroList, IsNearAdditiveElementWithZeroTable )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 145,
+    "call": "InstallTrueMethod( IsNearAdditiveElementWithInverse, IsNearAdditiveElementWithInverseList )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 148,
+    "call": "InstallTrueMethod( IsNearAdditiveElementWithInverseList, IsNearAdditiveElementWithInverseTable )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 177,
+    "call": "InstallTrueMethod( IsAdditiveElement, IsAdditiveElementList )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 179,
+    "call": "InstallTrueMethod( IsAdditiveElementList, IsAdditiveElementTable )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 217,
+    "call": "InstallTrueMethod( IsAdditiveElementWithZero, IsAdditiveElementWithZeroList )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 220,
+    "call": "InstallTrueMethod( IsAdditiveElementWithZeroList, IsAdditiveElementWithZeroTable )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 260,
+    "call": "InstallTrueMethod( IsAdditiveElementWithInverse, IsAdditiveElementWithInverseList )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 263,
+    "call": "InstallTrueMethod( IsAdditiveElementWithInverseList, IsAdditiveElementWithInverseTable )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 291,
+    "call": "InstallTrueMethod( IsExtLElement, IsExtLElementCollection )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 319,
+    "call": "InstallTrueMethod( IsExtRElement, IsExtRElementCollection )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 756,
+    "call": "InstallTrueMethod( IsNearRingElement, IsNearRingElementTable )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 797,
+    "call": "InstallTrueMethod( IsNearRingElementWithOne, IsNearRingElementWithOneTable )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 836,
+    "call": "InstallTrueMethod( IsNearRingElementWithInverse, IsNearRingElementWithInverseTable )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 875,
+    "call": "InstallTrueMethod( IsRingElement, IsRingElementTable )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 916,
+    "call": "InstallTrueMethod( IsRingElementWithOne, IsRingElementWithOneTable )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 958,
+    "call": "InstallTrueMethod( IsRingElementWithInverse, IsRingElementWithInverseTable )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 1083,
+    "call": "InstallTrueMethod( IsOrdinaryMatrix, IsMatrix and IsInternalRep )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 1084,
+    "call": "InstallTrueMethod( IsGeneralizedRowVector, IsMatrix )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 1086,
+    "call": "InstallTrueMethod( IsMultiplicativeGeneralizedRowVector, IsOrdinaryMatrix )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 1156,
+    "call": "InstallTrueMethod( IsAssociativeElement, IsOrdinaryMatrix and IsAssociativeElementCollColl )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 1202,
+    "call": "InstallTrueMethod( IsAdditivelyCommutativeElement, IsMatrix and IsAdditivelyCommutativeElementCollColl )"
+  },
+  {
+    "file": "lib/arith.gd",
+    "line": 1213,
+    "call": "InstallTrueMethod( IsAdditivelyCommutativeElement, IsRowVector and IsAdditivelyCommutativeElementCollection )"
+  },
+  {
+    "file": "lib/clas.gd",
+    "line": 111,
+    "call": "InstallTrueMethod( IsFinite, IsRationalClassGroupRep and IsDomain )"
+  },
+  {
+    "file": "lib/domain.gd",
+    "line": 129,
+    "call": "InstallTrueMethod( IsDuplicateFree, IsDomain )"
+  },
+  {
+    "file": "lib/grpffmat.gd",
+    "line": 42,
+    "call": "InstallTrueMethod( IsSubsetLocallyFiniteGroup, IsFFEMatrixGroup )"
+  },
+  {
+    "file": "lib/monoid.gd",
+    "line": 335,
+    "call": "InstallTrueMethod( IsMonoid, IsFinitelyGeneratedMonoid )"
+  },
+  {
+    "file": "lib/monoid.gd",
+    "line": 338,
+    "call": "InstallTrueMethod( IsFinitelyGeneratedMonoid, IsMonoid and IsFinitelyGeneratedMagma )"
+  },
+  {
+    "file": "lib/monoid.gd",
+    "line": 339,
+    "call": "InstallTrueMethod( HasIsFinitelyGeneratedMonoid, IsMonoid and HasIsFinitelyGeneratedMagma )"
+  },
+  {
+    "file": "lib/monoid.gd",
+    "line": 340,
+    "call": "InstallTrueMethod( IsFinitelyGeneratedMagma, IsFinitelyGeneratedMonoid )"
+  },
+  {
+    "file": "lib/monoid.gd",
+    "line": 341,
+    "call": "InstallTrueMethod( HasIsFinitelyGeneratedMagma, HasIsFinitelyGeneratedMonoid )"
+  },
+  {
+    "file": "lib/object.gd",
+    "line": 248,
+    "call": "InstallTrueMethod( IsCopyable, IsMutable)"
+  },
+  {
+    "file": "lib/grpmat.gd",
+    "line": 38,
+    "call": "InstallTrueMethod( IsHandledByNiceMonomorphism, IsMatrixGroup and IsFinite )"
+  },
+  {
+    "file": "lib/grpmat.gd",
+    "line": 45,
+    "call": "InstallTrueMethod(CanComputeSize,IsMatrixGroup and IsFinite)"
+  },
+  {
+    "file": "lib/grpmat.gd",
+    "line": 224,
+    "call": "InstallTrueMethod( IsGroup, IsGeneralLinearGroup )"
+  },
+  {
+    "file": "lib/grpmat.gd",
+    "line": 245,
+    "call": "InstallTrueMethod(IsGeneralLinearGroup,IsNaturalGL)"
+  },
+  {
+    "file": "lib/grpmat.gd",
+    "line": 270,
+    "call": "InstallTrueMethod( IsGroup, IsSpecialLinearGroup )"
+  },
+  {
+    "file": "lib/grpmat.gd",
+    "line": 294,
+    "call": "InstallTrueMethod(IsSpecialLinearGroup,IsNaturalSL)"
+  },
+  {
+    "file": "lib/grpmat.gd",
+    "line": 313,
+    "call": "InstallTrueMethod(IsSubgroupSL,IsNaturalSL)"
+  },
+  {
+    "file": "lib/grpmat.gd",
+    "line": 373,
+    "call": "InstallTrueMethod( IsGroup, IsFullSubgroupGLorSLRespectingBilinearForm )"
+  },
+  {
+    "file": "lib/grpmat.gd",
+    "line": 439,
+    "call": "InstallTrueMethod( IsGroup, IsFullSubgroupGLorSLRespectingSesquilinearForm )"
+  },
+  {
+    "file": "lib/grpmat.gd",
+    "line": 552,
+    "call": "InstallTrueMethod( IsGroup, IsFullSubgroupGLorSLRespectingQuadraticForm )"
+  },
+  {
+    "file": "lib/addmagma.gd",
+    "line": 133,
+    "call": "InstallTrueMethod( IsAdditivelyCommutative, IsAdditivelyCommutativeElementCollection and IsMagma )"
+  },
+  {
+    "file": "lib/addmagma.gd",
+    "line": 143,
+    "call": "InstallTrueMethod( IsAdditivelyCommutative, IsNearAdditiveMagma and IsTrivial )"
+  },
+  {
+    "file": "lib/addmagma.gd",
+    "line": 147,
+    "call": "InstallTrueMethod( IsAdditiveElementCollection, IsNearAdditiveElementCollection and IsAdditivelyCommutative )"
+  },
+  {
+    "file": "lib/addmagma.gd",
+    "line": 149,
+    "call": "InstallTrueMethod( IsAdditiveElementWithZeroCollection, IsNearAdditiveElementWithZeroCollection and IsAdditivelyCommutative )"
+  },
+  {
+    "file": "lib/addmagma.gd",
+    "line": 151,
+    "call": "InstallTrueMethod( IsAdditiveElementWithInverseCollection, IsNearAdditiveElementWithInverseCollection and IsAdditivelyCommutative )"
+  },
+  {
+    "file": "lib/relation.gd",
+    "line": 485,
+    "call": "InstallTrueMethod(IsPreOrderBinaryRelation, IsReflexiveBinaryRelation and IsTransitiveBinaryRelation)"
+  },
+  {
+    "file": "lib/relation.gd",
+    "line": 487,
+    "call": "InstallTrueMethod(IsPartialOrderBinaryRelation, IsPreOrderBinaryRelation and IsAntisymmetricBinaryRelation)"
+  },
+  {
+    "file": "lib/relation.gd",
+    "line": 489,
+    "call": "InstallTrueMethod(IsTotal, IsReflexiveBinaryRelation)"
+  },
+  {
+    "file": "lib/relation.gd",
+    "line": 510,
+    "call": "InstallTrueMethod(IsPartialOrderBinaryRelation, IsLatticeOrderBinaryRelation)"
+  },
+  {
+    "file": "lib/relation.gd",
+    "line": 539,
+    "call": "InstallTrueMethod(IsBinaryRelation, IsEquivalenceRelation)"
+  },
+  {
+    "file": "lib/relation.gd",
+    "line": 540,
+    "call": "InstallTrueMethod(IsReflexiveBinaryRelation, IsEquivalenceRelation)"
+  },
+  {
+    "file": "lib/relation.gd",
+    "line": 541,
+    "call": "InstallTrueMethod(IsTransitiveBinaryRelation, IsEquivalenceRelation)"
+  },
+  {
+    "file": "lib/relation.gd",
+    "line": 542,
+    "call": "InstallTrueMethod(IsSymmetricBinaryRelation, IsEquivalenceRelation)"
+  },
+  {
+    "file": "lib/relation.gd",
+    "line": 543,
+    "call": "InstallTrueMethod(IsEquivalenceRelation, IsReflexiveBinaryRelation and IsTransitiveBinaryRelation and IsSymmetricBinaryRelation)"
+  },
+  {
+    "file": "lib/gpprmsya.gd",
+    "line": 49,
+    "call": "InstallTrueMethod( IsPermGroup, IsNaturalSymmetricGroup )"
+  },
+  {
+    "file": "lib/gpprmsya.gd",
+    "line": 52,
+    "call": "InstallTrueMethod( IsPermGroup, IsNaturalAlternatingGroup )"
+  },
+  {
+    "file": "lib/gpprmsya.gd",
+    "line": 71,
+    "call": "InstallTrueMethod( IsGroup, IsAlternatingGroup )"
+  },
+  {
+    "file": "lib/gpprmsya.gd",
+    "line": 78,
+    "call": "InstallTrueMethod( IsAlternatingGroup, IsNaturalAlternatingGroup )"
+  },
+  {
+    "file": "lib/gpprmsya.gd",
+    "line": 97,
+    "call": "InstallTrueMethod( IsGroup, IsSymmetricGroup )"
+  },
+  {
+    "file": "lib/gpprmsya.gd",
+    "line": 104,
+    "call": "InstallTrueMethod( IsSymmetricGroup, IsNaturalSymmetricGroup )"
+  },
+  {
+    "file": "lib/module.gd",
+    "line": 183,
+    "call": "InstallTrueMethod( IsFiniteDimensional, IsFreeLeftModule and IsFinite )"
+  },
+  {
+    "file": "lib/module.gd",
+    "line": 665,
+    "call": "InstallTrueMethod( IsFreeLeftModule, IsRowModule )"
+  },
+  {
+    "file": "lib/module.gd",
+    "line": 667,
+    "call": "InstallTrueMethod( IsRowModule, IsFullRowModule )"
+  },
+  {
+    "file": "lib/module.gd",
+    "line": 685,
+    "call": "InstallTrueMethod( IsFreeLeftModule, IsMatrixModule )"
+  },
+  {
+    "file": "lib/module.gd",
+    "line": 687,
+    "call": "InstallTrueMethod( IsMatrixModule, IsFullMatrixModule )"
+  },
+  {
+    "file": "lib/module.gd",
+    "line": 728,
+    "call": "InstallTrueMethod( IsFiniteDimensional, IsRowModule and IsFreeLeftModule )"
+  },
+  {
+    "file": "lib/module.gd",
+    "line": 729,
+    "call": "InstallTrueMethod( IsFiniteDimensional, IsMatrixModule and IsFreeLeftModule )"
+  },
+  {
+    "file": "lib/pcgs.gd",
+    "line": 739,
+    "call": "InstallTrueMethod( IsGeneralPcgs, IsPrimeOrdersPcgs )"
+  },
+  {
+    "file": "lib/pcgs.gd",
+    "line": 756,
+    "call": "InstallTrueMethod( IsGeneralPcgs, IsFiniteOrdersPcgs )"
+  },
+  {
+    "file": "lib/zmodnze.gi",
+    "line": 336,
+    "call": "InstallTrueMethod( IsFinite, CategoryCollections( IsZmodnZepsObj ) and IsDomain )"
+  },
+  {
+    "file": "lib/list.gi",
+    "line": 3954,
+    "call": "InstallTrueMethod(CanEasilyCompareElements, IsHomogeneousList and IsEmpty)"
+  },
+  {
+    "file": "lib/list.gi",
+    "line": 3966,
+    "call": "InstallTrueMethod(CanEasilySortElements, IsHomogeneousList and IsEmpty)"
+  },
+  {
+    "file": "lib/alghom.gi",
+    "line": 519,
+    "call": "InstallTrueMethod( IsSingleValued, IsGeneralMapping and IsPolynomialRingDefaultGeneratorMapping )"
+  },
+  {
+    "file": "lib/grpfp.gi",
+    "line": 922,
+    "call": "InstallTrueMethod( IsInfiniteAbelianizationGroup, IsFreeGroup and IsNonTrivial )"
+  },
+  {
+    "file": "lib/grpfp.gi",
+    "line": 923,
+    "call": "InstallTrueMethod( HasIsInfiniteAbelianizationGroup, IsFreeGroup and IsTrivial )"
+  },
+  {
+    "file": "lib/semipperm.gi",
+    "line": 68,
+    "call": "InstallTrueMethod(IsFinite, IsPartialPermSemigroup)"
+  },
+  {
+    "file": "lib/vspchom.gi",
+    "line": 136,
+    "call": "InstallTrueMethod( IsAdditiveElementWithInverse, IsGeneralMapping and IsLinearGeneralMappingByImagesDefaultRep )"
+  },
+  {
+    "file": "lib/vspchom.gi",
+    "line": 138,
+    "call": "InstallTrueMethod( IsLeftModuleGeneralMapping, IsGeneralMapping and IsLinearGeneralMappingByImagesDefaultRep )"
+  },
+  {
+    "file": "lib/vspchom.gi",
+    "line": 1084,
+    "call": "InstallTrueMethod( IsAdditiveElementWithInverse, IsGeneralMapping and IsLinearMappingByMatrixDefaultRep )"
+  },
+  {
+    "file": "lib/vspchom.gi",
+    "line": 1086,
+    "call": "InstallTrueMethod( IsLeftModuleGeneralMapping, IsGeneralMapping and IsLinearMappingByMatrixDefaultRep )"
+  },
+  {
+    "file": "lib/semitran.gi",
+    "line": 90,
+    "call": "InstallTrueMethod(IsFinite, IsTransformationSemigroup)"
+  },
+  {
+    "file": "lib/grp.gi",
+    "line": 5915,
+    "call": "InstallTrueMethod( CanComputeSize, HasSize )"
+  },
+  {
+    "file": "lib/fieldfin.gi",
+    "line": 222,
+    "call": "InstallTrueMethod( IsHandledByNiceMonomorphism, IsGroup and IsFFECollection )"
+  },
+  {
+    "file": "lib/fieldfin.gi",
+    "line": 230,
+    "call": "InstallTrueMethod( IsCyclic, IsGroup and IsFFECollection )"
+  },
+  {
+    "file": "lib/fieldfin.gi",
+    "line": 286,
+    "call": "InstallTrueMethod(CanEasilyComputeWithIndependentGensAbelianGroup, IsGroup and IsFFECollection)"
+  },
+  {
+    "file": "lib/fieldfin.gi",
+    "line": 390,
+    "call": "InstallTrueMethod( IsFinite, IsBasis and IsBasisFiniteFieldRep )"
+  },
+  {
+    "file": "lib/reesmat.gi",
+    "line": 100,
+    "call": "InstallTrueMethod(IsRegularSemigroup, IsReesMatrixSemigroup and IsSimpleSemigroup)"
+  },
+  {
+    "file": "lib/grpperm.gi",
+    "line": 17,
+    "call": "InstallTrueMethod(CanEasilyTestMembership,IsPermGroup)"
+  },
+  {
+    "file": "lib/grpperm.gi",
+    "line": 27,
+    "call": "InstallTrueMethod(CanEasilyComputePcgs,IsPermGroup and IsSolvableGroup)"
+  },
+  {
+    "file": "lib/grpperm.gi",
+    "line": 30,
+    "call": "InstallTrueMethod(CanComputeSizeAnySubgroup,IsPermGroup)"
+  },
+  {
+    "file": "lib/grpperm.gi",
+    "line": 61,
+    "call": "InstallTrueMethod(CanEasilyComputeWithIndependentGensAbelianGroup, IsPermGroup and IsAbelian)"
+  },
+  {
+    "file": "lib/grpnice.gi",
+    "line": 223,
+    "call": "InstallTrueMethod(CanEasilyTestMembership,IsHandledByNiceMonomorphism)"
+  },
+  {
+    "file": "lib/grpnice.gi",
+    "line": 230,
+    "call": "InstallTrueMethod(CanComputeSizeAnySubgroup,IsHandledByNiceMonomorphism)"
+  },
+  {
+    "file": "lib/basis.gi",
+    "line": 113,
+    "call": "InstallTrueMethod( IsFinite, IsBasis and IsRelativeBasisDefaultRep )"
+  },
+  {
+    "file": "lib/basis.gi",
+    "line": 697,
+    "call": "InstallTrueMethod( IsHandledByNiceBasis, filter )"
+  },
+  {
+    "file": "lib/semigrp.gi",
+    "line": 307,
+    "call": "InstallTrueMethod(IsRegularSemigroup, IsInverseSemigroup)"
+  },
+  {
+    "file": "lib/semigrp.gi",
+    "line": 682,
+    "call": "InstallTrueMethod( IsSimpleSemigroup, IsGroup )"
+  },
+  {
+    "file": "lib/semigrp.gi",
+    "line": 683,
+    "call": "InstallTrueMethod( IsSimpleSemigroup, IsSemigroup and IsTrivial )"
+  },
+  {
+    "file": "lib/semigrp.gi",
+    "line": 889,
+    "call": "InstallTrueMethod( IsZeroSimpleSemigroup, IsZeroGroup )"
+  },
+  {
+    "file": "lib/matrix.gi",
+    "line": 191,
+    "call": "InstallTrueMethod( IsDiagonalMatrix, IsMatrixOrMatrixObj and IsEmptyMatrix )"
+  },
+  {
+    "file": "lib/vspcmat.gi",
+    "line": 160,
+    "call": "InstallTrueMethod( IsSmallList, IsList and IsSemiEchelonBasisOfGaussianMatrixSpaceRep )"
+  },
+  {
+    "file": "lib/vspcrow.gi",
+    "line": 327,
+    "call": "InstallTrueMethod( IsSmallList, IsList and IsSemiEchelonBasisOfGaussianRowSpaceRep )"
+  },
+  {
+    "file": "lib/pcgs.gi",
+    "line": 330,
+    "call": "InstallTrueMethod( IsFiniteOrdersPcgs, IsPrimeOrdersPcgs )"
+  },
+  {
+    "file": "lib/magma.gi",
+    "line": 970,
+    "call": "InstallTrueMethod(HasMultiplicativeNeutralElement, IsMagmaWithOne)"
+  },
+  {
+    "file": "lib/oprtperm.gi",
+    "line": 1276,
+    "call": "InstallTrueMethod(IsSemiRegular,IsPermGroup and IsRegular)"
+  },
+  {
+    "file": "lib/oprtperm.gi",
+    "line": 1277,
+    "call": "InstallTrueMethod(IsTransitive,IsPermGroup and IsRegular)"
+  },
+  {
+    "file": "lib/oprtperm.gi",
+    "line": 1278,
+    "call": "InstallTrueMethod(IsRegular,IsPermGroup and IsSemiRegular and IsTransitive)"
+  },
+  {
+    "file": "lib/alglie.gi",
+    "line": 133,
+    "call": "InstallTrueMethod( IsLieSolvable, IsLieNilpotent )"
+  },
+  {
+    "file": "lib/alglie.gi",
+    "line": 153,
+    "call": "InstallTrueMethod( IsLieNilpotent, IsLieAbelian )"
+  },
+  {
+    "file": "lib/alglie.gi",
+    "line": 224,
+    "call": "InstallTrueMethod( IsLieAbelian, IsAlgebra and IsZeroMultiplicationRing )"
+  },
+  {
+    "file": "lib/grppc.gi",
+    "line": 2299,
+    "call": "InstallTrueMethod( CanEasilyComputePcgs, IsPcGroup )"
+  },
+  {
+    "file": "lib/grppc.gi",
+    "line": 2301,
+    "call": "InstallTrueMethod( CanEasilyComputePcgs, HasPcgs )"
+  },
+  {
+    "file": "lib/grppc.gi",
+    "line": 2304,
+    "call": "InstallTrueMethod( CanEasilyComputePcgs, IsGroup and HasFamilyPcgs )"
+  },
+  {
+    "file": "lib/grppc.gi",
+    "line": 2312,
+    "call": "InstallTrueMethod(CanEasilyTestMembership,CanEasilyComputePcgs)"
+  },
+  {
+    "file": "lib/grppc.gi",
+    "line": 2315,
+    "call": "InstallTrueMethod(CanComputeSize, CanEasilyComputePcgs)"
+  },
+  {
+    "file": "lib/grppc.gi",
+    "line": 2321,
+    "call": "InstallTrueMethod(IsSolvableGroup, CanEasilyComputePcgs)"
+  },
+  {
+    "file": "lib/grppc.gi",
+    "line": 2328,
+    "call": "InstallTrueMethod( CanComputeSizeAnySubgroup, CanEasilyComputePcgs )"
+  },
+  {
+    "file": "lib/grppc.gi",
+    "line": 2392,
+    "call": "InstallTrueMethod(CanEasilyComputeWithIndependentGensAbelianGroup, IsGroup and CanEasilyComputePcgs and IsAbelian)"
+  },
+  {
+    "file": "lib/grpramat.gi",
+    "line": 21,
+    "call": "InstallTrueMethod( IsRationalMatrixGroup, IsIntegerMatrixGroup )"
+  },
+  {
+    "file": "lib/grpramat.gi",
+    "line": 421,
+    "call": "InstallTrueMethod( MayBeHandledByNiceMonomorphism, IsCyclotomicMatrixGroup )"
+  }
+]

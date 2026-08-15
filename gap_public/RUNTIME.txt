@@ -1,0 +1,15 @@
+GAP_VERSION=4.12.1
+SMALLGRP_LOADED
+[ <Property "IsCommutative">, <Property "IsCyclic">, 
+  <Property "IsNilpotentGroup">, <Property "IsSolvableGroup">, 
+  <Property "IsSupersolvableGroup">, <Property "IsPerfectGroup">, 
+  <Property "IsSimpleGroup"> ]
+IsCommutative
+IsCyclic
+IsNilpotentGroup
+IsSolvableGroup
+IsSupersolvableGroup
+IsPerfectGroup
+IsSimpleGroup
+A5: false false false false false true true
+D8-ish: false false true true true false false
