@@ -1,0 +1,46 @@
+name: pibase-public-data
+
+on:
+  push:
+    branches: [dart-public-data-run]
+    paths:
+      - RUN_PIBASE_PUBLIC
+      - pibase_public/**
+      - .github/workflows/pibase-public-data.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dart-public-data-run
+      - uses: actions/checkout@v4
+        with:
+          repository: pi-base/data
+          ref: b0894a88d775fb8a5ec315857ac884c11545d432
+          path: _upstream/pi-base-data
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --quiet PyYAML==6.0.2 networkx==3.3
+      - name: Compile frozen official pi-Base compact input
+        run: |
+          rm -rf pibase_public/out
+          python pibase_public/prepare_pi_base_public.py \
+            --source _upstream/pi-base-data \
+            --out pibase_public/out \
+            --commit b0894a88d775fb8a5ec315857ac884c11545d432
+          cat pibase_public/out/SUMMARY.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pibase-public-compact
+          path: |
+            pibase_public/out/PI_BASE_COMPACT.b85
+            pibase_public/out/SUMMARY.json
+            pibase_public/out/CONTRADICTIONS.json
+          if-no-files-found: error
