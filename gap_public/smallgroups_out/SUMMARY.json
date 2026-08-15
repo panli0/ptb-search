@@ -1,0 +1,109 @@
+{
+  "first_actions_total": 90,
+  "first_splits": [
+    {
+      "eligible_sources": 11,
+      "seed": 20260816,
+      "test_actions": 21,
+      "test_sources": 2,
+      "train_actions": 68,
+      "train_family_count": 10,
+      "train_sources": 9
+    },
+    {
+      "eligible_sources": 11,
+      "seed": 20260817,
+      "test_actions": 16,
+      "test_sources": 2,
+      "train_actions": 73,
+      "train_family_count": 11,
+      "train_sources": 9
+    },
+    {
+      "eligible_sources": 11,
+      "seed": 20260818,
+      "test_actions": 13,
+      "test_sources": 2,
+      "train_actions": 76,
+      "train_family_count": 11,
+      "train_sources": 9
+    },
+    {
+      "eligible_sources": 11,
+      "seed": 20260819,
+      "test_actions": 22,
+      "test_sources": 2,
+      "train_actions": 67,
+      "train_family_count": 10,
+      "train_sources": 9
+    },
+    {
+      "eligible_sources": 11,
+      "seed": 20260820,
+      "test_actions": 21,
+      "test_sources": 2,
+      "train_actions": 68,
+      "train_family_count": 10,
+      "train_sources": 9
+    }
+  ],
+  "gap_source_commit": "c4a5b7be6fa44a451d13de6c884e1e9e0d8ac858",
+  "last_actions_total": 90,
+  "last_splits": [
+    {
+      "eligible_sources": 11,
+      "seed": 20260816,
+      "test_actions": 21,
+      "test_sources": 2,
+      "train_actions": 68,
+      "train_family_count": 11,
+      "train_sources": 9
+    },
+    {
+      "eligible_sources": 11,
+      "seed": 20260817,
+      "test_actions": 16,
+      "test_sources": 2,
+      "train_actions": 73,
+      "train_family_count": 12,
+      "train_sources": 9
+    },
+    {
+      "eligible_sources": 11,
+      "seed": 20260818,
+      "test_actions": 13,
+      "test_sources": 2,
+      "train_actions": 76,
+      "train_family_count": 10,
+      "train_sources": 9
+    },
+    {
+      "eligible_sources": 11,
+      "seed": 20260819,
+      "test_actions": 22,
+      "test_sources": 2,
+      "train_actions": 67,
+      "train_family_count": 10,
+      "train_sources": 9
+    },
+    {
+      "eligible_sources": 11,
+      "seed": 20260820,
+      "test_actions": 21,
+      "test_sources": 2,
+      "train_actions": 68,
+      "train_family_count": 11,
+      "train_sources": 9
+    }
+  ],
+  "objects": 1024,
+  "raw_author_edges": 17,
+  "raw_property_nodes": 13,
+  "runtime_gap_version": "4.12.1",
+  "scc_nodes": 12,
+  "semantics": "GAP author-declared InstallTrueMethod implications under finite-group ambient assumptions; exact SmallGroups property values; no edges inferred from object truth",
+  "smallgroups_orders": "1..96",
+  "transitive_reduction_edges": 13,
+  "truth_families": 14,
+  "witnessable_pairs": 90
+}

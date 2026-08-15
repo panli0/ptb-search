@@ -1,0 +1,251 @@
+{
+  "gap_commit": "c4a5b7be6fa44a451d13de6c884e1e9e0d8ac858",
+  "domain": "finite abstract groups",
+  "nodes": [
+    "IsCommutative",
+    "IsCyclic",
+    "IsElementaryAbelian",
+    "IsMonomialGroup",
+    "IsNilpotentGroup",
+    "IsPGroup",
+    "IsPerfectGroup",
+    "IsPolycyclicGroup",
+    "IsPowerfulPGroup",
+    "IsQuasisimpleGroup",
+    "IsSolvableGroup",
+    "IsSupersolvableGroup",
+    "IsTrivial"
+  ],
+  "edges": [
+    {
+      "source": "IsCommutative",
+      "target": "IsNilpotentGroup",
+      "proofs": [
+        {
+          "source": "IsCommutative",
+          "target": "IsNilpotentGroup",
+          "file": "lib/grp.gd",
+          "line": 584,
+          "call": "InstallTrueMethod( IsNilpotentGroup, IsGroup and IsCommutative )"
+        }
+      ]
+    },
+    {
+      "source": "IsCyclic",
+      "target": "IsCommutative",
+      "proofs": [
+        {
+          "source": "IsCyclic",
+          "target": "IsCommutative",
+          "file": "lib/grp.gd",
+          "line": 165,
+          "call": "InstallTrueMethod( IsCommutative, IsGroup and IsCyclic )"
+        }
+      ]
+    },
+    {
+      "source": "IsElementaryAbelian",
+      "target": "IsCommutative",
+      "proofs": [
+        {
+          "source": "IsElementaryAbelian",
+          "target": "IsCommutative",
+          "file": "lib/grp.gd",
+          "line": 193,
+          "call": "InstallTrueMethod( IsCommutative, IsGroup and IsElementaryAbelian )"
+        }
+      ]
+    },
+    {
+      "source": "IsElementaryAbelian",
+      "target": "IsPGroup",
+      "proofs": [
+        {
+          "source": "IsElementaryAbelian",
+          "target": "IsPGroup",
+          "file": "lib/grp.gd",
+          "line": 449,
+          "call": "InstallTrueMethod( IsPGroup, IsGroup and IsElementaryAbelian )"
+        }
+      ]
+    },
+    {
+      "source": "IsMonomialGroup",
+      "target": "IsSolvableGroup",
+      "proofs": [
+        {
+          "source": "IsMonomialGroup",
+          "target": "IsSolvableGroup",
+          "file": "lib/grp.gd",
+          "line": 854,
+          "call": "InstallTrueMethod( IsSolvableGroup, IsMonomialGroup )"
+        }
+      ]
+    },
+    {
+      "source": "IsNilpotentGroup",
+      "target": "IsSupersolvableGroup",
+      "proofs": [
+        {
+          "source": "IsNilpotentGroup",
+          "target": "IsSupersolvableGroup",
+          "file": "lib/grp.gd",
+          "line": 793,
+          "call": "InstallTrueMethod( IsSupersolvableGroup, IsNilpotentGroup )"
+        }
+      ]
+    },
+    {
+      "source": "IsPGroup",
+      "target": "IsNilpotentGroup",
+      "proofs": [
+        {
+          "source": "IsPGroup",
+          "target": "IsNilpotentGroup",
+          "file": "lib/grp.gd",
+          "line": 586,
+          "call": "InstallTrueMethod( IsNilpotentGroup, IsGroup and IsPGroup and IsFinite )"
+        }
+      ]
+    },
+    {
+      "source": "IsPolycyclicGroup",
+      "target": "IsSolvableGroup",
+      "proofs": [
+        {
+          "source": "IsPolycyclicGroup",
+          "target": "IsSolvableGroup",
+          "file": "lib/grp.gd",
+          "line": 882,
+          "call": "InstallTrueMethod( IsSolvableGroup, IsPolycyclicGroup )"
+        }
+      ]
+    },
+    {
+      "source": "IsPowerfulPGroup",
+      "target": "IsPGroup",
+      "proofs": [
+        {
+          "source": "IsPowerfulPGroup",
+          "target": "IsPGroup",
+          "file": "lib/grp.gd",
+          "line": 476,
+          "call": "InstallTrueMethod( IsPGroup, IsPowerfulPGroup )"
+        },
+        {
+          "source": "IsPowerfulPGroup",
+          "target": "IsPGroup",
+          "file": "lib/grp.gd",
+          "line": 483,
+          "call": "InstallTrueMethod( IsPGroup, IsPowerfulPGroup )"
+        }
+      ]
+    },
+    {
+      "source": "IsQuasisimpleGroup",
+      "target": "IsPerfectGroup",
+      "proofs": [
+        {
+          "source": "IsQuasisimpleGroup",
+          "target": "IsPerfectGroup",
+          "file": "lib/grp.gd",
+          "line": 764,
+          "call": "InstallTrueMethod( IsPerfectGroup, IsQuasisimpleGroup )"
+        }
+      ]
+    },
+    {
+      "source": "IsSolvableGroup",
+      "target": "IsPolycyclicGroup",
+      "proofs": [
+        {
+          "source": "IsSolvableGroup",
+          "target": "IsPolycyclicGroup",
+          "file": "lib/grp.gd",
+          "line": 883,
+          "call": "InstallTrueMethod( IsPolycyclicGroup, IsSolvableGroup and IsFinite )"
+        }
+      ]
+    },
+    {
+      "source": "IsSupersolvableGroup",
+      "target": "IsMonomialGroup",
+      "proofs": [
+        {
+          "source": "IsSupersolvableGroup",
+          "target": "IsMonomialGroup",
+          "file": "lib/grp.gd",
+          "line": 817,
+          "call": "InstallTrueMethod( IsMonomialGroup, IsSupersolvableGroup and IsFinite )"
+        }
+      ]
+    },
+    {
+      "source": "IsSupersolvableGroup",
+      "target": "IsSolvableGroup",
+      "proofs": [
+        {
+          "source": "IsSupersolvableGroup",
+          "target": "IsSolvableGroup",
+          "file": "lib/grp.gd",
+          "line": 855,
+          "call": "InstallTrueMethod( IsSolvableGroup, IsSupersolvableGroup )"
+        }
+      ]
+    },
+    {
+      "source": "IsTrivial",
+      "target": "IsCyclic",
+      "proofs": [
+        {
+          "source": "IsTrivial",
+          "target": "IsCyclic",
+          "file": "lib/grp.gd",
+          "line": 163,
+          "call": "InstallTrueMethod( IsCyclic, IsGroup and IsTrivial )"
+        }
+      ]
+    },
+    {
+      "source": "IsTrivial",
+      "target": "IsElementaryAbelian",
+      "proofs": [
+        {
+          "source": "IsTrivial",
+          "target": "IsElementaryAbelian",
+          "file": "lib/grp.gd",
+          "line": 191,
+          "call": "InstallTrueMethod( IsElementaryAbelian, IsGroup and IsTrivial )"
+        }
+      ]
+    },
+    {
+      "source": "IsTrivial",
+      "target": "IsPGroup",
+      "proofs": [
+        {
+          "source": "IsTrivial",
+          "target": "IsPGroup",
+          "file": "lib/grp.gd",
+          "line": 448,
+          "call": "InstallTrueMethod( IsPGroup, IsGroup and IsTrivial )"
+        }
+      ]
+    },
+    {
+      "source": "IsTrivial",
+      "target": "IsPerfectGroup",
+      "proofs": [
+        {
+          "source": "IsTrivial",
+          "target": "IsPerfectGroup",
+          "file": "lib/grp.gd",
+          "line": 611,
+          "call": "InstallTrueMethod( IsPerfectGroup, IsGroup and IsTrivial )"
+        }
+      ]
+    }
+  ],
+  "node_count": 13,
+  "edge_count": 17
+}
