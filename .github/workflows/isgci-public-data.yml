@@ -17,41 +17,33 @@ jobs:
         with:
           ref: dart-public-data-run
           fetch-depth: 0
-      - name: Fetch official ISGCI bundle
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Fetch and compile official ISGCI transfer data
         run: |
           set -euxo pipefail
-          rm -rf isgci_public
-          mkdir -p isgci_public
+          rm -rf isgci_public/out isgci_public/unpacked isgci_public/data.zip
+          mkdir -p isgci_public/out
           curl -L --fail --retry 3 https://www.graphclasses.org/data.zip -o isgci_public/data.zip
           sha256sum isgci_public/data.zip > isgci_public/DATA_SHA256.txt
           unzip -l isgci_public/data.zip > isgci_public/ZIP_LISTING.txt
           unzip -q isgci_public/data.zip -d isgci_public/unpacked
-          find isgci_public/unpacked -type f -maxdepth 4 -printf '%p %s bytes\n' | sort > isgci_public/FILES.txt
           cp isgci_public/unpacked/isgci.dtd isgci_public/isgci.dtd
           cp isgci_public/unpacked/smallgraphs.txt isgci_public/smallgraphs.txt
-          python - <<'PY'
-          import collections, json, xml.etree.ElementTree as ET
-          p='isgci_public/unpacked/isgci_sage.xml'
-          tags=collections.Counter(); attrs=collections.Counter(); samples={}
-          for ev,e in ET.iterparse(p,events=('end',)):
-              tag=e.tag.split('}')[-1]
-              tags[tag]+=1
-              for a in e.attrib: attrs[(tag,a)]+=1
-              if tag not in samples and tag in {'GraphClass','graphclass','incl','inclusion','smallgraph','smallGraph','equivalent','note'}:
-                  samples[tag]=ET.tostring(e,encoding='unicode')[:4000]
-              e.clear()
-          with open('isgci_public/XML_STRUCTURE.json','w') as f:
-              json.dump({'tags':tags.most_common(),'attrs':[(list(k),v) for k,v in attrs.most_common()],'samples':samples},f,indent=2)
-          PY
-          grep -nE '<!ELEMENT (incl|inclusion|graphclass|GraphClass|smallgraph|smallGraph)|<!ATTLIST (incl|inclusion|graphclass|GraphClass|smallgraph|smallGraph)' isgci_public/isgci.dtd > isgci_public/DTD_RELEVANT.txt || true
-          cat isgci_public/DATA_SHA256.txt
-          cat isgci_public/ZIP_LISTING.txt
-          head -100 isgci_public/DTD_RELEVANT.txt || true
-      - name: Commit inspection manifest
+          python -m pip install --quiet networkx==3.3
+          BUNDLE_SHA=$(cut -d' ' -f1 isgci_public/DATA_SHA256.txt)
+          python isgci_public/prepare_isgci_forbidden.py \
+            --xml isgci_public/unpacked/isgci_sage.xml \
+            --smallgraphs isgci_public/unpacked/smallgraphs.txt \
+            --out isgci_public/out \
+            --bundle-sha "$BUNDLE_SHA"
+          cat isgci_public/out/SUMMARY.json
+      - name: Commit compact public input
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           rm -rf isgci_public/unpacked isgci_public/data.zip
           git add isgci_public
-          git commit -m 'Inspect ISGCI XML structure and witness schema' || true
+          git commit -m 'Compile exact ISGCI forbidden-class transfer input' || true
           git push origin HEAD:dart-public-data-run
