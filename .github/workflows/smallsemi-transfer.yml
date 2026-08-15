@@ -1,0 +1,82 @@
+name: smallsemi-transfer
+on:
+  push:
+    branches: [dart-public-data-run]
+    paths: [RUN_SMALLSEMI_TRANSFER]
+permissions:
+  contents: write
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: dart-public-data-run}
+      - uses: actions/checkout@v4
+        with: {repository: gap-system/gap, ref: v4.12.1, path: _upstream/gap}
+      - uses: actions/checkout@v4
+        with: {repository: semigroups/Semigroups, ref: v5.6.3, path: _upstream/Semigroups}
+      - uses: actions/checkout@v4
+        with: {repository: gap-packages/smallsemi, ref: v0.7.2, path: _upstream/smallsemi}
+      - name: Install GAP and pinned Smallsemi
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq gap >/dev/null
+          python -m pip install --quiet networkx==3.3
+          sudo rm -rf /usr/share/gap/pkg/smallsemi
+          sudo cp -a _upstream/smallsemi /usr/share/gap/pkg/smallsemi
+          rm -rf semigroup_public/out && mkdir -p semigroup_public/out
+          git -C _upstream/smallsemi rev-parse HEAD > semigroup_public/out/SMALLSEMI_COMMIT.txt
+          gap -q -c 'Print(GAPInfo.Version,"\n");QUIT;' > semigroup_public/out/GAP_VERSION.txt
+          grep -qx '4.12.1' semigroup_public/out/GAP_VERSION.txt
+      - name: Export Smallsemi-evaluable property whitelist
+        run: |
+          gap -q <<'GAP'
+          if LoadPackage("smallsemi")=fail then Error("smallsemi unavailable"); fi;
+          SetInfoLevel(InfoSmallsemi,0);
+          p:=Set(Concatenation(PrecomputedSmallSemisInfo{[1..6]}));;
+          Append(p,["IsCommutativeSemigroup","IsCompletelySimpleSemigroup","IsSemiband","IsSemilattice","IsBrandtSemigroup","IsCliffordSemigroup","IsOrthodoxSemigroup","IsRectangularBand","IsNilpotentSemigroup","IsSemigroupWithClosedIdempotents","IsTrivial","IsCommutative"]);;
+          p:=Set(Filtered(p,x->IsBoundGlobal(x)));;
+          out:=OutputTextFile("semigroup_public/out/PROPERTIES.txt",false);;
+          for x in p do AppendTo(out,x,"\n"); od;
+          CloseStream(out);;
+          out:=OutputTextFile("semigroup_public/out/SMALLSEMI_VERSION.txt",false);;
+          AppendTo(out,PackageInfo("smallsemi")[1].Version,"\n");;CloseStream(out);;
+          Print("properties=",Length(p)," version=",PackageInfo("smallsemi")[1].Version,"\n");
+          QUIT;
+          GAP
+          head -100 semigroup_public/out/PROPERTIES.txt
+      - name: Extract author-declared relation graph
+        run: |
+          python semigroup_public/extract_smallsemi_property_graph.py --gap _upstream/gap --semigroups _upstream/Semigroups --whitelist semigroup_public/out/PROPERTIES.txt --out semigroup_public/out/PROPERTY_GRAPH.json
+      - name: Evaluate all Smallsemi objects of sizes 1 through 6
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          J=json.loads(Path('semigroup_public/out/PROPERTY_GRAPH.json').read_text());nodes=J['nodes']
+          names=', '.join('"'+n+'"' for n in nodes);props=', '.join(nodes)
+          s='SizeScreen([1000000,1000000]);;\nif LoadPackage("smallsemi")=fail then Error("smallsemi unavailable"); fi;\nSetInfoLevel(InfoSmallsemi,0);;\n'
+          s+=f'names := [{names}];; props := [{props}];;\n'
+          s+='Print("size,id");; for n in names do Print(",",n); od; Print("\\n");;\n'
+          s+='for sz in [1..6] do for id in [1..NrSmallSemigroups(sz)] do S:=SmallSemigroup(sz,id);; Print(sz,",",id);; for p in props do if p(S)=true then Print(",1"); else Print(",0"); fi; od; Print("\\n"); od; od;\nQUIT;\n'
+          Path('/tmp/eval_smallsemi.g').write_text(s)
+          PY
+          gap -q /tmp/eval_smallsemi.g > semigroup_public/out/TRUTH.csv
+          test $(wc -l < semigroup_public/out/TRUTH.csv) -eq 17283
+          head -3 semigroup_public/out/TRUTH.csv
+      - name: Audit all theorem edges and compile exact witnesses
+        run: python semigroup_public/compile_smallsemi_witnesses.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: smallsemi-property-transfer
+          path: semigroup_public/out/
+          if-no-files-found: error
+      - name: Commit public summary
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+panli0@users.noreply.github.com
+          cp semigroup_public/out/SUMMARY.json semigroup_public/SMALLSEMI_SUMMARY.json
+          cp semigroup_public/out/PROPERTY_GRAPH.json semigroup_public/SMALLSEMI_PROPERTY_GRAPH.json
+          git add semigroup_public/SMALLSEMI_SUMMARY.json semigroup_public/SMALLSEMI_PROPERTY_GRAPH.json
+          git commit -m 'Compile exact Smallsemi property transfer input' || true
+          git push origin HEAD:dart-public-data-run
