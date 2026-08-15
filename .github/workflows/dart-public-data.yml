@@ -1,0 +1,58 @@
+name: dart-public-data
+
+on:
+  push:
+    branches:
+      - dart-public-data-run
+    paths:
+      - RUN_DART_PUBLIC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout public runner branch
+        uses: actions/checkout@v4
+        with:
+          ref: dart-public-data-run
+          fetch-depth: 0
+
+      - name: Checkout frozen official DaRT data
+        uses: actions/checkout@v4
+        with:
+          repository: rschwiebert/dart_data
+          ref: add9b23c9ab4044096c421243f16ff04fd2379a5
+          path: _upstream/dart_data
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install public-data preparation dependencies
+        run: python -m pip install --quiet PyYAML==6.0.2 networkx==3.3
+
+      - name: Build compact public experiment input
+        run: |
+          rm -rf dart_public/out
+          mkdir -p dart_public/out
+          python dart_public/prepare_dart_public.py \
+            --source _upstream/dart_data \
+            --out dart_public/out \
+            --commit add9b23c9ab4044096c421243f16ff04fd2379a5
+          cat dart_public/out/SUMMARY.json
+
+      - name: Commit compact public-data bundle
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add dart_public/out
+          if git diff --cached --quiet; then
+            echo 'No changes.'
+          else
+            git commit -m 'Prepare compact DaRT public experiment input'
+            git push origin HEAD:dart-public-data-run
+          fi
