@@ -1,0 +1,118 @@
+{
+  "accepted_direct_property_pairs": 172,
+  "accepted_logic_rows": 173,
+  "commit": "add9b23c9ab4044096c421243f16ff04fd2379a5",
+  "compact_b85_bytes": 44159,
+  "compact_json_bytes": 162740,
+  "direct_interclass_edges": 172,
+  "excluded_logic": {
+    "inactive": 11,
+    "logic_not_symmetric": 152,
+    "non_atomic_or_multi_fact": 173,
+    "not_positive_both_sides": 25
+  },
+  "highest_actions_total": 24350,
+  "lowest_actions_total": 24350,
+  "missing_ring_properties_files": 0,
+  "official_rings": 206,
+  "raw_properties": 177,
+  "scc_nodes": 177,
+  "semantics": "official atomic positive both-sided implication/equivalence only; SCC compression; forward true and contrapositive false closure; unknown remains unknown",
+  "splits_highest": [
+    {
+      "eligible_sources": 177,
+      "seed": 20260816,
+      "test_actions": 1153,
+      "test_sources": 20,
+      "train_actions": 9021,
+      "train_family_count": 111,
+      "train_sources": 157
+    },
+    {
+      "eligible_sources": 177,
+      "seed": 20260817,
+      "test_actions": 1200,
+      "test_sources": 20,
+      "train_actions": 8974,
+      "train_family_count": 113,
+      "train_sources": 157
+    },
+    {
+      "eligible_sources": 177,
+      "seed": 20260818,
+      "test_actions": 1059,
+      "test_sources": 20,
+      "train_actions": 9115,
+      "train_family_count": 107,
+      "train_sources": 157
+    },
+    {
+      "eligible_sources": 177,
+      "seed": 20260819,
+      "test_actions": 1200,
+      "test_sources": 20,
+      "train_actions": 8974,
+      "train_family_count": 108,
+      "train_sources": 157
+    },
+    {
+      "eligible_sources": 177,
+      "seed": 20260820,
+      "test_actions": 1200,
+      "test_sources": 20,
+      "train_actions": 8974,
+      "train_family_count": 110,
+      "train_sources": 157
+    }
+  ],
+  "splits_lowest": [
+    {
+      "eligible_sources": 177,
+      "seed": 20260816,
+      "test_actions": 1153,
+      "test_sources": 20,
+      "train_actions": 9021,
+      "train_family_count": 88,
+      "train_sources": 157
+    },
+    {
+      "eligible_sources": 177,
+      "seed": 20260817,
+      "test_actions": 1200,
+      "test_sources": 20,
+      "train_actions": 8974,
+      "train_family_count": 89,
+      "train_sources": 157
+    },
+    {
+      "eligible_sources": 177,
+      "seed": 20260818,
+      "test_actions": 1059,
+      "test_sources": 20,
+      "train_actions": 9115,
+      "train_family_count": 86,
+      "train_sources": 157
+    },
+    {
+      "eligible_sources": 177,
+      "seed": 20260819,
+      "test_actions": 1200,
+      "test_sources": 20,
+      "train_actions": 8974,
+      "train_family_count": 89,
+      "train_sources": 157
+    },
+    {
+      "eligible_sources": 177,
+      "seed": 20260820,
+      "test_actions": 1200,
+      "test_sources": 20,
+      "train_actions": 8974,
+      "train_family_count": 86,
+      "train_sources": 157
+    }
+  ],
+  "truth_signature_families": 200,
+  "upstream": "rschwiebert/dart_data",
+  "witnessable_pairs": 24350
+}
