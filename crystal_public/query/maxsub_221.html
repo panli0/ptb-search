@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Verification Required</title>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+      <link href="/html/css/bcs_index.css" rel="stylesheet" title="BCS Style" type="text/css">
+</head>
+<body>
+
+</head>
+  
+<body>
+<table class="signature">
+  <tr>
+    <td>
+      <small>
+        <a class="blue" href="/">Bilbao Crystallographic Server</a>
+        <img src="/html/gif/a.gif" alt="arrow">
+        Security Check 
+      </small>
+    </td>
+    <td>
+      <small></small>
+    </td>
+  </tr>
+</table>
+<br><br>
+<center><h2 class="blue"><h2>Welcome to</h2></center>
+<center><img width="600" src="/html/gif/bcs.png" alt="Bilbao Crystallographic Server"></center><br><br>
+<center><h2 class="blue"><h2>Please verify you are human</h2></center>
+<center>
+    <form action="/cgi-bin/cryst/programs/verify_turnstile.pl" method="POST">
+        <!-- This will be filled with the correct redirect URL -->
+        <input type="hidden" name="redirect" value="">
+
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAACAoGvGRZrDEA70s"></div>
+        <br>
+
+        <input type="submit" value="Please wait until you successfully pass the challenge. After you are cleared ('Success') please press here to continue to the Bilbao Crystallographic Server" style="white-space: normal; width: 300px;"></center>
+    </form>
+    <br><br><center><b>This site uses cookies to store information about the user.<br>By using this site, you are agreeing with these conditions.</b></center><br>
+
+    <script>
+        // Step 4: Handle ?from= URL parameter OR fallback to referrer
+        const params = new URLSearchParams(window.location.search);
+        const target = params.get("from") || document.referrer || "/cryst/";
+
+        document.querySelector("input[name='redirect']").value = target;
+    </script>
+<table class="signature">
+  <tr>
+    <td align="left">
+      <table>
+       <tr>
+        <td><small><a href="https://cryst.ehu.es">Bilbao Crystallographic Server</a><br>https://www.cryst.ehu.es</small></td>
+        <td>
+          <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+        </td>
+       </tr>
+      </table>
+    </td>
+    <td align="right" rowspan="2"> 
+      <small>
+        For comments, please mail to<br>
+        <a class="blue" href="mailto:cryst@wm.lc.ehu.es">cryst@wm.lc.ehu.es</a>
+      </small>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>    
