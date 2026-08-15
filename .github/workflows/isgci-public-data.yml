@@ -1,0 +1,40 @@
+name: isgci-public-data
+
+on:
+  push:
+    branches: [dart-public-data-run]
+    paths: [RUN_ISGCI_PUBLIC]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dart-public-data-run
+          fetch-depth: 0
+      - name: Fetch official ISGCI bundle
+        run: |
+          set -euxo pipefail
+          rm -rf isgci_public
+          mkdir -p isgci_public
+          curl -L --fail --retry 3 https://www.graphclasses.org/data.zip -o isgci_public/data.zip
+          sha256sum isgci_public/data.zip > isgci_public/DATA_SHA256.txt
+          unzip -l isgci_public/data.zip > isgci_public/ZIP_LISTING.txt
+          unzip -q isgci_public/data.zip -d isgci_public/unpacked
+          find isgci_public/unpacked -type f -maxdepth 4 -printf '%p %s bytes\n' | sort > isgci_public/FILES.txt
+          grep -RIlE 'smallgraph|inclusion|graphclass|problem' isgci_public/unpacked | sort | head -200 > isgci_public/CANDIDATES.txt || true
+          cat isgci_public/DATA_SHA256.txt
+          cat isgci_public/ZIP_LISTING.txt
+      - name: Commit inspection manifest
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          rm -rf isgci_public/unpacked isgci_public/data.zip
+          git add isgci_public
+          git commit -m 'Inspect official ISGCI public data bundle' || true
+          git push origin HEAD:dart-public-data-run
