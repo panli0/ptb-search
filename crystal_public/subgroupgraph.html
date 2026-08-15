@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<head>
+<script>
+(function() {
+    // Name of the cookie
+    function getCookie(name) {
+        let cookies = document.cookie.split("; ");
+        for (let i = 0; i < cookies.length; i++) {
+            let parts = cookies[i].split("=");
+            if (parts[0] === name) return parts[1];
+        }
+        return null;
+    }
+
+    function setCookie(name, value, hours) {
+        let expires = "";
+        if (hours) {
+            let date = new Date();
+            date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + value + expires + "; path=/";
+    }
+
+    // Check if cookie exists and is recent enough to renew
+    let cookieValue = getCookie("turnstile_passed");
+    if (cookieValue) {
+        let timestamp = parseInt(cookieValue);
+        let now = Math.floor(Date.now() / 1000);
+        
+        // If cookie is less than 50 minutes old, renew it
+        if (now - timestamp < 3000) { // 3000 seconds = 50 minutes
+            setCookie("turnstile_passed", now.toString(), 1);
+        }
+    } else {
+            // If no cookie, check if we should redirect
+            if (window.location.hostname == "158.227.21.46" || window.location.hostname == "cryst.ehu.es" || window.location.hostname == "cryst.ehu.eus") {
+                    let current = encodeURIComponent(window.location.pathname + window.location.search);
+                    window.location.href = "/cryst/turnstile_challenge.html?from=" + current;
+        }
+    }
+})();
+</script>
+<script>
+// Only add the analytics script if hostname matches
+if (window.location.hostname == "158.227.21.46" || window.location.hostname == "cryst.ehu.es" || window.location.hostname == "cryst.ehu.eus") {
+    var script = document.createElement('script');
+    script.src = "https://cryst.ehu.es/script.js";
+    script.defer = true;
+    script.setAttribute('data-website-id', '358acc47-0232-4ea4-92cc-1e2d35bb1e48');
+    document.head.appendChild(script);
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1" >
+<meta name="author" content="Bilbao Crystallographic Server" />
+<meta name="description" content="For a given group and supergroup the program will give the lattice of maximal subgroups that relates these two groups and, in the case that the index is specified, all of the possible chains of maximal subgroup that relate the two groups." />
+<meta name="keywords" content="group, supergroup, maximal subgroups" /> 
+<link title="BCS Style" rel=STYLESHEET href="/html/css/bcs_style.css" type="text/css">
+
+<TITLE>Group-Subgroup Graph</TITLE>
+
+</head>
+
+<BODY bgcolor="#ffffff">
+
+<table width="100%" cellpadding="2">
+<tr>
+ <td bgcolor="#dddddd">
+   <small>
+     <a href="/">Bilbao Crystallographic Server</a>
+     <img alt="arrow" src="/html/gif/a.gif"> SUBGROUPGRAPH
+   </small>
+ </td>
+ <td bgcolor="#dddddd"> 
+   <small>
+     <a href="/cryst/subgr_help.html">Help</a></small>
+ </td>
+</tr>
+</table>
+<p>
+
+<CENTER>
+<H2>Group-Subgroup Graph and Chains of Maximal Subgroups</H2>
+<P>
+</CENTER>
+
+
+<table width="100%" cellpadding="6" cellspacing="0">
+<tr valign="top">
+<td width="35%">
+<table width="100%" border="0" cellpadding="6" cellspacing="0">
+ <tr>
+  <td bgcolor="#888888">
+    <b>Graph and chains ...</b>
+  </td>
+  </tr>
+ <tr>
+  <td bgcolor="#EEEEEE">
+  <p>
+  For a given group and supergroup the program SUBGROUPGRAPH will give the
+  graph of maximal subgroups that relates these two groups and, in the case
+  that the index is specified, all of the possible chains of maximal subgroup 
+  that relate the two groups. In the latter case, also 
+  there is a possibility to obtain all of
+  the different subgroups of the same type.
+  <p>
+  As an input data you should give (or select) the numbers of the group and the
+  subgroup, and the index.
+  <p>
+   <b><font face="times" size="3">A tutorial on the application of several tools of this server including 
+   SUBGROUPGRAPH in the study of group-subgroup phase transitions can be found 
+   <a href="/html/cryst/tutorials/Tutorial_SPT_abr2010.pdf">here</a>.</b></font>                  
+  <p>
+  <center>
+  <p>
+  <a href="/cryst/get_index.html">How to obtain a valid index ?</a>
+  <p>
+  <hr>
+  <a href="/cryst/sg_graph_doc.html">[ More about the program. ]</a>
+  <p>
+  </center>
+  <hr>
+  <p><small>If you are using this program in the preparation of a paper, please cite it in the following form:</small></p>
+    <center><small>
+           <a href="http://journals.iucr.org/j/issues/2000/04/00/ks0038/ks0038.pdf">Ivantchev <em>et. al., J. Appl. Cryst.</em> (2000), <b>33</b>, 1190-1191</a></small></center>
+          <br/><small>
+          If you are interested in other publications related to Bilbao Crystallographic Server, click <a href="/html/doc/bcs_references.html">here.</a> 
+</small>
+  </td>
+ </tr>
+</table>
+</td>
+<td>
+<FORM METHOD="GET" ACTION="/cgi-bin/cryst/programs/nph-subggraph">
+<TABLE border="5" width="100%">
+<TR><TD COLSPAN="2"> Please, enter the sequential numbers of group and subgroup as given
+in International Tables for Crystallography, Vol. A:</td></tr>
+<TR><TD>Enter supergroup number (G)
+        or <a href="/cgi-bin/cryst/programs/nph-table?from=chains&amp;look=super"> choose </a> it:</td>
+    <TD align=center> <INPUT TYPE=TEXT NAME="super" SIZE="3" MAXLENGTH=3></td></tr>
+<TR><TD>Enter subgroup number (H)
+        or <a href="/cgi-bin/cryst/programs/nph-table?from=chains&amp;look=sub"> choose </a> it:</td>
+    <TD align=center> <INPUT TYPE=TEXT NAME="sub" SIZE=3 MAXLENGTH=3></td></tr>
+<TR><TD>Enter the <a href="/cryst/help/index.html#index">index</a> [G:H] (optional):</TD>
+    <TD align=center> <INPUT TYPE=TEXT NAME="index" SIZE=3 MAXLENGTH=2></td></tr>
+</TABLE>
+<p><center>
+<INPUT TYPE=SUBMIT VALUE="Construct the graph">
+</center>
+</form>
+</td>
+</table>
+
+<center>
+[<a href="/">Bilbao Crystallographic Server Main Menu</a>] 
+<br>
+<br>
+<table bgcolor="#dddddd" width="100%">
+  <tr>
+    <td align="left">
+       <table>
+        <tr>
+         <td><small><a href="https://cryst.ehu.es">Bilbao Crystallographic Server</a><br>https://www.cryst.ehu.es</small></td>
+         <td>
+           <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+         </td>
+        </tr>
+       </table>
+    </td>
+    <td align="right" rowspan="2"> 
+      <small>
+        For comments, please mail to<br>
+        <a href="mailto:administrador.bcs@ehu.es">administrador.bcs@ehu.es</a>
+      </small>
+    </td>
+  </tr>
+</table>
+</center>
+
+
+</BODY>
+</HTML>

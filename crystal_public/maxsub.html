@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.1 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd"><html>
+<head>
+<script>
+(function() {
+    // Name of the cookie
+    function getCookie(name) {
+        let cookies = document.cookie.split("; ");
+        for (let i = 0; i < cookies.length; i++) {
+            let parts = cookies[i].split("=");
+            if (parts[0] === name) return parts[1];
+        }
+        return null;
+    }
+
+    function setCookie(name, value, hours) {
+        let expires = "";
+        if (hours) {
+            let date = new Date();
+            date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + value + expires + "; path=/";
+    }
+
+    // Check if cookie exists and is recent enough to renew
+    let cookieValue = getCookie("turnstile_passed");
+    if (cookieValue) {
+        let timestamp = parseInt(cookieValue);
+        let now = Math.floor(Date.now() / 1000);
+        
+        // If cookie is less than 50 minutes old, renew it
+        if (now - timestamp < 3000) { // 3000 seconds = 50 minutes
+            setCookie("turnstile_passed", now.toString(), 1);
+        }
+    } else {
+            // If no cookie, check if we should redirect
+            if (window.location.hostname == "158.227.21.46" || window.location.hostname == "cryst.ehu.es" || window.location.hostname == "cryst.ehu.eus") {
+                    let current = encodeURIComponent(window.location.pathname + window.location.search);
+                    window.location.href = "/cryst/turnstile_challenge.html?from=" + current;
+        }
+    }
+})();
+</script>
+<script>
+// Only add the analytics script if hostname matches
+if (window.location.hostname == "158.227.21.46" || window.location.hostname == "cryst.ehu.es" || window.location.hostname == "cryst.ehu.eus") {
+    var script = document.createElement('script');
+    script.src = "https://cryst.ehu.es/script.js";
+    script.defer = true;
+    script.setAttribute('data-website-id', '358acc47-0232-4ea4-92cc-1e2d35bb1e48');
+    document.head.appendChild(script);
+}
+</script>
+ <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1" >
+ <meta name="author" content="Bilbao Crystallographic Server" />
+ <meta name="description" content="For each one of the space group you can obtain the list with its maximal subgroups."/>
+ <meta name="keywords" content="maximal subgroups, space group"/> 
+  <title>Maximal Subgroups of Space Groups</title>
+  <link href="/html/css/bcs_index.css" rel="stylesheet" title="BCS Style" type="text/css">
+</head>
+
+<body>
+<table class="signature">
+  <tr>
+    <td>
+      <small>
+        <a class="blue" href="/">Bilbao Crystallographic Server</a>
+        <img src="/html/gif/a.gif" alt="arrow">
+        Maximal Subgroups of Space Groups 
+      </small>
+    </td>
+    <td>
+      <small><a class="blue" href="/cryst/help/maxsub.html">Help</a></small>
+    </td>
+  </tr>
+</table>
+<center><h2 class="blue">Maximal Subgroups of Space Groups</h2></center>
+<br>
+
+<table>
+  <tr valign="top">
+    <td class="grey" width="35%">
+      <table class="darkblue">
+        <tr>
+          <td>
+            <b>List with the maximal subgroups</b>
+          </td>
+        </tr>
+      </table>
+      <table>
+        <tr>
+          <td>
+  For each one of the space group you can obtain the list with its maximal
+  subgroups. This list contains the numbers and the symbols of these subgroups
+  as well as the corresponding index and the transformation matrix that relates 
+  the basis of the group with that of the subgroup.
+  <p>
+	<hr>
+	  <p><small>If you are using this program in the preparation of a paper, please cite it in the following form:</small></p>
+	  <center><small>
+	<a class="blue" href="http://www.oldenbourg-link.com/doi/abs/10.1524/zkri.2006.221.1.15">
+	Aroyo, <em>et. al. Zeitschrift fuer Kristallographie</em> (2006), <b>221</b>, 1, 15-27.</a></small>
+	</center><br/><small>
+	          If you are interested in other publications related to Bilbao Crystallographic Server, click <a class="blue" href="http://www.cryst.ehu.es/wiki/index.php/Articles">here</a> 
+	</small>
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td width="65%">
+      <form method="post" action="/cgi-bin/cryst/programs/nph-lxi" enctype="application/x-www-form-urlencoded">
+      <table class="grey">
+        <tr>
+          <td width="70%">Please, enter the sequential number of group as given 
+                   in <em>International Tables for Crystallography</em>, Vol. A
+          </td>
+          <td align="center">
+            <input type="submit" name="submit" value="choose it"> 
+            <input type="text" name="gnum" size="4" maxlength="3">
+          </td>
+        </tr>
+        <tr>
+          <td width="70%">Show WP Splittings?
+          </td>
+          <td width="30%" align="center">
+            <input name="showwp" type="checkbox" value="1">
+          </td>
+        </tr> 
+        <tr>
+          <td colspan="2">
+    <b>NOTE</b>: the program uses the 
+    <a class="blue" href="/cgi-bin/cryst/programs/nph-def-choice">default choice</a>
+    for the group setting.
+          </td>
+        </tr>
+      </table>
+      <br>
+      <center>
+      <input type="submit" name="submit" value="Show maximal subgroups">
+      </center>
+      </form>
+    </td>
+  </tr>
+</table>
+
+<center>[ <a class="blue" href="/">Bilbao Crystallographic Server Main Menu</a> ]</center>
+<br>
+
+<table class="signature">
+  <tr>
+    <td align="left">
+       <table>
+        <tr>
+         <td><small><a href="https://cryst.ehu.es">Bilbao Crystallographic Server</a><br>https://www.cryst.ehu.es</small></td>
+         <td>
+           <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+         </td>
+        </tr>
+       </table>
+    </td>
+    <td align="right" rowspan="2"> 
+      <small>
+        For comments, please mail to<br>
+        <a class="blue" href="mailto:administrador.bcs@ehu.es">administrador.bcs@ehu.es</a>
+      </small>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>    
+  

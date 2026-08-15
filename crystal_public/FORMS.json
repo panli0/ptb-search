@@ -1,0 +1,27 @@
+{
+  "maxsub.html": [
+    {
+      "action": "/cgi-bin/cryst/programs/nph-lxi",
+      "method": "post",
+      "inputs": [
+        "submit",
+        "gnum",
+        "showwp",
+        "submit"
+      ],
+      "snippet": "<form method=\"post\" action=\"/cgi-bin/cryst/programs/nph-lxi\" enctype=\"application/x-www-form-urlencoded\"> <table class=\"grey\"> <tr> <td width=\"70%\">Please, enter the sequential number of group as given in <em>International Tables for Crystallography</em>, Vol. A </td> <td align=\"center\"> <input type=\"submit\" name=\"submit\" value=\"choose it\"> <input type=\"text\" name=\"gnum\" size=\"4\" maxlength=\"3\"> </td> </tr> <tr> <td width=\"70%\">Show WP Splittings? </td> <td width=\"30%\" align=\"center\"> <input name=\"showwp\" type=\"checkbox\" value=\"1\"> </td> </tr> <tr> <td colspan=\"2\"> <b>NOTE</b>: the program uses the <a class=\"blue\" href=\"/cgi-bin/cryst/programs/nph-def-choice\">default choice</a> for the group setting. </td> </tr> </table> <br> <center> <input type=\"submit\" name=\"submit\" value=\"Show maximal subgroups\"> </center> </form>"
+    }
+  ],
+  "subgroupgraph.html": [
+    {
+      "action": "/cgi-bin/cryst/programs/nph-subggraph",
+      "method": "GET",
+      "inputs": [
+        "super",
+        "sub",
+        "index"
+      ],
+      "snippet": "<FORM METHOD=\"GET\" ACTION=\"/cgi-bin/cryst/programs/nph-subggraph\"> <TABLE border=\"5\" width=\"100%\"> <TR><TD COLSPAN=\"2\"> Please, enter the sequential numbers of group and subgroup as given in International Tables for Crystallography, Vol. A:</td></tr> <TR><TD>Enter supergroup number (G) or <a href=\"/cgi-bin/cryst/programs/nph-table?from=chains&amp;look=super\"> choose </a> it:</td> <TD align=center> <INPUT TYPE=TEXT NAME=\"super\" SIZE=\"3\" MAXLENGTH=3></td></tr> <TR><TD>Enter subgroup number (H) or <a href=\"/cgi-bin/cryst/programs/nph-table?from=chains&amp;look=sub\"> choose </a> it:</td> <TD align=center> <INPUT TYPE=TEXT NAME=\"sub\" SIZE=3 MAXLENGTH=3></td></tr> <TR><TD>Enter the <a href=\"/cryst/help/index.html#index\">index</a> [G:H] (optional):</TD> <TD align=center> <INPUT TYPE=TEXT NAME=\"index\" SIZE=3 MAXLENGTH=2></td></tr> </TABLE> <p><center> <INPUT TYPE=SUBMIT VALUE=\"Construct the graph\"> </center> </form>"
+    }
+  ]
+}
