@@ -1,0 +1,37 @@
+{
+  "annotation_rows": 142056,
+  "headers": [
+    "!gaf-version: 2.2",
+    "!generated-by: UniProt",
+    "!date-generated: 2026-08-04 15:09",
+    "!go-version: http://purl.obolibrary.org/obo/go/releases/2026-08-02/extensions/go-plus.ofn"
+  ],
+  "is_a_edges": 57456,
+  "relation_counts": {
+    "NOT|enables": 20,
+    "NOT|involved_in": 9,
+    "NOT|part_of": 2,
+    "acts_upstream_of": 1,
+    "acts_upstream_of_or_within": 451,
+    "acts_upstream_of_or_within_negative_effect": 1,
+    "acts_upstream_of_or_within_positive_effect": 7,
+    "colocalizes_with": 8,
+    "contributes_to": 1123,
+    "enables": 52361,
+    "involved_in": 41655,
+    "is_active_in": 7512,
+    "located_in": 28910,
+    "part_of": 9996
+  },
+  "rows_with_extension": 8428,
+  "strict_NOT_by_aspect": {
+    "F": 20,
+    "P": 9
+  },
+  "strict_positive_by_aspect": {
+    "C": 28832,
+    "F": 46192,
+    "P": 39760
+  },
+  "terms": 48340
+}

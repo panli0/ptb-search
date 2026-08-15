@@ -1,0 +1,2 @@
+b08d45b268b8c24ccb2513dbbbc7d4df9f6521c099b413f79eb31e06e0fa3bcc  go_public/out/go-basic.obo
+bea6d4453bb47db293d9103b73866801fe8e341975e5f8b5f3ca42053098d089  go_public/out/YEAST-mod.gaf.gz
