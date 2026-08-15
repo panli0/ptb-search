@@ -1,0 +1,65 @@
+name: go-public-data
+on:
+  push:
+    branches: [dart-public-data-run]
+    paths: [RUN_GO_PUBLIC]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dart-public-data-run
+      - name: Fetch current official GO + yeast GAF
+        run: |
+          set -euxo pipefail
+          rm -rf go_public/out
+          mkdir -p go_public/out
+          curl -L --fail --retry 3 https://current.geneontology.org/ontology/go-basic.obo -o go_public/out/go-basic.obo
+          curl -L --fail --retry 3 https://current.geneontology.org/annotations/gaf/YEAST-mod.gaf.gz -o go_public/out/YEAST-mod.gaf.gz
+          sha256sum go_public/out/go-basic.obo go_public/out/YEAST-mod.gaf.gz > go_public/out/SHA256SUMS.txt
+          python - <<'PY'
+          import gzip,json
+          from collections import Counter
+          from pathlib import Path
+          obo=Path('go_public/out/go-basic.obo').read_text(errors='replace')
+          terms=obo.count('\n[Term]\n'); isa=sum(line.startswith('is_a: GO:') for line in obo.splitlines())
+          rel=Counter(); strict_pos=Counter(); strict_neg=Counter(); total=0; ext=0; headers=[]
+          default={'F':'enables','P':'involved_in','C':'located_in'}
+          with gzip.open('go_public/out/YEAST-mod.gaf.gz','rt',errors='replace') as f:
+              for line in f:
+                  if line.startswith('!'):
+                      if any(k in line.lower() for k in ('gaf-version','date-generated','go-version','generated-by')): headers.append(line.rstrip())
+                      continue
+                  if not line.strip(): continue
+                  c=line.rstrip('\n').split('\t'); total+=1
+                  if len(c)<17: continue
+                  relation=c[3]; aspect=c[8]; rel[relation]+=1
+                  if c[15]: ext+=1; continue
+                  want=default.get(aspect)
+                  if relation==want: strict_pos[aspect]+=1
+                  if relation==f'NOT|{want}': strict_neg[aspect]+=1
+          d={'terms':terms,'is_a_edges':isa,'annotation_rows':total,'rows_with_extension':ext,
+             'strict_positive_by_aspect':dict(strict_pos),'strict_NOT_by_aspect':dict(strict_neg),
+             'relation_counts':dict(rel),'headers':headers}
+          Path('go_public/out/SUMMARY.json').write_text(json.dumps(d,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(d,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: official-go-yeast-current
+          path: go_public/out/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Commit summary only
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          cp go_public/out/SUMMARY.json go_public/SUMMARY.json
+          cp go_public/out/SHA256SUMS.txt go_public/SHA256SUMS.txt
+          git add go_public/SUMMARY.json go_public/SHA256SUMS.txt
+          git commit -m 'Record current official GO yeast source summary' || true
+          git push origin HEAD:dart-public-data-run
