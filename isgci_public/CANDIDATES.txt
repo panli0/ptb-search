@@ -1,2 +1,0 @@
-isgci_public/unpacked/isgci.dtd
-isgci_public/unpacked/isgci_sage.xml

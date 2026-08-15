@@ -1,0 +1,7 @@
+14:<!ELEMENT GraphClasses (GraphClass*)>
+22:<!ELEMENT GraphClass (name?,(graphclass*|smallgraph*),hereditary?,speed?,self-complementary?,clique-fixed?,(ref|note)*,(problem|algo|parameter|bounded)*)>
+23:<!ATTLIST GraphClass id CDATA #REQUIRED 
+187:<!ELEMENT incl (ref*)>
+188:<!ATTLIST incl super CDATA #REQUIRED sub CDATA #REQUIRED
+235:<!ELEMENT graphclass (#PCDATA)>
+239:<!ELEMENT smallgraph (#PCDATA)>

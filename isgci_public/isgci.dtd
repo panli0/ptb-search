@@ -1,0 +1,279 @@
+<!-- $Header: /home/ux/CVSROOT/teo/data/isgci.dtd,v 1.37 2013/09/12 14:31:13 ux Exp $ -->
+
+<!ELEMENT ISGCI (stats?, Problem*, Parameters, ParamRelations, GraphClasses, Inclusions)>
+<!ATTLIST stats date CDATA #REQUIRED
+   nodes CDATA #REQUIRED
+   edges CDATA #REQUIRED
+   params CDATA #IMPLIED
+   paramedges CDATA #IMPLIED>
+<!ELEMENT stats EMPTY>
+
+<!-- ******************************************************************
+  - Graph classes
+ -->
+<!ELEMENT GraphClasses (GraphClass*)>
+<!-- In masterdata.xml only algo should be used. -->
+<!-- Defines a graphclass. name is derived automatically. A definition can be
+  - given in a note name="definition". Related stuff can be given in a note
+  - name="see-also", a single conjecture in "conjecture" and a single open
+  - problem in "open-problem". Do not use problem in masterdata.xml.
+ -->
+<!-- Replaced ID to CDATA after id two lines down. -->
+<!ELEMENT GraphClass (name?,(graphclass*|smallgraph*),hereditary?,speed?,self-complementary?,clique-fixed?,(ref|note)*,(problem|algo|parameter|bounded)*)>
+<!ATTLIST GraphClass id CDATA #REQUIRED 
+    type (base|intersect|union|forbidden|induced-hereditary|connected-hereditary|isometric-hereditary|complement|probe|clique) #REQUIRED
+    dir (directed) #IMPLIED>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT hereditary EMPTY>
+<!ATTLIST hereditary type (induced-hereditary|connected-hereditary|isometric-hereditary) #REQUIRED>
+<!ELEMENT self-complementary EMPTY>
+<!ELEMENT clique-fixed EMPTY>
+
+<!-- ******************************************************************
+  - Speed
+  -->
+<!-- Gives the speed of a graphclass. DO NOT USE this in masterdata.xml.
+  - The applet will only ever see this as an empty element.
+ -->
+<!ELEMENT speed (speedproof*)>
+<!ATTLIST speed speed (Constant|Polynomial|Exponential|Factorial|Superfactorial-Little-O|Superfactorial-Theta|Open|Unknown) #REQUIRED>
+
+<!-- Gives details of a speed proof.
+  - Generate.java sees this but the applet doesn't.
+  - DO NOT USE graphclass in masterdata.xml.  It gives the class this
+  - algorithm is defined on and is set automatically.
+ -->
+<!ELEMENT speedproof (graphclass?, (ref|note)*)>
+<!ATTLIST speedproof speed (Constant|Polynomial|Exponential|Factorial|Superfactorial-Little-O|Superfactorial-Theta|Open|Unknown) #REQUIRED
+   bound (lower|upper) #IMPLIED>
+
+<!-- ******************************************************************
+  - Graph parameters
+ -->
+<!ELEMENT Parameters (Parameter*)>
+<!-- Defines a graph-parameter. A definition can be given in a note
+  - name="definition". Related stuff can be given in a note name="see-also",
+  - a single conjecture in "conjecture" and a single open problem in
+  - "open-problem". Do not use par_problem in masterdata.xml.
+  - decomp gives a complexity of a decomposition problem for this parameter
+  - which holds for all graphclasses on which the parameter is bounded. If this
+  - attribute isn't given, it will be assumed to be Linear, if not there must
+  - be a problem "NAME decomposition" (where NAME is the name of the parameter)
+  - to define algorithms for this problem on special graphclasses.
+ -->
+<!ELEMENT Parameter ((ref|note)*, (parproblem|paralgo)*)>
+<!ATTLIST Parameter
+    name CDATA #REQUIRED
+    id CDATA #REQUIRED
+    parcomplement CDATA #IMPLIED
+    dir (directed|undirected) #IMPLIED
+    decomp (Linear|Lin|Polynomial|P|Unknown) "Linear">
+    
+<!-- Gives the boundedness of a parameter. DO NOT USE this in masterdata.xml.
+  - The applet will only ever see this as an empty element. (This Tag works
+  - like the Tag "problem".)
+ -->
+<!ELEMENT parameter (bounded*)>
+<!ATTLIST parameter name CDATA #REQUIRED
+   boundedness (Bounded|Bound|Unbounded|Unbound|Open|Unknown) #REQUIRED>
+   
+<!-- Gives details on an boundedness proof. name is the name of the parameter
+  - it proofs boundedness for.
+  - Generate.java sees this but the applet doesn't.
+  - DO NOT USE graphclass in masterdata.xml.  It gives the class this
+  - proof is defined on and is set automatically. (This Tag works like the Tag
+  - "algo".)
+ -->
+<!ELEMENT bounded (graphclass?,(ref|note)*)>
+<!ATTLIST bounded name CDATA #REQUIRED
+   boundedness (Bounded|Bound|Unbounded|Unbound|Open|Unknown) #REQUIRED>
+
+<!-- Defines Relations between parameters. x and y are parameters. For
+  - demonstration purposes, only. All relations can occur vice-versa.
+  -
+  - Currently supported:
+  -  - x >= y,
+  -  - x not >= y
+  -  - x > y (x strictly bounds y; shortcut for: x >= y and y not <= x)
+  -  - x = y (x equivalent y; shortcut for: x >= y and y >= x)
+  -  - open (relation between x and y is open)
+  -  - unknown (relation between x and y is unknown)
+  -
+  - The type of the given relation should be placed in the rel-Attribute
+  - through one of the symbols above.
+  - param1 = x, param2 = y -->
+
+<!ELEMENT ParamRelations (parrelation*)>
+<!ELEMENT parrelation ((ref|note)*)>
+<!ATTLIST parrelation
+   param1 CDATA #REQUIRED
+   rel CDATA #REQUIRED
+   param2 CDATA #REQUIRED
+   confidence (unpublished) #IMPLIED
+   functiontype (logarithmic|linear|polynomial|exponential|any) #IMPLIED>
+
+
+<!-- *******************************************************************
+  - Problems and algorithms
+ -->
+<!-- Defines a problem. parent is a problem that implies solvability of this
+  - one. It must have been defined before. complement is a problem that is
+  - polytime equivalent to this one, but on the complement graph.
+  - note contains the definition of the problem.
+  - If dir is not given, the problem is assumed to be applicable to both
+  - directed and undirected graphs.
+ -->
+<!ELEMENT Problem (from*,sparse?,forparams?,note?)>
+<!ATTLIST Problem name CDATA #REQUIRED
+   complement CDATA #IMPLIED
+   dir (directed|undirected) #IMPLIED>
+
+<!-- A sparse problem only has data for a few classes. It has no own webpage,
+  - is only listed for a class when there is data and cannot be used for
+  - colouring.
+  -->
+<!ELEMENT sparse EMPTY>
+
+<!-- If this Tag is given, the Problem is applicable to graph parameters. -->
+<!ELEMENT forparams EMPTY>
+
+<!-- Gives a problem from which solvability of this one follows. Either in the
+  -  same timebound (Lin) or in P.
+ -->
+<!ELEMENT from EMPTY>
+<!ATTLIST from
+   name CDATA #REQUIRED
+   complexity (Lin|Linear|P|Polynomial) "Linear">
+
+<!-- Gives the complexity of a problem. DO NOT USE this in masterdata.xml.
+  - The applet will only ever see this as an empty element.
+ -->
+<!ELEMENT problem (algo*)>
+<!ATTLIST problem name CDATA #REQUIRED
+   complexity (Linear|Lin|Polynomial|P|GI-complete|GIC|NP-complete|NPC|NP-hard|NPh|coNP-complete|coNPC|Open|Unknown) #REQUIRED>
+<!-- Gives details on an algorithm. name is the name of the problem it solves.
+  - Generate.java sees this but the applet doesn't.
+  - DO NOT USE graphclass in masterdata.xml.  It gives the class this
+  - algorithm is defined on and is set automatically.
+ -->
+<!ELEMENT algo (graphclass?,(ref|note)*)>
+<!ATTLIST algo name CDATA #REQUIRED
+   complexity (Linear|Lin|Polynomial|P|GI-complete|GIC|NP-complete|NPC|NP-hard|NPh|coNP-complete|coNPC|Open|Unknown) #REQUIRED
+   bounds CDATA #IMPLIED>
+
+<!-- Gives the complexity of a problem on a parameter. DO NOT USE this in
+  - masterdata.xml. The applet will only ever see this as an empty element.
+ -->
+<!ELEMENT parproblem (paralgo*)>
+<!ATTLIST parproblem name CDATA #REQUIRED
+   complexity CDATA #REQUIRED>
+
+<!-- Gives details on an algorithm on a parameter. name is the name of the
+  - problem it solves.
+  - Generate.java sees this but the applet doesn't.
+  - DO NOT USE parameter in masterdata.xml.  It gives the class this
+  - algorithm is defined on and is set automatically.
+ -->
+<!ELEMENT paralgo (graphparameter?,(ref|note)*)>
+<!ATTLIST paralgo name CDATA #REQUIRED
+   complexity (FPT-Lin|FPT-Linear|FPT|XP|Wh|W-hard|paraNPC|paraNP-complete|paraNPh|paraNP-hard|Open|Unknown) #REQUIRED
+   bounds CDATA #IMPLIED>
+
+<!-- *******************************************************************
+  - Defining inclusions
+  - The value of the proper attribute doesn't matter; only its presence counts.
+ -->
+<!ELEMENT Inclusions ((incl|equ|disjoint|incmp|open)*)>
+<!ELEMENT incl (ref*)>
+<!ATTLIST incl super CDATA #REQUIRED sub CDATA #REQUIRED
+   proper CDATA #IMPLIED
+   confidence (unpublished) #IMPLIED>
+<!ELEMENT equ (ref*)>
+<!ATTLIST equ gc1 CDATA #REQUIRED gc2 CDATA #REQUIRED
+   confidence (unpublished) #IMPLIED>
+<!ELEMENT disjoint (ref*)>
+<!ATTLIST disjoint gc1 CDATA #REQUIRED gc2 CDATA #REQUIRED
+   confidence (unpublished) #IMPLIED>
+<!ELEMENT incmp (ref*)>
+<!ATTLIST incmp gc1 CDATA #REQUIRED gc2 CDATA #REQUIRED
+   confidence (unpublished) #IMPLIED>
+<!ELEMENT open (ref*)>
+<!ATTLIST open gc1 CDATA #REQUIRED gc2 CDATA #REQUIRED
+   confidence (unpublished) #IMPLIED>
+
+<!-- *******************************************************************
+  - A note may contain arbitrary data, provided it's  well-formed. This is
+  - useful for entering pre-formatted  html. See also the graphclass and
+  - smallgraph elements. note ELEMENTS CANNOT BE NESTED! Do not use CDATA
+  - for escaping. For GraphClass/note name="definition" signals that this note
+  - contains the definition of the graphclass.
+ -->
+<!ELEMENT note ANY>
+<!ATTLIST note name CDATA #IMPLIED>
+
+<!-- *******************************************************************
+  - Defining references
+ -->
+<!ELEMENT REFS (Ref*)>
+<!ELEMENT Ref (bib|note)>
+<!ATTLIST Ref id ID #REQUIRED>
+<!-- Literature reference -->
+<!ELEMENT bib (authors,title,rest?,doi?,link?,note*)>
+<!ELEMENT authors (#PCDATA)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT rest (#PCDATA)>
+<!ELEMENT doi (#PCDATA)>
+
+<!-- *******************************************************************
+  - Refering to stuff
+ -->
+
+<!-- A reference CDATA or one of def,trivial,forbidden,complement,
+  - hereditary, basederived -->
+<!ELEMENT ref (#PCDATA)>
+<!-- A graphclass CDATA -->
+<!ELEMENT graphclass (#PCDATA)>
+<!-- A graphparameter CDATA -->
+<!ELEMENT graphparameter (#PCDATA)>
+<!-- Name of a small graph -->
+<!ELEMENT smallgraph (#PCDATA)>
+
+<!-- *******************************************************************
+  - Zentralblatt number, Rutcor Research Report
+  - zm: Zmath-ID found automatically
+  - zm_prob: ZMath-ID found automatically, program is not sure it's correct
+  - zm_user: ZMath-ID provided by the user
+  - zm_ignore: Entry to be ignored when searching Zentralblatt
+  - rrr: Rutcor link
+ -->
+<!ELEMENT link EMPTY>
+<!ATTLIST link
+	zm CDATA #IMPLIED
+	zm_prob CDATA #IMPLIED
+	zm_user CDATA #IMPLIED
+	zm_ignore (yes|no) "no"
+	rrr CDATA #IMPLIED
+>
+
+<!-- *******************************************************************
+  - html codes to prevent the parser from spitting out uninteresting errors.
+ -->
+<!ELEMENT ul ANY>
+<!ELEMENT li ANY>
+<!ELEMENT i ANY>
+<!ELEMENT sub ANY>
+<!ELEMENT sup ANY>
+<!ELEMENT br EMPTY>
+<!ELEMENT img ANY>
+<!ATTLIST img src CDATA #IMPLIED>
+<!ELEMENT table ANY>
+<!ELEMENT tr ANY>
+<!ELEMENT td ANY>
+<!ATTLIST td valign CDATA #IMPLIED>
+<!ELEMENT p ANY>
+<!ELEMENT a ANY>
+<!ATTLIST a href CDATA #IMPLIED>
+<!ELEMENT span ANY>
+<!ATTLIST span style CDATA #IMPLIED>
+
+<!-- EOF -->
