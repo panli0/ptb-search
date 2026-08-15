@@ -1,0 +1,50 @@
+name: isgci-quick-stats
+on:
+  push:
+    branches: [dart-public-data-run]
+    paths: [RUN_ISGCI_STATS]
+permissions:
+  contents: write
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dart-public-data-run
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          curl -L --fail https://www.graphclasses.org/data.zip -o /tmp/data.zip
+          rm -rf /tmp/isgci && mkdir /tmp/isgci && unzip -q /tmp/data.zip -d /tmp/isgci
+          python - <<'PY'
+          import collections,json,xml.etree.ElementTree as ET,networkx as nx
+          small={}
+          for line in open('/tmp/isgci/smallgraphs.txt'):
+              if not line.strip(): continue
+              n,c=line.rstrip('\n').split('\t',1)
+              small.setdefault(n,c)
+          root=ET.parse('/tmp/isgci/isgci_sage.xml').getroot()
+          forbidden=[]
+          for e in root.iter():
+              if e.tag.split('}')[-1]=='GraphClass' and e.attrib.get('type')=='forbidden':
+                  ss=[c.text.strip() for c in e if c.tag.split('}')[-1]=='smallgraph' and c.text]
+                  if ss: forbidden.append((e.attrib['id'],ss))
+          exact=[(i,s) for i,s in forbidden if all(x in small for x in s)]
+          pats=sorted({x for _,s in exact for x in s})
+          sizes=[]
+          for p in pats:
+              g=nx.from_graph6_bytes(small[p].encode()); sizes.append(g.number_of_nodes())
+          obj_sizes=[]
+          for n,c in small.items(): obj_sizes.append(nx.from_graph6_bytes(c.encode()).number_of_nodes())
+          d={'smallgraphs':len(small),'forbidden_with_patterns':len(forbidden),'exact_forbidden_classes':len(exact),'distinct_patterns':len(pats),'pattern_size_hist':dict(collections.Counter(sizes)),'object_size_hist':dict(collections.Counter(obj_sizes)),'max_pattern_vertices':max(sizes) if sizes else 0,'max_object_vertices':max(obj_sizes) if obj_sizes else 0,'forbidden_list_len_hist':dict(collections.Counter(len(s) for _,s in exact))}
+          open('isgci_public/QUICK_STATS.json','w').write(json.dumps(d,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(d,indent=2,sort_keys=True))
+          PY
+      - run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add isgci_public/QUICK_STATS.json
+          git commit -m 'Add ISGCI forbidden definition stats' || true
+          git push origin HEAD:dart-public-data-run
