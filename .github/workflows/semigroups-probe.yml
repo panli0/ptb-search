@@ -1,0 +1,51 @@
+name: semigroups-probe
+on:
+  push:
+    branches: [dart-public-data-run]
+    paths: [RUN_SEMIGROUPS_PROBE]
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dart-public-data-run
+      - name: Inspect distro packages
+        run: |
+          sudo apt-get update -qq
+          apt-cache policy gap gap-semigroups gap-smallsemi | tee /tmp/policy.txt || true
+          apt-cache search '^gap-.*semi' | tee /tmp/search.txt || true
+      - name: Checkout official Semigroups source
+        uses: actions/checkout@v4
+        with:
+          repository: semigroups/Semigroups
+          ref: v5.6.3
+          path: _upstream/Semigroups
+      - name: Checkout official Smallsemi source
+        uses: actions/checkout@v4
+        with:
+          repository: gap-packages/smallsemi
+          ref: v0.7.2
+          path: _upstream/smallsemi
+      - name: Extract source logic stats
+        run: |
+          set -euxo pipefail
+          rm -rf semigroup_public && mkdir semigroup_public
+          cp /tmp/policy.txt semigroup_public/APT_POLICY.txt
+          cp /tmp/search.txt semigroup_public/APT_SEARCH.txt
+          git -C _upstream/Semigroups rev-parse HEAD > semigroup_public/SEMIGROUPS_COMMIT.txt
+          git -C _upstream/smallsemi rev-parse HEAD > semigroup_public/SMALLSEMI_COMMIT.txt
+          grep -Rho 'InstallTrueMethod[[:space:]]*(' _upstream/Semigroups/gap _upstream/Semigroups/init.g _upstream/Semigroups/read.g 2>/dev/null | wc -l > semigroup_public/TRUE_METHOD_COUNT.txt || true
+          grep -RIn 'InstallTrueMethod' _upstream/Semigroups/gap 2>/dev/null | head -200 > semigroup_public/TRUE_METHOD_SAMPLES.txt || true
+          cat semigroup_public/APT_POLICY.txt
+          cat semigroup_public/TRUE_METHOD_COUNT.txt
+          head -80 semigroup_public/TRUE_METHOD_SAMPLES.txt
+      - name: Commit probe
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+panli0@users.noreply.github.com
+          git add semigroup_public
+          git commit -m 'Probe official Semigroups and Smallsemi versions' || true
+          git push origin HEAD:dart-public-data-run
