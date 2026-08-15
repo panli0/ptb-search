@@ -1,0 +1,43 @@
+name: crystal-bcs-probe
+on:
+  push:
+    branches: [dart-public-data-run]
+    paths: [RUN_CRYSTAL_BCS]
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dart-public-data-run
+      - name: Probe official Bilbao forms
+        run: |
+          set -euxo pipefail
+          rm -rf crystal_public && mkdir crystal_public
+          curl -L --fail --retry 3 https://www.cryst.ehu.es/cryst/maxsub.html -o crystal_public/maxsub.html
+          curl -L --fail --retry 3 https://www.cryst.ehu.es/cryst/subgroupgraph.html -o crystal_public/subgroupgraph.html
+          python - <<'PY'
+          from pathlib import Path
+          import re,json
+          out={}
+          for f in ['maxsub.html','subgroupgraph.html']:
+              s=Path('crystal_public/'+f).read_text(errors='replace')
+              forms=re.findall(r'<form\b.*?</form>',s,flags=re.I|re.S)
+              out[f]=[]
+              for form in forms:
+                  action=re.search(r'action\s*=\s*[\"\']?([^\"\' >]+)',form,re.I)
+                  method=re.search(r'method\s*=\s*[\"\']?([^\"\' >]+)',form,re.I)
+                  inputs=re.findall(r'<(?:input|select)\b[^>]*\bname\s*=\s*[\"\']?([^\"\' >]+)',form,re.I)
+                  out[f].append({'action':action.group(1) if action else None,'method':method.group(1) if method else None,'inputs':inputs,'snippet':re.sub(r'\s+',' ',form)[:3000]})
+          Path('crystal_public/FORMS.json').write_text(json.dumps(out,indent=2)+'\n')
+          print(json.dumps(out,indent=2))
+          PY
+      - name: Commit probe
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add crystal_public
+          git commit -m 'Probe official Bilbao subgroup form endpoints' || true
+          git push origin HEAD:dart-public-data-run
