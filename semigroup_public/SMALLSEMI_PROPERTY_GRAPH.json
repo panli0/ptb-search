@@ -1,0 +1,368 @@
+{
+  "gap_commit": "c4a5b7be6fa44a451d13de6c884e1e9e0d8ac858",
+  "semigroups_commit": "fcbaac308db014869aef673ce857c4ad5119d7cc",
+  "smallsemi_evaluable_whitelist_count": 35,
+  "node_count": 18,
+  "edge_count": 23,
+  "nodes": [
+    "IsBand",
+    "IsCliffordSemigroup",
+    "IsCommutative",
+    "IsCommutativeSemigroup",
+    "IsCompletelyRegularSemigroup",
+    "IsCompletelySimpleSemigroup",
+    "IsGroupAsSemigroup",
+    "IsIdempotentGenerated",
+    "IsInverseSemigroup",
+    "IsNilpotentSemigroup",
+    "IsOrthodoxSemigroup",
+    "IsRectangularBand",
+    "IsRegularSemigroup",
+    "IsSemiband",
+    "IsSemilattice",
+    "IsSimpleSemigroup",
+    "IsTrivial",
+    "IsZeroSemigroup"
+  ],
+  "edges": [
+    {
+      "source": "IsBand",
+      "target": "IsIdempotentGenerated",
+      "proofs": [
+        {
+          "source": "IsBand",
+          "target": "IsIdempotentGenerated",
+          "file": "lib/semigrp.gd",
+          "line": 770,
+          "call": "InstallTrueMethod(IsIdempotentGenerated, IsBand and IsSemigroup)",
+          "source_repo": "gap"
+        }
+      ]
+    },
+    {
+      "source": "IsBand",
+      "target": "IsRegularSemigroup",
+      "proofs": [
+        {
+          "source": "IsBand",
+          "target": "IsRegularSemigroup",
+          "file": "gap/attributes/properties.gd",
+          "line": 81,
+          "call": "InstallTrueMethod(IsRegularSemigroup, IsBand)",
+          "source_repo": "semigroups"
+        }
+      ]
+    },
+    {
+      "source": "IsCliffordSemigroup",
+      "target": "IsCompletelyRegularSemigroup",
+      "proofs": [
+        {
+          "source": "IsCliffordSemigroup",
+          "target": "IsCompletelyRegularSemigroup",
+          "file": "lib/semigrp.gd",
+          "line": 767,
+          "call": "InstallTrueMethod(IsCompletelyRegularSemigroup, IsCliffordSemigroup)",
+          "source_repo": "gap"
+        }
+      ]
+    },
+    {
+      "source": "IsCliffordSemigroup",
+      "target": "IsInverseSemigroup",
+      "proofs": [
+        {
+          "source": "IsCliffordSemigroup",
+          "target": "IsInverseSemigroup",
+          "file": "lib/semigrp.gd",
+          "line": 772,
+          "call": "InstallTrueMethod(IsInverseSemigroup, IsCliffordSemigroup)",
+          "source_repo": "gap"
+        }
+      ]
+    },
+    {
+      "source": "IsCommutative",
+      "target": "IsCommutativeSemigroup",
+      "proofs": [
+        {
+          "source": "IsCommutative",
+          "target": "IsCommutativeSemigroup",
+          "file": "gap/attributes/properties.gd",
+          "line": 96,
+          "call": "InstallTrueMethod(IsCommutativeSemigroup, IsCommutative and IsSemigroup)",
+          "source_repo": "semigroups"
+        }
+      ]
+    },
+    {
+      "source": "IsCommutativeSemigroup",
+      "target": "IsCommutative",
+      "proofs": [
+        {
+          "source": "IsCommutativeSemigroup",
+          "target": "IsCommutative",
+          "file": "gap/attributes/properties.gd",
+          "line": 97,
+          "call": "InstallTrueMethod(IsCommutative, IsCommutativeSemigroup)",
+          "source_repo": "semigroups"
+        }
+      ]
+    },
+    {
+      "source": "IsGroupAsSemigroup",
+      "target": "IsInverseSemigroup",
+      "proofs": [
+        {
+          "source": "IsGroupAsSemigroup",
+          "target": "IsInverseSemigroup",
+          "file": "lib/semigrp.gd",
+          "line": 773,
+          "call": "InstallTrueMethod(IsInverseSemigroup, IsGroupAsSemigroup)",
+          "source_repo": "gap"
+        }
+      ]
+    },
+    {
+      "source": "IsGroupAsSemigroup",
+      "target": "IsSimpleSemigroup",
+      "proofs": [
+        {
+          "source": "IsGroupAsSemigroup",
+          "target": "IsSimpleSemigroup",
+          "file": "lib/semigrp.gd",
+          "line": 781,
+          "call": "InstallTrueMethod(IsSimpleSemigroup, IsGroupAsSemigroup)",
+          "source_repo": "gap"
+        }
+      ]
+    },
+    {
+      "source": "IsIdempotentGenerated",
+      "target": "IsSemiband",
+      "proofs": [
+        {
+          "source": "IsIdempotentGenerated",
+          "target": "IsSemiband",
+          "file": "lib/semigrp.gd",
+          "line": 779,
+          "call": "InstallTrueMethod(IsSemiband, IsIdempotentGenerated and IsSemigroup)",
+          "source_repo": "gap"
+        }
+      ]
+    },
+    {
+      "source": "IsInverseSemigroup",
+      "target": "IsOrthodoxSemigroup",
+      "proofs": [
+        {
+          "source": "IsInverseSemigroup",
+          "target": "IsOrthodoxSemigroup",
+          "file": "lib/semigrp.gd",
+          "line": 777,
+          "call": "InstallTrueMethod(IsOrthodoxSemigroup, IsInverseSemigroup)",
+          "source_repo": "gap"
+        }
+      ]
+    },
+    {
+      "source": "IsInverseSemigroup",
+      "target": "IsRegularSemigroup",
+      "proofs": [
+        {
+          "source": "IsInverseSemigroup",
+          "target": "IsRegularSemigroup",
+          "file": "lib/semigrp.gd",
+          "line": 775,
+          "call": "InstallTrueMethod(IsRegularSemigroup, IsInverseSemigroup)",
+          "source_repo": "gap"
+        },
+        {
+          "source": "IsInverseSemigroup",
+          "target": "IsRegularSemigroup",
+          "file": "lib/semigrp.gi",
+          "line": 307,
+          "call": "InstallTrueMethod(IsRegularSemigroup, IsInverseSemigroup)",
+          "source_repo": "gap"
+        }
+      ]
+    },
+    {
+      "source": "IsRectangularBand",
+      "target": "IsBand",
+      "proofs": [
+        {
+          "source": "IsRectangularBand",
+          "target": "IsBand",
+          "file": "gap/attributes/properties.gd",
+          "line": 100,
+          "call": "InstallTrueMethod(IsBand, IsRectangularBand)",
+          "source_repo": "semigroups"
+        }
+      ]
+    },
+    {
+      "source": "IsSemilattice",
+      "target": "IsBand",
+      "proofs": [
+        {
+          "source": "IsSemilattice",
+          "target": "IsBand",
+          "file": "lib/semigrp.gd",
+          "line": 764,
+          "call": "InstallTrueMethod(IsBand, IsSemilattice and IsSemigroup)",
+          "source_repo": "gap"
+        }
+      ]
+    },
+    {
+      "source": "IsSemilattice",
+      "target": "IsCliffordSemigroup",
+      "proofs": [
+        {
+          "source": "IsSemilattice",
+          "target": "IsCliffordSemigroup",
+          "file": "lib/semigrp.gd",
+          "line": 766,
+          "call": "InstallTrueMethod(IsCliffordSemigroup, IsSemilattice and IsSemigroup)",
+          "source_repo": "gap"
+        }
+      ]
+    },
+    {
+      "source": "IsSemilattice",
+      "target": "IsInverseSemigroup",
+      "proofs": [
+        {
+          "source": "IsSemilattice",
+          "target": "IsInverseSemigroup",
+          "file": "lib/semigrp.gd",
+          "line": 771,
+          "call": "InstallTrueMethod(IsInverseSemigroup, IsSemilattice and IsSemigroup)",
+          "source_repo": "gap"
+        }
+      ]
+    },
+    {
+      "source": "IsSimpleSemigroup",
+      "target": "IsCompletelyRegularSemigroup",
+      "proofs": [
+        {
+          "source": "IsSimpleSemigroup",
+          "target": "IsCompletelyRegularSemigroup",
+          "file": "lib/semigrp.gd",
+          "line": 768,
+          "call": "InstallTrueMethod(IsCompletelyRegularSemigroup, IsSimpleSemigroup)",
+          "source_repo": "gap"
+        }
+      ]
+    },
+    {
+      "source": "IsSimpleSemigroup",
+      "target": "IsCompletelySimpleSemigroup",
+      "proofs": [
+        {
+          "source": "IsSimpleSemigroup",
+          "target": "IsCompletelySimpleSemigroup",
+          "file": "lib/semigrp.gd",
+          "line": 769,
+          "call": "InstallTrueMethod(IsCompletelySimpleSemigroup, IsSimpleSemigroup and IsFinite)",
+          "source_repo": "gap"
+        },
+        {
+          "source": "IsSimpleSemigroup",
+          "target": "IsCompletelySimpleSemigroup",
+          "file": "gap/attributes/properties.gd",
+          "line": 101,
+          "call": "InstallTrueMethod(IsCompletelySimpleSemigroup, IsSimpleSemigroup and IsFinite)",
+          "source_repo": "semigroups"
+        }
+      ]
+    },
+    {
+      "source": "IsSimpleSemigroup",
+      "target": "IsRegularSemigroup",
+      "proofs": [
+        {
+          "source": "IsSimpleSemigroup",
+          "target": "IsRegularSemigroup",
+          "file": "lib/semigrp.gd",
+          "line": 776,
+          "call": "InstallTrueMethod(IsRegularSemigroup, IsSimpleSemigroup)",
+          "source_repo": "gap"
+        }
+      ]
+    },
+    {
+      "source": "IsTrivial",
+      "target": "IsNilpotentSemigroup",
+      "proofs": [
+        {
+          "source": "IsTrivial",
+          "target": "IsNilpotentSemigroup",
+          "file": "gap/attributes/properties.gd",
+          "line": 76,
+          "call": "InstallTrueMethod(IsNilpotentSemigroup, IsSemigroup and IsTrivial)",
+          "source_repo": "semigroups"
+        }
+      ]
+    },
+    {
+      "source": "IsTrivial",
+      "target": "IsSimpleSemigroup",
+      "proofs": [
+        {
+          "source": "IsTrivial",
+          "target": "IsSimpleSemigroup",
+          "file": "lib/semigrp.gi",
+          "line": 683,
+          "call": "InstallTrueMethod( IsSimpleSemigroup, IsSemigroup and IsTrivial )",
+          "source_repo": "gap"
+        }
+      ]
+    },
+    {
+      "source": "IsTrivial",
+      "target": "IsZeroSemigroup",
+      "proofs": [
+        {
+          "source": "IsTrivial",
+          "target": "IsZeroSemigroup",
+          "file": "gap/attributes/properties.gd",
+          "line": 74,
+          "call": "InstallTrueMethod(IsZeroSemigroup, IsSemigroup and IsTrivial)",
+          "source_repo": "semigroups"
+        }
+      ]
+    },
+    {
+      "source": "IsZeroSemigroup",
+      "target": "IsCommutativeSemigroup",
+      "proofs": [
+        {
+          "source": "IsZeroSemigroup",
+          "target": "IsCommutativeSemigroup",
+          "file": "gap/attributes/properties.gd",
+          "line": 95,
+          "call": "InstallTrueMethod(IsCommutativeSemigroup, IsZeroSemigroup)",
+          "source_repo": "semigroups"
+        }
+      ]
+    },
+    {
+      "source": "IsZeroSemigroup",
+      "target": "IsNilpotentSemigroup",
+      "proofs": [
+        {
+          "source": "IsZeroSemigroup",
+          "target": "IsNilpotentSemigroup",
+          "file": "gap/attributes/properties.gd",
+          "line": 75,
+          "call": "InstallTrueMethod(IsNilpotentSemigroup, IsZeroSemigroup)",
+          "source_repo": "semigroups"
+        }
+      ]
+    }
+  ],
+  "semantics": "author-declared InstallTrueMethod binary implications; finite-semigroup ambient assumptions IsSemigroup/IsFinite/IsSmallSemigroup removed; nodes restricted to Smallsemi-evaluable properties"
+}

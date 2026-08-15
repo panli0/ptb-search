@@ -1,0 +1,132 @@
+{
+  "gap_commit": "c4a5b7be6fa44a451d13de6c884e1e9e0d8ac858",
+  "semigroups_commit": "fcbaac308db014869aef673ce857c4ad5119d7cc",
+  "smallsemi_commit": "22784de79fc9a182d600781e60c7cb5d8f06ebfc",
+  "gap_runtime_version": "4.12.1",
+  "smallsemi_version": "0.7.2",
+  "objects": 17282,
+  "orders": "1..6",
+  "raw_property_nodes": 18,
+  "scc_nodes": 17,
+  "raw_author_edges": 23,
+  "transitive_reduction_edges": 19,
+  "truth_families": 19,
+  "witnessable_pairs": 206,
+  "standard_eligible_sources_ge10": 13,
+  "eligibility_actions_per_source": 10,
+  "fallback_protocol": false,
+  "semantics": "author-declared InstallTrueMethod binary implications; finite-semigroup ambient assumptions IsSemigroup/IsFinite/IsSmallSemigroup removed; nodes restricted to Smallsemi-evaluable properties; exact Smallsemi property truth; no edge inferred from objects",
+  "source_action_counts": [
+    [
+      0,
+      11
+    ],
+    [
+      1,
+      12
+    ],
+    [
+      2,
+      16
+    ],
+    [
+      3,
+      14
+    ],
+    [
+      4,
+      12
+    ],
+    [
+      5,
+      9
+    ],
+    [
+      6,
+      15
+    ],
+    [
+      7,
+      14
+    ],
+    [
+      8,
+      16
+    ],
+    [
+      9,
+      15
+    ],
+    [
+      10,
+      8
+    ],
+    [
+      11,
+      16
+    ],
+    [
+      12,
+      15
+    ],
+    [
+      13,
+      7
+    ],
+    [
+      14,
+      12
+    ],
+    [
+      16,
+      14
+    ]
+  ],
+  "first_splits": [
+    {
+      "seed": 20260816,
+      "eligible_sources": 13,
+      "train_sources": 10,
+      "test_sources": 3,
+      "train_actions": 135,
+      "test_actions": 47,
+      "train_family_count": 7
+    },
+    {
+      "seed": 20260817,
+      "eligible_sources": 13,
+      "train_sources": 10,
+      "test_sources": 3,
+      "train_actions": 142,
+      "test_actions": 40,
+      "train_family_count": 10
+    },
+    {
+      "seed": 20260818,
+      "eligible_sources": 13,
+      "train_sources": 10,
+      "test_sources": 3,
+      "train_actions": 139,
+      "test_actions": 43,
+      "train_family_count": 8
+    },
+    {
+      "seed": 20260819,
+      "eligible_sources": 13,
+      "train_sources": 10,
+      "test_sources": 3,
+      "train_actions": 137,
+      "test_actions": 45,
+      "train_family_count": 8
+    },
+    {
+      "seed": 20260820,
+      "eligible_sources": 13,
+      "train_sources": 10,
+      "test_sources": 3,
+      "train_actions": 135,
+      "test_actions": 47,
+      "train_family_count": 7
+    }
+  ]
+}
