@@ -1,0 +1,3 @@
+isgci_public/unpacked/isgci.dtd 11034 bytes
+isgci_public/unpacked/isgci_sage.xml 6836137 bytes
+isgci_public/unpacked/smallgraphs.txt 9845 bytes

@@ -1,0 +1,8 @@
+Archive:  isgci_public/data.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+     9845  2026-05-09 12:45   smallgraphs.txt
+    11034  2024-07-25 12:36   isgci.dtd
+  6836137  2026-05-10 07:14   isgci_sage.xml
+---------                     -------
+  6857016                     3 files
