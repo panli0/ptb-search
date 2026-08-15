@@ -40,6 +40,15 @@ jobs:
             --bundle-sha "$BUNDLE_SHA"
           printf 'global_family_ids_encoding=uint16-le\n' > isgci_public/out/ENCODING.txt
           cat isgci_public/out/SUMMARY.json
+      - name: Upload compact input artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: isgci-forbidden-compact
+          path: |
+            isgci_public/out/ISGCI_FORBIDDEN_COMPACT.b85
+            isgci_public/out/SUMMARY.json
+            isgci_public/out/ENCODING.txt
+          if-no-files-found: error
       - name: Commit compact public input
         run: |
           git config user.name github-actions[bot]
