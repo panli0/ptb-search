@@ -43,9 +43,16 @@ jobs:
             --source _upstream/dart_data \
             --out dart_public/out \
             --commit add9b23c9ab4044096c421243f16ff04fd2379a5
+          python dart_public/prepare_outcome_sequences.py \
+            --source _upstream/dart_data \
+            --out dart_public/out
           python dart_public/split_compact.py
+          mkdir -p dart_public/out/outcome_chunks
+          rm -f dart_public/out/outcome_chunks/part_*.txt
+          split -b 5000 -d -a 2 dart_public/out/DART_BACKEND_OUTCOMES.json dart_public/out/outcome_chunks/part_
+          for f in dart_public/out/outcome_chunks/part_*; do mv "$f" "$f.txt"; done
+          wc -c dart_public/out/DART_BACKEND_OUTCOMES.json dart_public/out/outcome_chunks/part_*.txt
           cat dart_public/out/SUMMARY.json
-          cat dart_public/out/chunks/MANIFEST.txt
 
       - name: Commit compact public-data bundle
         run: |
