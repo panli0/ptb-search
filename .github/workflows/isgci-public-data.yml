@@ -32,6 +32,7 @@ jobs:
           cp isgci_public/unpacked/isgci.dtd isgci_public/isgci.dtd
           cp isgci_public/unpacked/smallgraphs.txt isgci_public/smallgraphs.txt
           python -m pip install --quiet networkx==3.3
+          python isgci_public/patch_witness_loop.py
           BUNDLE_SHA=$(cut -d' ' -f1 isgci_public/DATA_SHA256.txt)
           python isgci_public/prepare_isgci_forbidden_fast3.py \
             --xml isgci_public/unpacked/isgci_sage.xml \
@@ -55,5 +56,5 @@ jobs:
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           rm -rf isgci_public/unpacked isgci_public/data.zip
           git add isgci_public
-          git commit -m 'Compile exact ISGCI forbidden-class transfer input' || true
+          git commit -m 'Compile corrected exact ISGCI forbidden-class transfer input' || true
           git push origin HEAD:dart-public-data-run
