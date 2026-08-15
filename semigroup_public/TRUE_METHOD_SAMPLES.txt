@@ -1,0 +1,114 @@
+_upstream/Semigroups/gap/libsemigroups/cong.gd:15:InstallTrueMethod(CanComputeEquivalenceRelationPartition,
+_upstream/Semigroups/gap/libsemigroups/cong.gi:54:InstallTrueMethod(CanUseLibsemigroupsCongruences,
+_upstream/Semigroups/gap/libsemigroups/cong.gi:56:InstallTrueMethod(CanUseLibsemigroupsCongruences,
+_upstream/Semigroups/gap/libsemigroups/cong.gi:58:InstallTrueMethod(CanUseLibsemigroupsCongruences,
+_upstream/Semigroups/gap/libsemigroups/cong.gi:60:InstallTrueMethod(CanUseLibsemigroupsCongruences,
+_upstream/Semigroups/gap/libsemigroups/cong.gi:62:InstallTrueMethod(CanUseLibsemigroupsCongruences,
+_upstream/Semigroups/gap/libsemigroups/cong.gi:64:InstallTrueMethod(CanUseLibsemigroupsCongruence,
+_upstream/Semigroups/gap/libsemigroups/froidure-pin.gi:15:InstallTrueMethod(CanUseFroidurePin, CanUseLibsemigroupsFroidurePin);
+_upstream/Semigroups/gap/libsemigroups/froidure-pin.gi:33:  InstallTrueMethod(CanUseLibsemigroupsFroidurePin,
+_upstream/Semigroups/gap/libsemigroups/froidure-pin.gi:35:  InstallTrueMethod(CanUseLibsemigroupsFroidurePin,
+_upstream/Semigroups/gap/elements/pbr.gd:24:InstallTrueMethod(IsGeneratorsOfSemigroup, IsPBRCollection);
+_upstream/Semigroups/gap/elements/bipart.gi:67:InstallTrueMethod(IsPermBipartition, IsTransBipartition
+_upstream/Semigroups/gap/elements/bipart.gi:70:InstallTrueMethod(IsBlockBijection, IsPermBipartition);
+_upstream/Semigroups/gap/attributes/translat.gd:427:InstallTrueMethod(IsFinite, IsLeftTranslationsSemigroup);
+_upstream/Semigroups/gap/attributes/translat.gd:428:InstallTrueMethod(IsFinite, IsRightTranslationsSemigroup);
+_upstream/Semigroups/gap/attributes/translat.gd:429:InstallTrueMethod(IsFinite, IsBitranslationsSemigroup);
+_upstream/Semigroups/gap/attributes/translat.gd:431:InstallTrueMethod(CanUseGapFroidurePin, IsLeftTranslationsSemigroup);
+_upstream/Semigroups/gap/attributes/translat.gd:432:InstallTrueMethod(CanUseGapFroidurePin, IsRightTranslationsSemigroup);
+_upstream/Semigroups/gap/attributes/translat.gd:433:InstallTrueMethod(CanUseGapFroidurePin, IsBitranslationsSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:53:InstallTrueMethod(IsGeneratorsOfInverseSemigroup,
+_upstream/Semigroups/gap/attributes/properties.gd:55:InstallTrueMethod(IsGeneratorsOfInverseSemigroup,
+_upstream/Semigroups/gap/attributes/properties.gd:57:InstallTrueMethod(IsGeneratorsOfInverseSemigroup,
+_upstream/Semigroups/gap/attributes/properties.gd:60:InstallTrueMethod(IsSemigroupWithCommutingIdempotents, IsCommutativeSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:61:InstallTrueMethod(IsSemigroupWithCommutingIdempotents, IsInverseSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:62:InstallTrueMethod(IsSemigroupWithCommutingIdempotents, IsPartialPermSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:63:InstallTrueMethod(IsSemigroupWithCommutingIdempotents,
+_upstream/Semigroups/gap/attributes/properties.gd:65:InstallTrueMethod(IsSemigroupWithCommutingIdempotents, IsNilpotentSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:66:InstallTrueMethod(IsBlockGroup, IsSemigroupWithCommutingIdempotents);
+_upstream/Semigroups/gap/attributes/properties.gd:67:InstallTrueMethod(IsDTrivial, IsSemilattice);
+_upstream/Semigroups/gap/attributes/properties.gd:68:InstallTrueMethod(IsHTrivial, IsLTrivial);
+_upstream/Semigroups/gap/attributes/properties.gd:69:InstallTrueMethod(IsHTrivial, IsRTrivial);
+_upstream/Semigroups/gap/attributes/properties.gd:70:InstallTrueMethod(IsInverseMonoid, IsInverseSemigroup and IsMonoid);
+_upstream/Semigroups/gap/attributes/properties.gd:71:InstallTrueMethod(IsLeftSimple, IsInverseSemigroup and IsGroupAsSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:72:InstallTrueMethod(IsLeftZeroSemigroup, IsSemigroup and IsTrivial);
+_upstream/Semigroups/gap/attributes/properties.gd:73:InstallTrueMethod(IsRightZeroSemigroup, IsSemigroup and IsTrivial);
+_upstream/Semigroups/gap/attributes/properties.gd:74:InstallTrueMethod(IsZeroSemigroup, IsSemigroup and IsTrivial);
+_upstream/Semigroups/gap/attributes/properties.gd:75:InstallTrueMethod(IsNilpotentSemigroup, IsZeroSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:76:InstallTrueMethod(IsNilpotentSemigroup, IsSemigroup and IsTrivial);
+_upstream/Semigroups/gap/attributes/properties.gd:77:InstallTrueMethod(IsLTrivial, IsInverseSemigroup and IsRTrivial);
+_upstream/Semigroups/gap/attributes/properties.gd:78:InstallTrueMethod(IsLTrivial, IsDTrivial);
+_upstream/Semigroups/gap/attributes/properties.gd:79:InstallTrueMethod(IsRectangularBand,
+_upstream/Semigroups/gap/attributes/properties.gd:81:InstallTrueMethod(IsRegularSemigroup, IsBand);
+_upstream/Semigroups/gap/attributes/properties.gd:82:InstallTrueMethod(IsRightSimple, IsInverseSemigroup and IsGroupAsSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:83:InstallTrueMethod(IsRTrivial, IsInverseSemigroup and IsLTrivial);
+_upstream/Semigroups/gap/attributes/properties.gd:84:InstallTrueMethod(IsRTrivial, IsDTrivial);
+_upstream/Semigroups/gap/attributes/properties.gd:85:InstallTrueMethod(IsSemilattice, IsDTrivial and IsInverseSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:86:InstallTrueMethod(IsSemilattice, IsIdempotentGenerated and
+_upstream/Semigroups/gap/attributes/properties.gd:88:InstallTrueMethod(IsMonogenicInverseSemigroup,
+_upstream/Semigroups/gap/attributes/properties.gd:90:InstallTrueMethod(IsZeroRectangularBand, IsZeroGroup);
+_upstream/Semigroups/gap/attributes/properties.gd:91:InstallTrueMethod(IsZeroGroup, IsZeroRectangularBand and IsInverseSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:92:InstallTrueMethod(IsRegularSemigroup, IsRegularStarSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:93:InstallTrueMethod(IsInverseSemigroup, IsGroup);
+_upstream/Semigroups/gap/attributes/properties.gd:94:InstallTrueMethod(IsInverseSemigroup, IsBlockGroup and IsRegularSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:95:InstallTrueMethod(IsCommutativeSemigroup, IsZeroSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:96:InstallTrueMethod(IsCommutativeSemigroup, IsCommutative and IsSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:97:InstallTrueMethod(IsCommutative, IsCommutativeSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:98:InstallTrueMethod(IsTrivial,
+_upstream/Semigroups/gap/attributes/properties.gd:100:InstallTrueMethod(IsBand, IsRectangularBand);
+_upstream/Semigroups/gap/attributes/properties.gd:101:InstallTrueMethod(IsCompletelySimpleSemigroup, IsSimpleSemigroup and IsFinite);
+_upstream/Semigroups/gap/attributes/properties.gd:102:InstallTrueMethod(IsSemigroupWithAdjoinedZero, IsSemigroup and IsZeroGroup);
+_upstream/Semigroups/gap/attributes/properties.gd:103:InstallTrueMethod(IsFinite, IsMonogenicSemigroup and IsRegularSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:104:InstallTrueMethod(IsGroupAsSemigroup,
+_upstream/Semigroups/gap/attributes/properties.gd:107:InstallTrueMethod(IsSurjectiveSemigroup, IsRegularSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:108:InstallTrueMethod(IsSurjectiveSemigroup, IsMonoidAsSemigroup);
+_upstream/Semigroups/gap/attributes/properties.gd:109:InstallTrueMethod(IsSurjectiveSemigroup, IsIdempotentGenerated);
+_upstream/Semigroups/gap/attributes/dual.gd:24:InstallTrueMethod(IsDualSemigroupRep,
+_upstream/Semigroups/gap/attributes/properties.gi:1095:InstallTrueMethod(IsSemigroupWithClosedIdempotents,
+_upstream/Semigroups/gap/congruences/cong.gd:51:InstallTrueMethod(IsLeftRightOrTwoSidedCongruence,
+_upstream/Semigroups/gap/congruences/cong.gd:53:InstallTrueMethod(IsLeftRightOrTwoSidedCongruence,
+_upstream/Semigroups/gap/congruences/cong.gd:55:InstallTrueMethod(IsLeftRightOrTwoSidedCongruence,
+_upstream/Semigroups/gap/congruences/cong.gd:87:InstallTrueMethod(IsLeftRightOrTwoSidedCongruenceClass,
+_upstream/Semigroups/gap/congruences/cong.gd:89:InstallTrueMethod(IsLeftRightOrTwoSidedCongruenceClass,
+_upstream/Semigroups/gap/congruences/cong.gd:91:InstallTrueMethod(IsLeftRightOrTwoSidedCongruenceClass,
+_upstream/Semigroups/gap/congruences/conglatt.gi:143:InstallTrueMethod(CanUseGapFroidurePin,
+_upstream/Semigroups/gap/congruences/conglatt.gi:147:InstallTrueMethod(IsFinite,
+_upstream/Semigroups/gap/main/setup.gi:21:# InstallTrueMethod.
+_upstream/Semigroups/gap/main/setup.gi:23:# InstallTrueMethod(IsGeneratorsOfActingSemigroup, IsTransformationCollection);
+_upstream/Semigroups/gap/main/setup.gi:25:# can't do InstallTrueMethod for the above since this is not picked up
+_upstream/Semigroups/gap/main/setup.gi:67:InstallTrueMethod(IsGeneratorsOfActingSemigroup,
+_upstream/Semigroups/gap/main/setup.gi:917:InstallTrueMethod(IsActingSemigroupWithFixedDegreeMultiplication,
+_upstream/Semigroups/gap/main/setup.gi:933:InstallTrueMethod(IsActingSemigroupWithFixedDegreeMultiplication,
+_upstream/Semigroups/gap/main/froidure-pin.gi:28:InstallTrueMethod(CanUseFroidurePin, CanUseGapFroidurePin);
+_upstream/Semigroups/gap/main/froidure-pin.gi:36:  InstallTrueMethod(CanUseGapFroidurePin, x);
+_upstream/Semigroups/gap/main/froidure-pin.gi:43:InstallTrueMethod(CanUseGapFroidurePin,
+_upstream/Semigroups/gap/main/froidure-pin.gi:82:InstallTrueMethod(CanUseGapFroidurePin,
+_upstream/Semigroups/gap/main/froidure-pin.gi:85:InstallTrueMethod(CanUseGapFroidurePin,
+_upstream/Semigroups/gap/fp/freeinverse.gi:29:InstallTrueMethod(IsGeneratorsOfInverseSemigroup,
+_upstream/Semigroups/gap/fp/freeband.gi:84:InstallTrueMethod(IsFinite, IsFreeBandSubsemigroup);
+_upstream/Semigroups/gap/greens/acting.gd:33:InstallTrueMethod(IsRegularGreensClass,
+_upstream/Semigroups/gap/greens/acting.gd:35:InstallTrueMethod(IsRegularGreensClass,
+_upstream/Semigroups/gap/greens/acting.gd:37:InstallTrueMethod(IsRegularGreensClass,
+_upstream/Semigroups/gap/greens/generic.gd:22:InstallTrueMethod(IsRegularGreensClass, IsRegularDClass);
+_upstream/Semigroups/gap/greens/generic.gd:23:InstallTrueMethod(IsRegularDClass, IsRegularGreensClass and IsGreensDClass);
+_upstream/Semigroups/gap/semigroups/semiffmat.gd:16:InstallTrueMethod(CanComputeSize, IsMatrixOverFiniteFieldSemigroup);
+_upstream/Semigroups/gap/semigroups/semiffmat.gd:17:InstallTrueMethod(IsFinite, IsMatrixOverFiniteFieldSemigroup);
+_upstream/Semigroups/gap/semigroups/semibipart.gd:16:InstallTrueMethod(IsFinite, IsBipartitionSemigroup);
+_upstream/Semigroups/gap/semigroups/semibipart.gd:23:InstallTrueMethod(IsGroupAsSemigroup, IsPermBipartitionGroup);
+_upstream/Semigroups/gap/semigroups/semigrp.gd:18:InstallTrueMethod(IsSemigroup, IsInverseSemigroup);
+_upstream/Semigroups/gap/semigroups/semigrp.gd:37:InstallTrueMethod(IsStarSemigroup,
+_upstream/Semigroups/gap/semigroups/semigraph.gd:29:InstallTrueMethod(IsGeneratorsOfInverseSemigroup,
+_upstream/Semigroups/gap/semigroups/semiboolmat.gd:19:InstallTrueMethod(IsFinite, IsBooleanMatSemigroup);
+_upstream/Semigroups/gap/semigroups/semimaxplus.gd:61:InstallTrueMethod(IsFinite, IsTropicalMaxPlusMatrixSemigroup);
+_upstream/Semigroups/gap/semigroups/semimaxplus.gd:62:InstallTrueMethod(IsFinite, IsTropicalMinPlusMatrixSemigroup);
+_upstream/Semigroups/gap/semigroups/semimaxplus.gd:63:InstallTrueMethod(IsFinite, IsNTPMatrixSemigroup);
+_upstream/Semigroups/gap/semigroups/semimaxplus.gd:65:InstallTrueMethod(IsFinite, IsTropicalMaxPlusMatrixMonoid);
+_upstream/Semigroups/gap/semigroups/semimaxplus.gd:66:InstallTrueMethod(IsFinite, IsTropicalMinPlusMatrixMonoid);
+_upstream/Semigroups/gap/semigroups/semimaxplus.gd:67:InstallTrueMethod(IsFinite, IsNTPMatrixMonoid);
+_upstream/Semigroups/gap/semigroups/semiquo.gd:14:InstallTrueMethod(IsAssociativeElement, IsCongruenceClass);
+_upstream/Semigroups/gap/semigroups/semipbr.gd:17:InstallTrueMethod(IsFinite, IsPBRSemigroup);
+_upstream/Semigroups/gap/semigroups/semieunit.gd:40:InstallTrueMethod(IsFinite, IsMcAlisterTripleSubsemigroup);
+_upstream/Semigroups/gap/semigroups/semieunit.gd:62:InstallTrueMethod(IsGeneratorsOfInverseSemigroup,
+_upstream/Semigroups/gap/ideals/ideals.gd:43:InstallTrueMethod(IsSemigroup, IsSemigroupIdeal);
+_upstream/Semigroups/gap/ideals/ideals.gi:15:InstallTrueMethod(IsSemigroupIdeal, IsMagmaIdeal and IsSemigroup);
+_upstream/Semigroups/gap/ideals/ideals.gi:16:InstallTrueMethod(IsSemigroup, IsSemigroupIdeal);

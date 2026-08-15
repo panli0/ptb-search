@@ -1,0 +1,6 @@
+gap:
+  Installed: (none)
+  Candidate: 4.12.1-2build2
+  Version table:
+     4.12.1-2build2 500
+        500 mirror+file:/etc/apt/apt-mirrors.txt noble/universe amd64 Packages
