@@ -44,3 +44,12 @@ jobs:
             pibase_public/out/SUMMARY.json
             pibase_public/out/CONTRADICTIONS.json
           if-no-files-found: error
+      - name: Upload frozen official source snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: pibase-official-source-b0894
+          path: |
+            _upstream/pi-base-data/properties
+            _upstream/pi-base-data/spaces
+            _upstream/pi-base-data/theorems
+          if-no-files-found: error
