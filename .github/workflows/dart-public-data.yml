@@ -54,6 +54,16 @@ jobs:
           wc -c dart_public/out/DART_BACKEND_OUTCOMES.json dart_public/out/outcome_chunks/part_*.txt
           cat dart_public/out/SUMMARY.json
 
+      - name: Upload compact public-data artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dart-public-compact
+          path: |
+            dart_public/out/DART_COMPACT_INPUT.b85
+            dart_public/out/DART_BACKEND_OUTCOMES.json
+            dart_public/out/SUMMARY.json
+          if-no-files-found: error
+
       - name: Commit compact public-data bundle
         run: |
           git config user.name github-actions[bot]
