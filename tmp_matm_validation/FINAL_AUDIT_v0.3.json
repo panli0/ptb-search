@@ -1,0 +1,39 @@
+{
+  "audit_version": "0.3-sensitivity",
+  "frozen_adapter_version": "0.2",
+  "data_sha256": "626e2e6351d763739b0e2695a1bc442e1c851c1153c44301017739e3bd1155aa",
+  "actions_run_id": 32043528834,
+  "artifact_id": 9292417361,
+  "final_verdict": "NATURAL_TERMINAL_RUN_PATTERN_NOT_CONFIRMED",
+  "verdict_reason": "Only one task family had K>=6 coverage in the untouched retrieval-enabled bank. Its nominal K6+-K1 contrast was positive but sparse, non-monotonic across K, and supported by only 3 independent model×task units with K6 switches; the paired model×task sign-flip sensitivity was p=0.125 and the K6 independent-unit count was 19. The second family had zero K>=6 decisions.",
+  "key_results": {
+    "no_retrieval_A": {
+      "K1": "0/94",
+      "K6+": "1/64",
+      "effect_pp": 1.1904761904761905,
+      "independent_K6_units": 14,
+      "gate": "FAIL"
+    },
+    "retrieval_enabled_A": {
+      "K1": "1/467",
+      "K6+": "7/315",
+      "effect_pp": 1.319966583124478,
+      "nominal_gate": "PASS",
+      "independent_K6_units": 19,
+      "independent_K6_switch_units": 3,
+      "signflip_p_positive": 0.125,
+      "K_curve_pct": [0.2141, 0.0, 1.2821, 0.0, 4.878, 2.2222],
+      "future5_switch_progress": "0/14",
+      "future5_continue_progress_pct": 22.3314
+    },
+    "B_light": {
+      "K6+_decisions_no_retrieval": 0,
+      "K6+_decisions_retrieval_enabled": 0
+    }
+  },
+  "retrieval_enabled_A_K6_switch_units": [
+    "deepseek_deepseek-r1||variation_id_becbe79e47d931c420c4eaa73c1db563",
+    "meta-llama_llama-3.3-70b-instruct||variation_id_556b6e40b3df1d5d73ef43210a006e37",
+    "meta-llama_llama-4-maverick||variation_id_d33d468e4004644b51f3936a994e0e98"
+  ]
+}
