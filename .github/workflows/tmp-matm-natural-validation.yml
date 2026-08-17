@@ -58,6 +58,19 @@ jobs:
           ls -lh "$INPUT"
           sha256sum "$INPUT" | tee tmp_matm_validation/DATA_SHA256.txt
 
+      - name: Export raw preregistered A/B audit subset
+        run: |
+          INPUT=$(cat tmp_matm_validation/INPUT_PATH.txt)
+          python - <<'PY'
+          import pandas as pd
+          from pathlib import Path
+          p=Path('tmp_matm_validation/data/alfworld/population_runs.parquet')
+          d=pd.read_parquet(p)
+          z=d[(d['environment'].astype(str).str.lower()=='alfworld') & (d['source_type'].astype(str).str.lower()=='eval') & (d['retrieval_strategy'].astype(str).str.lower().str.strip()=='no_retrieval') & (d['task_type'].isin(['pick_two_obj_and_place','look_at_obj_in_light']))].copy()
+          z.to_json('tmp_matm_validation/AB_no_retrieval.jsonl',orient='records',lines=True,force_ascii=False)
+          print('AUDIT_SUBSET',len(z),z['task_type'].value_counts().to_dict(), 'success', z.groupby('task_type')['success'].agg(['sum','count']).to_dict('index'))
+          PY
+
       - name: Run frozen natural validation
         run: |
           INPUT=$(cat tmp_matm_validation/INPUT_PATH.txt)
@@ -86,4 +99,5 @@ jobs:
             tmp_matm_validation/DATA_SHA256.txt
             tmp_matm_validation/INPUT_PATH.txt
             tmp_matm_validation/data/alfworld/population_runs.parquet
+            tmp_matm_validation/AB_no_retrieval.jsonl
           if-no-files-found: warn
