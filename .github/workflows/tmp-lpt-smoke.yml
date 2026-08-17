@@ -1,0 +1,9 @@
+name: tmp-lpt-smoke
+on:
+  push:
+    branches: [tmp-lpt-public-data-20260817]
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo LPT_SMOKE_OK
