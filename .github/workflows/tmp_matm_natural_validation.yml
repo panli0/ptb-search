@@ -1,0 +1,46 @@
+name: tmp-matm-natural-validation
+
+on:
+  push:
+    branches: [matm-natural-validation-20260817]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install analysis deps
+        run: pip install -q numpy pandas
+      - name: Download official MATM ALFWorld evaluation trajectories
+        run: |
+          set -euxo pipefail
+          mkdir -p tmp_matm_validation/data
+          python - <<'PY'
+          import urllib.request
+          url='https://huggingface.co/datasets/toeunkim/matm-trajectories/resolve/main/alfworld/population_runs.jsonl?download=true'
+          urllib.request.urlretrieve(url, 'tmp_matm_validation/data/population_runs.jsonl')
+          PY
+          ls -lh tmp_matm_validation/data/population_runs.jsonl
+          sha256sum tmp_matm_validation/data/population_runs.jsonl | tee tmp_matm_validation/SOURCE_SHA256.txt
+          wc -l tmp_matm_validation/data/population_runs.jsonl | tee tmp_matm_validation/SOURCE_WC.txt
+      - name: Run frozen analysis
+        run: |
+          set -euxo pipefail
+          python tmp_matm_validation/analyze_matm_natural_run.py tmp_matm_validation/data/population_runs.jsonl --out tmp_matm_validation/results --bootstrap 100000 --seed 20260817 --retrieval no_retrieval | tee tmp_matm_validation/RUN_STDOUT.txt
+          cat tmp_matm_validation/results/REPORT.md
+          cat tmp_matm_validation/results/SUMMARY.json
+      - name: Upload result artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: matm-natural-validation-results
+          path: |
+            tmp_matm_validation/results/
+            tmp_matm_validation/SOURCE_SHA256.txt
+            tmp_matm_validation/SOURCE_WC.txt
+            tmp_matm_validation/RUN_STDOUT.txt
+          retention-days: 7
