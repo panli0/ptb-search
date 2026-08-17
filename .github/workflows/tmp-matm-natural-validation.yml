@@ -31,7 +31,6 @@ jobs:
           from pathlib import Path
           import gzip, shutil, zipfile
           from huggingface_hub import HfApi, hf_hub_download
-
           repo='toeunkim/matm-trajectories'
           files=HfApi().list_repo_files(repo_id=repo, repo_type='dataset')
           candidates=[f for f in files if f.startswith('alfworld/') and 'population_runs' in f.lower()]
@@ -86,4 +85,5 @@ jobs:
             tmp_matm_validation/out/
             tmp_matm_validation/DATA_SHA256.txt
             tmp_matm_validation/INPUT_PATH.txt
+            tmp_matm_validation/data/alfworld/population_runs.parquet
           if-no-files-found: warn
