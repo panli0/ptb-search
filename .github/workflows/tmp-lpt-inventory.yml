@@ -1,26 +1,8 @@
-name: tmp-lpt-inventory
+name: tmp-disabled
 on:
-  push:
-    branches: [tmp-lpt-public-data-20260817]
+  workflow_dispatch:
 jobs:
-  inventory:
+  noop:
     runs-on: ubuntu-latest
-    timeout-minutes: 330
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq git-lfs
-          python -m pip install --upgrade pip
-          pip install gdown appworld pandas pyarrow scipy
-      - run: python lpt_nat/inventory.py
-      - if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: lpt-inventory
-          path: lpt_inventory.json
-          if-no-files-found: warn
-          retention-days: 7
+      - run: 'true'

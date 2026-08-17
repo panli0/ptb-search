@@ -1,21 +1,8 @@
-name: tmp-lpt-extract
+name: tmp-disabled
 on:
-  push:
-    branches: [tmp-lpt-public-data-20260817]
+  workflow_dispatch:
 jobs:
-  extract:
+  noop:
     runs-on: ubuntu-latest
-    timeout-minutes: 330
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - run: pip install -q gdown requests cryptography
-      - run: python lpt_nat/extract_schema.py
-      - if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: lpt-extract-schema
-          path: lpt_extract_schema.json
-          retention-days: 7
+      - run: 'true'

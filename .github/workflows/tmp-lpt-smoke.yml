@@ -1,9 +1,8 @@
-name: tmp-lpt-smoke
+name: tmp-disabled
 on:
-  push:
-    branches: [tmp-lpt-public-data-20260817]
+  workflow_dispatch:
 jobs:
-  smoke:
+  noop:
     runs-on: ubuntu-latest
     steps:
-      - run: echo LPT_SMOKE_OK
+      - run: 'true'
