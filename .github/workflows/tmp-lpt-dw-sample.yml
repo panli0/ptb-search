@@ -1,0 +1,21 @@
+name: tmp-lpt-dw-sample
+on:
+  push:
+    branches: [tmp-lpt-public-data-20260817]
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q gdown
+      - run: python lpt_nat/sample_dw_actions.py
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lpt-dw-sample
+          path: lpt_dw_sample/sample.json
+          retention-days: 3
