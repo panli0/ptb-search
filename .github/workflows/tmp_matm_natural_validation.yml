@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install analysis deps
-        run: pip install -q numpy pandas requests
+        run: pip install -q numpy pandas requests pyarrow
       - name: Discover and download official MATM ALFWorld evaluation trajectories
         run: |
           set -euxo pipefail
@@ -24,7 +24,6 @@ jobs:
           import json, requests
           api='https://huggingface.co/api/datasets/toeunkim/matm-trajectories/tree/main/alfworld?recursive=false&expand=false'
           r=requests.get(api,timeout=60); r.raise_for_status(); entries=r.json()
-          print(json.dumps(entries,indent=2)[:20000])
           files=[e.get('path','') for e in entries if e.get('type')=='file']
           cand=[p for p in files if 'population' in p.lower() and p.lower().endswith(('.jsonl','.json','.parquet'))]
           if not cand:
@@ -39,13 +38,11 @@ jobs:
                   for chunk in rr.iter_content(1024*1024):
                       if chunk: f.write(chunk)
           open('tmp_matm_validation/SOURCE_PATH.txt','w').write(p+'\n')
-          print('LOCAL_SOURCE='+out)
           open('tmp_matm_validation/LOCAL_SOURCE.txt','w').write(out+'\n')
           PY
           src=$(cat tmp_matm_validation/LOCAL_SOURCE.txt)
           ls -lh "$src"
           sha256sum "$src" | tee tmp_matm_validation/SOURCE_SHA256.txt
-          wc -l "$src" 2>/dev/null | tee tmp_matm_validation/SOURCE_WC.txt || true
       - name: Run frozen analysis
         run: |
           set -euxo pipefail
@@ -63,6 +60,5 @@ jobs:
             tmp_matm_validation/SOURCE_PATH.txt
             tmp_matm_validation/LOCAL_SOURCE.txt
             tmp_matm_validation/SOURCE_SHA256.txt
-            tmp_matm_validation/SOURCE_WC.txt
             tmp_matm_validation/RUN_STDOUT.txt
           retention-days: 7
