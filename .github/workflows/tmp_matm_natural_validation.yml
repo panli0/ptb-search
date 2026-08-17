@@ -16,18 +16,30 @@ jobs:
           python-version: '3.11'
       - name: Install analysis deps
         run: pip install -q numpy pandas requests pyarrow
+      - name: Apply trajectory-ID implementation fix
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('tmp_matm_validation/analyze_matm_natural_run.py')
+          s=p.read_text()
+          old='r=row.to_dict(); uid=str(r.get("trajectory_id") or r.get("run_id") or r.get("episode_id") or f"row_{idx}")'
+          new='r=row.to_dict(); uid=f"row_{idx}"'
+          if old not in s:
+              raise RuntimeError('expected UID line not found')
+          p.write_text(s.replace(old,new))
+          Path('tmp_matm_validation/IMPLEMENTATION_AMENDMENT_20260817.md').write_text('''# 实现修复记录\n\n首次真实运行暴露一个纯实现错误：MATM eval 的 trajectory_id 字段为 NA，而 np.nan 在原 Python fallback 中被当作真值，355 条不同 episode 因此被错误聚成同一个字符串 nan。首次输出作废。\n\n修复仅涉及聚类 ID：MATM population parquet 每一 row 就是一条 episode/trajectory，因此用稳定 source row index `row_<idx>` 作为 trajectory cluster ID。\n\n未改变数据源、no_retrieval 过滤、Family A/B、K 定义、clean-unresolved、K6+ vs K1、future-5、task/trajectory 两层 bootstrap、100000 次、seed=20260817、样本门。\n''')
+          PY
       - name: Discover and download official MATM ALFWorld evaluation trajectories
         run: |
           set -euxo pipefail
           mkdir -p tmp_matm_validation/data
           python - <<'PY'
-          import json, requests
+          import requests
           api='https://huggingface.co/api/datasets/toeunkim/matm-trajectories/tree/main/alfworld?recursive=false&expand=false'
           r=requests.get(api,timeout=60); r.raise_for_status(); entries=r.json()
           files=[e.get('path','') for e in entries if e.get('type')=='file']
           cand=[p for p in files if 'population' in p.lower() and p.lower().endswith(('.jsonl','.json','.parquet'))]
-          if not cand:
-              raise RuntimeError('No ALFWorld population file found: '+repr(files))
+          if not cand: raise RuntimeError('No ALFWorld population file found: '+repr(files))
           p=sorted(cand,key=lambda x:(0 if x.endswith('.jsonl') else 1,x))[0]
           print('SELECTED_SOURCE_PATH='+p)
           url='https://huggingface.co/datasets/toeunkim/matm-trajectories/resolve/main/'+p+'?download=true'
@@ -57,6 +69,8 @@ jobs:
           name: matm-natural-validation-results
           path: |
             tmp_matm_validation/results/
+            tmp_matm_validation/analyze_matm_natural_run.py
+            tmp_matm_validation/IMPLEMENTATION_AMENDMENT_20260817.md
             tmp_matm_validation/SOURCE_PATH.txt
             tmp_matm_validation/LOCAL_SOURCE.txt
             tmp_matm_validation/SOURCE_SHA256.txt
