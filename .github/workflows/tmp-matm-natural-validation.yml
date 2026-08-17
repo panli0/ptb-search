@@ -7,97 +7,51 @@ on:
     branches: [tmp-matm-natural-validation-20260817]
 
 jobs:
-  matm-natural-validation:
+  matm-export:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Install analysis dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install numpy pandas pyarrow 'huggingface_hub[hf_xet]'
-
-      - name: Download frozen MATM ALFWorld eval trajectories
+      - run: python -m pip install pandas pyarrow 'huggingface_hub[hf_xet]'
+      - name: Download and export A/B cohorts
         run: |
           mkdir -p tmp_matm_validation/data
           python - <<'PY'
+          import json
           from pathlib import Path
-          import gzip, shutil, zipfile
+          import pandas as pd
           from huggingface_hub import HfApi, hf_hub_download
           repo='toeunkim/matm-trajectories'
           files=HfApi().list_repo_files(repo_id=repo, repo_type='dataset')
-          candidates=[f for f in files if f.startswith('alfworld/') and 'population_runs' in f.lower()]
-          print('CANDIDATES', candidates)
-          if len(candidates) != 1:
-              raise SystemExit(f'Expected exactly one ALFWorld population_runs source, got {candidates}')
-          src=candidates[0]
+          src=[f for f in files if f.startswith('alfworld/') and 'population_runs' in f.lower()][0]
           p=Path(hf_hub_download(repo_id=repo, repo_type='dataset', filename=src, local_dir='tmp_matm_validation/data'))
-          print('DOWNLOADED', p, p.stat().st_size)
-          out=p
-          low=p.name.lower()
-          if low.endswith('.gz'):
-              out=p.with_suffix('')
-              with gzip.open(p,'rb') as fi, open(out,'wb') as fo: shutil.copyfileobj(fi,fo)
-          elif low.endswith('.zip'):
-              with zipfile.ZipFile(p) as z:
-                  names=[n for n in z.namelist() if not n.endswith('/')]
-                  if len(names)!=1: raise SystemExit(f'Unexpected zip members: {names}')
-                  z.extract(names[0], path=p.parent)
-                  out=p.parent/names[0]
-          Path('tmp_matm_validation/INPUT_PATH.txt').write_text(str(out)+'\n')
-          PY
-          INPUT=$(cat tmp_matm_validation/INPUT_PATH.txt)
-          test -s "$INPUT"
-          ls -lh "$INPUT"
-          sha256sum "$INPUT" | tee tmp_matm_validation/DATA_SHA256.txt
-
-      - name: Export raw preregistered A/B audit subset
-        run: |
-          INPUT=$(cat tmp_matm_validation/INPUT_PATH.txt)
-          python - <<'PY'
-          import pandas as pd
-          from pathlib import Path
-          p=Path('tmp_matm_validation/data/alfworld/population_runs.parquet')
           d=pd.read_parquet(p)
-          z=d[(d['environment'].astype(str).str.lower()=='alfworld') & (d['source_type'].astype(str).str.lower()=='eval') & (d['retrieval_strategy'].astype(str).str.lower().str.strip()=='no_retrieval') & (d['task_type'].isin(['pick_two_obj_and_place','look_at_obj_in_light']))].copy()
-          z.to_json('tmp_matm_validation/AB_no_retrieval.jsonl',orient='records',lines=True,force_ascii=False)
-          print('AUDIT_SUBSET',len(z),z['task_type'].value_counts().to_dict(), 'success', z.groupby('task_type')['success'].agg(['sum','count']).to_dict('index'))
+          ab=d[(d['environment'].astype(str).str.lower()=='alfworld') & (d['source_type'].astype(str).str.lower()=='eval') & d['task_type'].isin(['pick_two_obj_and_place','look_at_obj_in_light'])].copy()
+          ab.to_json('tmp_matm_validation/AB_all_eval.jsonl',orient='records',lines=True,force_ascii=False)
+          nr=ab[ab['retrieval_strategy'].astype(str).str.lower().str.strip()=='no_retrieval'].copy()
+          fresh=ab[ab['retrieval_strategy'].astype(str).str.lower().str.strip()!='no_retrieval'].copy()
+          nr.to_json('tmp_matm_validation/AB_no_retrieval.jsonl',orient='records',lines=True,force_ascii=False)
+          fresh.to_json('tmp_matm_validation/AB_retrieval_enabled_UNTOUCHED.jsonl',orient='records',lines=True,force_ascii=False)
+          meta={
+            'all_ab_rows':len(ab),'no_retrieval_rows':len(nr),'untouched_rows':len(fresh),
+            'retrieval_strategy_counts':ab['retrieval_strategy'].astype(str).value_counts().to_dict(),
+            'task_type_counts_all':ab['task_type'].value_counts().to_dict(),
+            'task_type_counts_untouched':fresh['task_type'].value_counts().to_dict(),
+            'models_untouched':int(fresh['model'].nunique()),
+          }
+          Path('tmp_matm_validation/COHORT_METADATA.json').write_text(json.dumps(meta,indent=2))
+          print(json.dumps(meta,indent=2))
           PY
-
-      - name: Run frozen natural validation
-        run: |
-          INPUT=$(cat tmp_matm_validation/INPUT_PATH.txt)
-          python tmp_matm_validation/analyze_matm_natural_run.py \
-            "$INPUT" \
-            --out tmp_matm_validation/out \
-            --bootstrap 100000 \
-            --seed 20260817 \
-            --retrieval no_retrieval
-
-      - name: Print result
-        if: always()
-        run: |
-          echo '=== SUMMARY ==='
-          test -f tmp_matm_validation/out/SUMMARY.json && cat tmp_matm_validation/out/SUMMARY.json || true
-          echo '=== REPORT ==='
-          test -f tmp_matm_validation/out/REPORT.md && cat tmp_matm_validation/out/REPORT.md || true
-
-      - name: Upload result artifact
-        if: always()
-        uses: actions/upload-artifact@v4
+          sha256sum tmp_matm_validation/data/alfworld/population_runs.parquet > tmp_matm_validation/DATA_SHA256.txt
+      - uses: actions/upload-artifact@v4
         with:
-          name: matm-natural-validation-results
+          name: matm-ab-cohorts
           path: |
-            tmp_matm_validation/out/
-            tmp_matm_validation/DATA_SHA256.txt
-            tmp_matm_validation/INPUT_PATH.txt
-            tmp_matm_validation/data/alfworld/population_runs.parquet
+            tmp_matm_validation/AB_all_eval.jsonl
             tmp_matm_validation/AB_no_retrieval.jsonl
-          if-no-files-found: warn
+            tmp_matm_validation/AB_retrieval_enabled_UNTOUCHED.jsonl
+            tmp_matm_validation/COHORT_METADATA.json
+            tmp_matm_validation/DATA_SHA256.txt
