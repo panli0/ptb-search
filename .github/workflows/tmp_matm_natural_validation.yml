@@ -15,31 +15,53 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install analysis deps
-        run: pip install -q numpy pandas
-      - name: Download official MATM ALFWorld evaluation trajectories
+        run: pip install -q numpy pandas requests
+      - name: Discover and download official MATM ALFWorld evaluation trajectories
         run: |
           set -euxo pipefail
           mkdir -p tmp_matm_validation/data
           python - <<'PY'
-          import urllib.request
-          url='https://huggingface.co/datasets/toeunkim/matm-trajectories/resolve/main/alfworld/population_runs.jsonl?download=true'
-          urllib.request.urlretrieve(url, 'tmp_matm_validation/data/population_runs.jsonl')
+          import json, requests
+          api='https://huggingface.co/api/datasets/toeunkim/matm-trajectories/tree/main/alfworld?recursive=false&expand=false'
+          r=requests.get(api,timeout=60); r.raise_for_status(); entries=r.json()
+          print(json.dumps(entries,indent=2)[:20000])
+          files=[e.get('path','') for e in entries if e.get('type')=='file']
+          cand=[p for p in files if 'population' in p.lower() and p.lower().endswith(('.jsonl','.json','.parquet'))]
+          if not cand:
+              raise RuntimeError('No ALFWorld population file found: '+repr(files))
+          p=sorted(cand,key=lambda x:(0 if x.endswith('.jsonl') else 1,x))[0]
+          print('SELECTED_SOURCE_PATH='+p)
+          url='https://huggingface.co/datasets/toeunkim/matm-trajectories/resolve/main/'+p+'?download=true'
+          with requests.get(url,stream=True,timeout=120,allow_redirects=True) as rr:
+              rr.raise_for_status()
+              out='tmp_matm_validation/data/population_runs'+('.jsonl' if p.endswith('.jsonl') else '.parquet' if p.endswith('.parquet') else '.json')
+              with open(out,'wb') as f:
+                  for chunk in rr.iter_content(1024*1024):
+                      if chunk: f.write(chunk)
+          open('tmp_matm_validation/SOURCE_PATH.txt','w').write(p+'\n')
+          print('LOCAL_SOURCE='+out)
+          open('tmp_matm_validation/LOCAL_SOURCE.txt','w').write(out+'\n')
           PY
-          ls -lh tmp_matm_validation/data/population_runs.jsonl
-          sha256sum tmp_matm_validation/data/population_runs.jsonl | tee tmp_matm_validation/SOURCE_SHA256.txt
-          wc -l tmp_matm_validation/data/population_runs.jsonl | tee tmp_matm_validation/SOURCE_WC.txt
+          src=$(cat tmp_matm_validation/LOCAL_SOURCE.txt)
+          ls -lh "$src"
+          sha256sum "$src" | tee tmp_matm_validation/SOURCE_SHA256.txt
+          wc -l "$src" 2>/dev/null | tee tmp_matm_validation/SOURCE_WC.txt || true
       - name: Run frozen analysis
         run: |
           set -euxo pipefail
-          python tmp_matm_validation/analyze_matm_natural_run.py tmp_matm_validation/data/population_runs.jsonl --out tmp_matm_validation/results --bootstrap 100000 --seed 20260817 --retrieval no_retrieval | tee tmp_matm_validation/RUN_STDOUT.txt
-          cat tmp_matm_validation/results/REPORT.md
+          src=$(cat tmp_matm_validation/LOCAL_SOURCE.txt)
+          python tmp_matm_validation/analyze_matm_natural_run.py "$src" --out tmp_matm_validation/results --bootstrap 100000 --seed 20260817 --retrieval no_retrieval | tee tmp_matm_validation/RUN_STDOUT.txt
+          cat tmp_matm_validation/results/REPORT.md || true
           cat tmp_matm_validation/results/SUMMARY.json
       - name: Upload result artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: matm-natural-validation-results
           path: |
             tmp_matm_validation/results/
+            tmp_matm_validation/SOURCE_PATH.txt
+            tmp_matm_validation/LOCAL_SOURCE.txt
             tmp_matm_validation/SOURCE_SHA256.txt
             tmp_matm_validation/SOURCE_WC.txt
             tmp_matm_validation/RUN_STDOUT.txt
