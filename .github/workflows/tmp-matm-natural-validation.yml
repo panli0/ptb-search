@@ -7,16 +7,16 @@ on:
     branches: [tmp-matm-natural-validation-20260817]
 
 jobs:
-  matm-export:
+  matm-export-and-audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: python -m pip install pandas pyarrow 'huggingface_hub[hf_xet]'
-      - name: Download and export A/B cohorts
+      - run: python -m pip install pandas numpy pyarrow 'huggingface_hub[hf_xet]'
+      - name: Download and export frozen A/B cohorts
         run: |
           mkdir -p tmp_matm_validation/data
           python - <<'PY'
@@ -36,22 +36,41 @@ jobs:
           nr.to_json('tmp_matm_validation/AB_no_retrieval.jsonl',orient='records',lines=True,force_ascii=False)
           fresh.to_json('tmp_matm_validation/AB_retrieval_enabled_UNTOUCHED.jsonl',orient='records',lines=True,force_ascii=False)
           meta={
-            'all_ab_rows':len(ab),'no_retrieval_rows':len(nr),'untouched_rows':len(fresh),
+            'all_ab_rows':len(ab),'no_retrieval_rows':len(nr),'retrieval_enabled_rows':len(fresh),
             'retrieval_strategy_counts':ab['retrieval_strategy'].astype(str).value_counts().to_dict(),
             'task_type_counts_all':ab['task_type'].value_counts().to_dict(),
-            'task_type_counts_untouched':fresh['task_type'].value_counts().to_dict(),
-            'models_untouched':int(fresh['model'].nunique()),
+            'task_type_counts_retrieval_enabled':fresh['task_type'].value_counts().to_dict(),
+            'models_retrieval_enabled':int(fresh['model'].nunique()),
           }
           Path('tmp_matm_validation/COHORT_METADATA.json').write_text(json.dumps(meta,indent=2))
           print(json.dumps(meta,indent=2))
           PY
           sha256sum tmp_matm_validation/data/alfworld/population_runs.parquet > tmp_matm_validation/DATA_SHA256.txt
+      - name: Corrected v0.2 primary no-retrieval audit
+        run: |
+          python tmp_matm_validation/analyze_matm_natural_run.py \
+            tmp_matm_validation/AB_no_retrieval.jsonl \
+            --out tmp_matm_validation/out_v02_no_retrieval \
+            --bootstrap 100000 --seed 20260817 --retrieval all
+      - name: Corrected v0.2 retrieval-enabled replication-bank audit
+        run: |
+          python tmp_matm_validation/analyze_matm_natural_run.py \
+            tmp_matm_validation/AB_retrieval_enabled_UNTOUCHED.jsonl \
+            --out tmp_matm_validation/out_v02_retrieval_enabled \
+            --bootstrap 100000 --seed 20260817 --retrieval all
+      - name: Print corrected summaries
+        if: always()
+        run: |
+          echo '=== NO RETRIEVAL V0.2 ==='
+          cat tmp_matm_validation/out_v02_no_retrieval/SUMMARY.json || true
+          echo '=== RETRIEVAL ENABLED V0.2 ==='
+          cat tmp_matm_validation/out_v02_retrieval_enabled/SUMMARY.json || true
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: matm-ab-cohorts
+          name: matm-v02-natural-validation-results
           path: |
-            tmp_matm_validation/AB_all_eval.jsonl
-            tmp_matm_validation/AB_no_retrieval.jsonl
-            tmp_matm_validation/AB_retrieval_enabled_UNTOUCHED.jsonl
+            tmp_matm_validation/out_v02_no_retrieval/
+            tmp_matm_validation/out_v02_retrieval_enabled/
             tmp_matm_validation/COHORT_METADATA.json
             tmp_matm_validation/DATA_SHA256.txt
