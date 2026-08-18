@@ -1,0 +1,79 @@
+name: tmp-maspob-parallel-repeats
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: tmp-maspob-parallel-repeats-20260818
+  cancel-in-progress: true
+
+env:
+  PYTHONHASHSEED: '0'
+
+jobs:
+  maspob-repeat:
+    strategy:
+      fail-fast: false
+      matrix:
+        domain: [pi-base, ring, module]
+        repeat: [a, b]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned dependencies
+        run: |
+          set -euo pipefail
+          pip install 'pyyaml==6.0.3' 'numpy==2.3.2' 'scikit-learn==1.7.1' 'torch==2.8.0' 'torch-geometric==2.6.1'
+      - name: Audit unchanged strict source contract
+        run: |
+          set -euo pipefail
+          grep -n "policy_targets = set(T)" outcome_universe_audit_redo.py
+          grep -n "policy_targets = {rid for rid" outcome_universe_audit_redo.py
+          grep -n "uses_outcome_defined_target_universe_for_policy.*False" outcome_universe_audit_redo.py
+          grep -n "from scripts.gnn_model import WorkflowGAT" outcome_universe_audit_redo.py
+          python -m py_compile outcome_universe_audit_redo.py
+      - name: Fetch frozen datasets and official MASPOB
+        run: |
+          set -euo pipefail
+          git clone https://github.com/rschwiebert/dart_data.git dart_data
+          git -C dart_data checkout 38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1
+          test "$(git -C dart_data rev-parse HEAD)" = '38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1'
+          curl --fail --location --retry 3 'https://pub-65041ca69d744da88ade13abd31ad834.r2.dev/refs/heads/main.json' -o pi-base-main.json
+          echo '3a59130cbcaa10fe84e6e2d00d597435e0a7da53d8d267b22621017901d69836  pi-base-main.json' | sha256sum -c -
+          git clone https://github.com/HZ1008/MASPOB.git MASPOB
+          git -C MASPOB checkout 0be3af42da83b9b5ab187c101ec6d2ce87a5fe04
+          test "$(git -C MASPOB rev-parse HEAD)" = '0be3af42da83b9b5ab187c101ec6d2ce87a5fe04'
+          git -C MASPOB rev-parse HEAD > MASPOB_COMMIT.txt
+      - name: Run one frozen strict repeat
+        run: |
+          set -euo pipefail
+          dom='${{ matrix.domain }}'
+          rep='${{ matrix.repeat }}'
+          python outcome_universe_audit_redo.py dart_data pi-base-main.json MASPOB "maspob-${dom}-${rep}.json" maspob "$dom" > "maspob-${dom}-${rep}.txt"
+          python - <<'PY'
+          import json, os
+          dom=os.environ['DOMAIN']; rep=os.environ['REPEAT']
+          d=json.load(open(f'maspob-{dom}-{rep}.json'))
+          assert len(d['domains'])==1 and d['domains'][0]['domain']==dom
+          m=d['domains'][0]['methods']['maspob_gnn_ucb']
+          assert m['uses_unqueried_truth'] is False
+          assert m['uses_outcome_defined_target_universe_for_policy'] is False
+          print('MASPOB_SINGLE_REPEAT_LEAKAGE_GATE_PASS', dom, rep, m['hits_mean'])
+          PY
+        env:
+          DOMAIN: ${{ matrix.domain }}
+          REPEAT: ${{ matrix.repeat }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maspob-repeat-${{ matrix.domain }}-${{ matrix.repeat }}
+          path: |
+            maspob-*.json
+            maspob-*.txt
+            outcome_universe_audit_redo.py
+            MASPOB_COMMIT.txt
