@@ -1,0 +1,318 @@
+--- a/native_online_baselines_v2.py
++++ b/native_online_baselines_v2.py
+@@ -14,7 +14,7 @@
+ import numpy as np
+ import yaml
+ from sklearn.feature_extraction.text import HashingVectorizer
+-from sklearn.linear_model import Ridge
++from sklearn.linear_model import RidgeClassifier
+ from simpleai.search import SearchProblem, astar, greedy
+ from ortools.sat.python import cp_model
+ from ortools.linear_solver import pywraplp
+@@ -31,7 +31,7 @@
+ FUTURE_BRANCH = 12  # only future tree-search branches are pruned; every real first action remains eligible
+ SAA_SCENARIOS = 6
+ RIDGE_ALPHA = 3.0
+-FEATURES = 48
++PAIR_FEATURES = 32
+ BASE_SEED = 20260818
+ 
+ 
+@@ -45,10 +45,23 @@
+     return (int(m[2]), m[1] == 'has') if m else None
+ 
+ 
++def _flat_text(x):
++    if x is None:
++        return ''
++    if isinstance(x, (str, int, float, bool)):
++        return str(x)
++    if isinstance(x, dict):
++        return ' '.join(f'{k} {_flat_text(v)}' for k, v in sorted(x.items()))
++    if isinstance(x, (list, tuple, set)):
++        return ' '.join(_flat_text(v) for v in x)
++    return str(x)
++
++
+ def pi_data():
+     d = json.loads(PI.read_text())
+     S = {x['uid']: x for x in d['spaces']}
+     T = {x['uid']: x for x in d['theorems']}
++    PM = {x['uid']: x for x in d.get('properties', []) if isinstance(x, dict) and 'uid' in x}
+     truth = {s: {} for s in S}
+     for x in d['traits']:
+         if x.get('space') in S and isinstance(x.get('value'), bool):
+@@ -58,8 +71,8 @@
+         if not isinstance(f, dict):
+             return None
+         if f.get('kind') == 'atom':
+-            p = f.get('property')
+-            return tr.get(p) == f.get('value') if p in tr else None
++            prop = f.get('property')
++            return tr.get(prop) == f.get('value') if prop in tr else None
+         z = [ev(x, tr) for x in f.get('subs', [])]
+         if f.get('kind') == 'and':
+             return False if False in z else (True if z and all(x is True for x in z) else None)
+@@ -67,14 +80,32 @@
+             return True if True in z else (False if z and all(x is False for x in z) else None)
+         return None
+ 
+-    cov = {s: set() for s in S}
+-    for s, tr in truth.items():
+-        for tid, t in T.items():
+-            if ev(t.get('then'), tr) is True and ev(t.get('when'), tr) is False:
+-                cov[s].add(tid)
++    def ftxt(f):
++        if not isinstance(f, dict):
++            return _flat_text(f)
++        if f.get('kind') == 'atom':
++            uid = f.get('property')
++            meta = PM.get(uid, {})
++            return ' '.join([str(uid), str(meta.get('name', '')), str(meta.get('description', '')),
++                             'value', str(f.get('value'))])
++        return f"{f.get('kind','formula')} " + ' '.join(ftxt(x) for x in f.get('subs', []))
++
++    cov = {space: set() for space in S}
++    for space, tr in truth.items():
++        for tid, theorem in T.items():
++            if ev(theorem.get('then'), tr) is True and ev(theorem.get('when'), tr) is False:
++                cov[space].add(tid)
+     U = set().union(*cov.values()) if cov else set()
+-    txt = {s: ' '.join(str(S[s].get(k, '') or '') for k in ('name', 'description', 'aliases')) for s in S}
+-    return sorted(S), txt, cov, U
++    txt = {space: ' '.join(str(S[space].get(k, '') or '') for k in ('name', 'description', 'aliases')) for space in S}
++    target_txt = {}
++    for tid in U:
++        theorem = T[tid]
++        target_txt[tid] = ' '.join([
++            'converse counterexample target', str(tid), str(theorem.get('name', '')),
++            'satisfy conclusion', ftxt(theorem.get('then')),
++            'violate hypothesis', ftxt(theorem.get('when')),
++        ])
++    return sorted(S), txt, cov, U, target_txt
+ 
+ 
+ def dart(dom):
+@@ -88,13 +119,13 @@
+         if not pp.exists():
+             continue
+         try:
+-            p = yaml.safe_load(pp.read_text()) or {}
++            props = yaml.safe_load(pp.read_text()) or {}
+             meta = yaml.safe_load(dp.read_text()) or {}
+         except Exception:
+             continue
+         q = {}
+         if ring:
+-            for k, v in p.items():
++            for k, v in props.items():
+                 try:
+                     i = int(k.split('_')[-1])
+                 except Exception:
+@@ -109,7 +140,7 @@
+                 ' '.join(map(str, meta.get('keywords') or [])), 'comm=' + str(meta.get('is_commutative'))
+             ])
+         else:
+-            for k, v in p.items():
++            for k, v in props.items():
+                 try:
+                     i = int(k.split('_')[-1])
+                 except Exception:
+@@ -122,7 +153,19 @@
+             ])
+         trs[od.name] = q
+ 
++    prop_meta = {}
++    prop_root = b / 'property'
++    if prop_root.exists():
++        for pd in sorted(x for x in prop_root.iterdir() if x.is_dir()):
++            try:
++                pid = int(pd.name.split('_')[-1])
++                md = yaml.safe_load((pd / 'data.yaml').read_text()) or {}
++            except Exception:
++                continue
++            prop_meta[pid] = ' '.join([str(md.get('name', '')), str(md.get('definition', '')), str(md.get('description', ''))])
++
+     rules = []
++    rule_text = {}
+     for f in sorted((b / 'logic').glob('*.yaml')):
+         try:
+             d = yaml.safe_load(f.read_text()) or {}
+@@ -131,8 +174,28 @@
+         if d.get('active') is False:
+             continue
+         a, c = parse(d.get('hyps')), parse(d.get('concs'))
+-        if a and c:
+-            rules.append((f.stem, a, c))
++        if not (a and c):
++            continue
++        rules.append((f.stem, a, c))
++        if ring:
++            pa, sa, va = a
++            pc, sc, vc = c
++            side = {0: 'left', 1: 'right', 2: 'both symmetric'}
++            rule_text[f.stem] = ' '.join([
++                'converse counterexample target', f.stem,
++                'satisfy conclusion', prop_meta.get(pc, f'property {pc}'), side.get(sc, str(sc)), str(vc),
++                'violate hypothesis', prop_meta.get(pa, f'property {pa}'), side.get(sa, str(sa)), str(va),
++                str(d.get('description', '')), str(d.get('notes', '')),
++            ])
++        else:
++            pa, va = a
++            pc, vc = c
++            rule_text[f.stem] = ' '.join([
++                'converse counterexample target', f.stem,
++                'satisfy conclusion', prop_meta.get(pc, f'property {pc}'), str(vc),
++                'violate hypothesis', prop_meta.get(pa, f'property {pa}'), str(va),
++                str(d.get('description', '')), str(d.get('notes', '')),
++            ])
+ 
+     cov = {o: set() for o in trs}
+     for o, q in trs.items():
+@@ -150,7 +213,8 @@
+             if isinstance(xa, bool) and isinstance(xc, bool) and xc == vc and xa != va:
+                 cov[o].add(rid)
+     U = set().union(*cov.values()) if cov else set()
+-    return sorted(trs), txt, cov, U
++    target_txt = {rid: rule_text.get(rid, rid) for rid in U}
++    return sorted(trs), txt, cov, U, target_txt
+ 
+ 
+ @dataclass
+@@ -405,24 +469,60 @@
+     return rems[int(action_local)]
+ 
+ 
+-def target_weights(Yobs, obs, residual_cols):
++def predicted_rarity_weights(P_full, rems, residual_cols):
+     if not residual_cols:
+         return []
+-    floor = 1.0 / (len(obs) + 1.0)
+-    vals = []
+-    for t in residual_cols:
+-        prev = float(np.mean(Yobs[obs, t])) if obs else 0.0
+-        vals.append(1.0 / math.sqrt(max(prev, floor)))
+-    m = float(np.mean(vals)) if vals else 1.0
+-    return [v / m for v in vals]
++    P = np.asarray(P_full[np.ix_(rems, residual_cols)], dtype=float)
++    prevalence = np.mean(P, axis=0) if len(rems) else np.ones(len(residual_cols))
++    floor = 1.0 / max(2, len(rems))
++    vals = 1.0 / np.sqrt(np.maximum(prevalence, floor))
++    vals = vals / max(float(np.mean(vals)), 1e-12)
++    return vals.tolist()
++
++
++class PairwiseRidgePredictor:
++    """Cross-target predictor: one open-source RidgeClassifier over object-target pairs.
++
++    Unlike independent output heads, this can rank a target that has never had a
++    positive queried example by transferring across public target descriptions.
++    No unqueried outcome appears in features or fitting.
++    """
++    def __init__(self, ids, object_text, targets, target_text):
++        self.n = len(ids)
++        self.m = len(targets)
++        vec = HashingVectorizer(n_features=PAIR_FEATURES, alternate_sign=False, norm='l2', ngram_range=(1, 2))
++        O = vec.transform([object_text[i] for i in ids]).toarray().astype(np.float32)
++        T = vec.transform([target_text[t] for t in targets]).toarray().astype(np.float32)
++        Oo = O[:, None, :]
++        Tt = T[None, :, :]
++        self.F = np.concatenate([
++            np.broadcast_to(Oo, (self.n, self.m, PAIR_FEATURES)),
++            np.broadcast_to(Tt, (self.n, self.m, PAIR_FEATURES)),
++            Oo * Tt,
++            np.abs(Oo - Tt),
++        ], axis=2).astype(np.float32, copy=False)
++        self.public_similarity = np.clip(O @ T.T, 0.0, 1.0)
++
++    def predict(self, obs, Yobs):
++        y = np.asarray(Yobs[obs], dtype=np.int8).reshape(-1)
++        if len(y) == 0 or np.all(y == y[0]):
++            # Public-text-only prior for the rare edge case of a single-class warm start.
++            base = 0.02 + 0.16 * self.public_similarity
++            return np.clip(base, 1e-4, 1.0 - 1e-4), int(np.sum(y)) if len(y) else 0
++        Xtr = self.F[obs].reshape(-1, self.F.shape[2])
++        clf = RidgeClassifier(alpha=RIDGE_ALPHA, class_weight='balanced')
++        clf.fit(Xtr, y)
++        score = clf.decision_function(self.F.reshape(-1, self.F.shape[2])).reshape(self.n, self.m)
++        score = np.clip(score, -12.0, 12.0)
++        P = 1.0 / (1.0 + np.exp(-score))
++        return np.clip(P, 1e-4, 1.0 - 1e-4), 0
+ 
+ 
+-def run_seed(ids, txt, cov, U, method, seed):
++def run_seed(ids, txt, cov, U, target_txt, method, seed):
+     targets = sorted(U)
+     env = OracleEnv(ids, cov, targets)
+     n = len(ids)
+-    V = HashingVectorizer(n_features=FEATURES, alternate_sign=False, norm='l2', ngram_range=(1, 2))
+-    X = V.transform([txt[i] for i in ids]).toarray()
++    predictor = PairwiseRidgePredictor(ids, txt, targets, target_txt)
+     Yobs = np.zeros((n, len(targets)), dtype=float)
+     rem = set(range(n))
+     obs, order, fractions = [], [], []
+@@ -445,16 +545,17 @@
+             break
+ 
+     step = len(order)
++    single_class_steps = 0
+     while rem and not seen.all():
+-        model = Ridge(alpha=RIDGE_ALPHA).fit(X[obs], Yobs[obs])
+-        Pfull = np.clip(model.predict(X), 0.0, 1.0)
++        Pfull, fallback_flag = predictor.predict(obs, Yobs)
++        single_class_steps += int(bool(fallback_flag))
+         rems = sorted(rem)
+         residual_cols = np.flatnonzero(~seen).tolist()
+ 
+         if method == 'psc':
+             j = choose_psc(Pfull, rems, residual_cols)
+         elif method == 'wpsc':
+-            j = choose_psc(Pfull, rems, residual_cols, target_weights(Yobs, obs, residual_cols))
++            j = choose_psc(Pfull, rems, residual_cols, predicted_rarity_weights(Pfull, rems, residual_cols))
+         elif method in ('bestfirst', 'astar'):
+             j = choose_tree(Pfull, rems, residual_cols, method)
+         elif method == 'cpsat':
+@@ -479,12 +580,12 @@
+     padded = fractions + [terminal] * max(0, n - len(fractions))
+     auc = float(np.mean(padded)) if padded else 0.0
+     seq_hash = hashlib.sha256('\n'.join(map(str, order)).encode()).hexdigest()
+-    return {'seed': seed, 'hits': hits, 'auc': auc, 'queries_run': len(order), 'order_sha256': seq_hash, 'order': order}
++    return {'seed': seed, 'hits': hits, 'auc': auc, 'queries_run': len(order), 'order_sha256': seq_hash, 'single_class_fallback_steps': single_class_steps, 'order': order}
+ 
+ 
+ def run_domain(name, data, method):
+-    ids, txt, cov, U = data
+-    seeds = [run_seed(ids, txt, cov, U, method, s) for s in range(5)]
++    ids, txt, cov, U, target_txt = data
++    seeds = [run_seed(ids, txt, cov, U, target_txt, method, s) for s in range(5)]
+     means = {}
+     for q in TH:
+         vals = [x['hits'][str(q)] for x in seeds if x['hits'][str(q)] is not None]
+@@ -508,7 +609,7 @@
+ 
+ UPSTREAMS = {
+     'psc': 'decile-team/submodlib ProbabilisticSetCoverFunction + LazyGreedy',
+-    'wpsc': 'decile-team/submodlib ProbabilisticSetCoverFunction + LazyGreedy with revealed-prevalence weights',
++    'wpsc': 'decile-team/submodlib ProbabilisticSetCoverFunction + LazyGreedy with inverse predicted-prevalence target weights',
+     'bestfirst': 'simpleai-team/simpleai greedy best-first search',
+     'astar': 'simpleai-team/simpleai A* search',
+     'cpsat': 'Google OR-Tools CP-SAT on posterior-sampled stochastic maximum coverage',
+@@ -519,7 +620,7 @@
+ res = {
+     'protocol': (
+         'Native online redo after invalidating the shared 10-target/16-candidate binary adapter. '
+-        'All methods share only the legal information state, Ridge predictor, warm-start, horizon=4, and post-commit reveal rule. '
++        'All methods share only the legal information state, cross-target pairwise RidgeClassifier predictor, warm-start, horizon=4, and post-commit reveal rule. '
+         'All residual targets remain continuous probabilities. Every remaining candidate is eligible as the real next action. '
+         'Method-specific search/optimization semantics are preserved; tree-search methods prune only hypothetical future branches.'
+     ),
+@@ -527,7 +628,8 @@
+     'upstream': UPSTREAMS[METHOD],
+     'frozen': {
+         'ridge_alpha': RIDGE_ALPHA,
+-        'hash_features': FEATURES,
++        'pair_hash_features': PAIR_FEATURES,
++        'pair_feature_blocks': ['object', 'target', 'elementwise_product', 'absolute_difference'],
+         'horizon': HORIZON,
+         'tree_future_branch': FUTURE_BRANCH,
+         'saa_scenarios': SAA_SCENARIOS,
