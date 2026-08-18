@@ -1,0 +1,130 @@
+--- native_online_baselines_v4.py
++++ native_online_baselines_v4.py
+@@ -149,9 +149,20 @@
+                     continue
+                 if isinstance(v.get('has'), bool):
+                     q[i] = v['has']
++            ring_public = ''
++            try:
++                ring_id = int(meta.get('ring'))
++                rdp = ROOT / 'db/ringapp/ring' / f'RING_{ring_id:06d}' / 'data.yaml'
++                if rdp.exists():
++                    rmeta = yaml.safe_load(rdp.read_text()) or {}
++                    ring_public = ' '.join([str(rmeta.get('name', '')), str(rmeta.get('description', '')),
++                                            ' '.join(map(str, rmeta.get('keywords') or []))])
++            except Exception:
++                ring_public = ''
+             txt[od.name] = ' '.join([
+-                str(meta.get('name', '')), str(meta.get('description', '')),
+-                'ring=' + str(meta.get('ring', '')), 'opp=' + str(meta.get('opposite_ring', ''))
++                od.name, str(meta.get('name', '')), str(meta.get('description', '')),
++                'ring=' + str(meta.get('ring', '')), 'opp=' + str(meta.get('opposite_ring', '')),
++                'underlying ring', ring_public
+             ])
+         trs[od.name] = q
+ 
+@@ -469,13 +480,22 @@
+ 
+ 
+ class PairwiseSGDPredictor:
+-    """Cross-target online predictor over object-target pairs."""
++    """Cross-target online predictor over object-target pairs.
++
++    The SGD pair model is blended with a public-text kernel smoother. The kernel
++    uses only candidate/target descriptions and already revealed rows, so it can
++    transfer positive evidence to an uncovered but textually related target and
++    remains candidate-varying on sparse domains such as the module benchmark.
++    """
+     def __init__(self, ids, object_text, targets, target_text, seed):
+         self.n = len(ids)
+         self.m = len(targets)
++        object_docs = [object_text[i] for i in ids]
++        target_docs = [target_text[t] for t in targets]
++
+         vec = HashingVectorizer(n_features=PAIR_FEATURES, alternate_sign=False, norm='l2', ngram_range=(1, 2))
+-        O = vec.transform([object_text[i] for i in ids]).toarray().astype(np.float32)
+-        T = vec.transform([target_text[t] for t in targets]).toarray().astype(np.float32)
++        O = vec.transform(object_docs).toarray().astype(np.float32)
++        T = vec.transform(target_docs).toarray().astype(np.float32)
+         Oo = O[:, None, :]
+         Tt = T[None, :, :]
+         self.F = np.concatenate([
+@@ -485,13 +505,27 @@
+             np.abs(Oo - Tt),
+         ], axis=2).astype(np.float32, copy=False)
+         self.public_similarity = np.clip(O @ T.T, 0.0, 1.0)
++
++        # Character n-gram kernels are robust to mathematical notation and short
++        # names that word tokenization can erase. They are fitted on public text only.
++        kvec = HashingVectorizer(n_features=192, alternate_sign=False, norm='l2',
++                                 analyzer='char_wb', ngram_range=(3, 5))
++        self.OK = kvec.transform(object_docs).toarray().astype(np.float32)
++        self.TK = kvec.transform(target_docs).toarray().astype(np.float32)
++        self.public_char_similarity = np.clip(self.OK @ self.TK.T, 0.0, 1.0)
++        Kt = np.clip(self.TK @ self.TK.T, 0.0, 1.0)
++        Kt += 0.15 * np.eye(self.m, dtype=np.float32)
++        self.Kt = Kt / np.maximum(Kt.sum(axis=1, keepdims=True), 1e-8)
++
+         self.clf = SGDClassifier(loss='log_loss', alpha=SGD_ALPHA, random_state=seed, average=True,
+                                  learning_rate='optimal', fit_intercept=True)
+         self.initialized = False
+         self.fitted_obs = set()
++        self.Yobs_ref = None
+ 
+     def update(self, new_obs, Yobs):
+         fresh = [j for j in new_obs if j not in self.fitted_obs]
++        self.Yobs_ref = Yobs
+         if not fresh:
+             return
+         Xtr = self.F[fresh].reshape(-1, self.F.shape[2])
+@@ -503,13 +537,32 @@
+             self.clf.partial_fit(Xtr, y)
+         self.fitted_obs.update(fresh)
+ 
++    def _kernel_posterior(self):
++        obs = sorted(self.fitted_obs)
++        if not obs or self.Yobs_ref is None:
++            return 0.02 + 0.18 * self.public_char_similarity
++        Ko = np.clip(self.OK @ self.OK[obs].T, 0.0, 1.0)
++        # Small public-text smoothing keeps rows defined without creating truth.
++        Ko = Ko * Ko + 1e-3
++        Ko = Ko / np.maximum(Ko.sum(axis=1, keepdims=True), 1e-8)
++        Y = np.asarray(self.Yobs_ref[obs], dtype=np.float32)
++        target_smoothed = Y @ self.Kt.T
++        Pk = Ko @ target_smoothed
++        # Weak text-only prior prevents exact collapse when all revealed rows agree.
++        Pk = 0.92 * Pk + 0.08 * (0.02 + 0.18 * self.public_char_similarity)
++        return np.clip(Pk, 1e-4, 1.0 - 1e-4)
++
+     def predict(self):
++        Pk = self._kernel_posterior()
+         if not self.initialized:
+-            base = 0.02 + 0.16 * self.public_similarity
++            base = 0.5 * (0.02 + 0.16 * self.public_similarity) + 0.5 * Pk
+             return np.clip(base, 1e-4, 1.0 - 1e-4), 1
+         score = self.clf.decision_function(self.F.reshape(-1, self.F.shape[2])).reshape(self.n, self.m)
+         score = np.clip(score, -12.0, 12.0)
+-        P = 1.0 / (1.0 + np.exp(-score))
++        Ps = 1.0 / (1.0 + np.exp(-score))
++        # Preserve the learned pair model while guaranteeing a legal cross-target,
++        # candidate-sensitive channel when the sparse-domain SGD geometry collapses.
++        P = 0.68 * Ps + 0.32 * Pk
+         return np.clip(P, 1e-4, 1.0 - 1e-4), 0
+@@ -601,7 +654,7 @@
+             'uses_unqueried_truth': False, 'uses_outcome_defined_target_universe_for_policy': False,
+             'strict_reveal_boundary': True, 'full_official_residual_target_set': True,
+-            'real_first_action_prefiltered': False,
++            'real_first_action_prefiltered': False, 'public_object_metadata_only': True,
+             'horizon': ASTAR_HORIZON if method == 'astar' else HORIZON,
+             'hits_mean': means, 'auc_mean': float(np.mean([x['auc'] for x in seeds])), 'seeds': seeds}
+@@ -621,13 +674,14 @@
+     'protocol': ('Outcome-universe-safe native online benchmark. Policy logic sees all official theorem/rule converses, not the hindsight coverable subset. '
+                  'The coverable subset is used only after the trajectory for evaluation. All methods share the legal information state, '
+-                 'cross-target online SGDClassifier predictor, warm-start, and post-commit reveal rule. Every remaining candidate is eligible '
++                 'cross-target online SGDClassifier plus public-text kernel posterior, warm-start, and post-commit reveal rule. Every remaining candidate is eligible '
+                  'as the real next action. Method-specific search/optimization semantics are preserved.'),
+@@ -635,6 +689,7 @@
+     'frozen': {'sgd_alpha': SGD_ALPHA, 'pair_hash_features': PAIR_FEATURES,
+                'pair_feature_blocks': ['object', 'target', 'elementwise_product', 'absolute_difference'],
++               'public_text_kernel': {'char_hash_features': 192, 'ngrams': [3, 5], 'blend_weight': 0.32},
+                'default_horizon': HORIZON, 'astar_horizon': ASTAR_HORIZON,
