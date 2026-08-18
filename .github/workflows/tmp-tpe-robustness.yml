@@ -1,0 +1,87 @@
+name: tmp-tpe-robustness-20260818
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: tmp-tpe-robustness-20260818
+  cancel-in-progress: true
+
+env:
+  PYTHONHASHSEED: '0'
+
+jobs:
+  tpe-robustness:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact dependency
+        run: pip install 'optuna==4.5.0'
+      - name: Restore audited exact TPE source and extend seeds only
+        run: |
+          set -euo pipefail
+          git fetch origin 8def627f7e6dd0bfb0342583f33ac1b28a6b5fa6 --depth=1
+          git show 8def627f7e6dd0bfb0342583f33ac1b28a6b5fa6:tpe_exact_outcome_safe_redo.py > tpe_exact_base.py
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('tpe_exact_base.py')
+          s=p.read_text()
+          head=s.split('# Preserve old formal protocol: one seed, seed=0.')[0]
+          tail=r'''# Robustness extension only: same tpe_policy/search space/budget, seeds 0..19.
+orders=[]
+runs=[]
+for seed in range(20):
+    order=tpe_policy(seed=seed)
+    hits,auc=curve(order)
+    runs.append({'seed':seed,'hits':hits,'auc':auc,'order':order})
+means={str(q): sum(r['hits'][str(q)] for r in runs)/len(runs) for q in TH}
+res={
+ 'protocol':'Robustness extension of exact audited TPE: identical search space, action budget and raw post-query marginal-gain reward; only seeds extended from fixed seed=0 to seeds 0..19.',
+ 'method':'tpe','seeds':list(range(20)),
+ 'uses_unqueried_truth':False,'uses_outcome_defined_target_universe_for_policy':False,
+ 'policy_target_count':len(T),'evaluation_coverable_target_count':len(eval_universe),
+ 'hits_mean':means,'auc_mean':sum(r['auc'] for r in runs)/len(runs),'runs':runs,
+}
+OUT.write_text(json.dumps(res,indent=2,ensure_ascii=False))
+print(json.dumps(res,indent=2,ensure_ascii=False))
+'''
+          Path('tpe_robustness.py').write_text(head+tail)
+          PY
+          grep -n "seeds 0..19" tpe_robustness.py
+          grep -n "uses_unqueried_truth.*False" tpe_robustness.py
+          python -m py_compile tpe_robustness.py
+      - name: Fetch frozen official pi-Base
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 'https://pub-65041ca69d744da88ade13abd31ad834.r2.dev/refs/heads/main.json' -o pi-base-main.json
+          echo '3a59130cbcaa10fe84e6e2d00d597435e0a7da53d8d267b22621017901d69836  pi-base-main.json' | sha256sum -c -
+          sha256sum pi-base-main.json > PIBASE_SHA256.txt
+      - name: Run twice and require exact equality
+        run: |
+          set -euo pipefail
+          python tpe_robustness.py pi-base-main.json result-a.json > stdout-a.txt
+          python tpe_robustness.py pi-base-main.json result-b.json > stdout-b.txt
+          cmp result-a.json result-b.json
+          python - <<'PY'
+          import json
+          d=json.load(open('result-a.json'))
+          assert d['uses_unqueried_truth'] is False
+          assert d['uses_outcome_defined_target_universe_for_policy'] is False
+          assert d['seeds']==list(range(20))
+          print('TPE_ROBUSTNESS_GATE_PASS',d['hits_mean'],d['auc_mean'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tpe-robustness-20seed
+          path: |
+            result-*.json
+            stdout-*.txt
+            tpe_exact_base.py
+            tpe_robustness.py
+            PIBASE_SHA256.txt
