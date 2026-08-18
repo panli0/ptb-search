@@ -1,0 +1,72 @@
+name: tmp-maspob-determinism-120
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: tmp-maspob-determinism-120-20260818
+  cancel-in-progress: true
+
+env:
+  PYTHONHASHSEED: '0'
+
+jobs:
+  maspob:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned open-source upstreams
+        run: |
+          set -euo pipefail
+          pip install 'pyyaml==6.0.3' 'numpy==2.3.2' 'scikit-learn==1.7.1' 'torch==2.8.0' 'torch-geometric==2.6.1'
+      - name: Restore exact frozen strict MASPOB adapter
+        run: |
+          set -euo pipefail
+          git fetch origin 0601e17eb8b4d95cabcf536e2c7057125756e086 --depth=1
+          git show 0601e17eb8b4d95cabcf536e2c7057125756e086:maspob_gnn_ucb_v4.py > maspob_gnn_ucb_v4.py
+          grep -n 'policy_U=set(T)' maspob_gnn_ucb_v4.py
+          grep -n 'uses_outcome_defined_target_universe_for_policy.*False' maspob_gnn_ucb_v4.py
+          python -m py_compile maspob_gnn_ucb_v4.py
+      - name: Fetch frozen datasets and official MASPOB
+        run: |
+          set -euo pipefail
+          git clone https://github.com/rschwiebert/dart_data.git dart_data
+          git -C dart_data checkout 38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1
+          test "$(git -C dart_data rev-parse HEAD)" = '38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1'
+          curl --fail --location --retry 3 'https://pub-65041ca69d744da88ade13abd31ad834.r2.dev/refs/heads/main.json' -o pi-base-main.json
+          echo '3a59130cbcaa10fe84e6e2d00d597435e0a7da53d8d267b22621017901d69836  pi-base-main.json' | sha256sum -c -
+          git clone https://github.com/HZ1008/MASPOB.git MASPOB
+          git -C MASPOB checkout 0be3af42da83b9b5ab187c101ec6d2ce87a5fe04
+          test "$(git -C MASPOB rev-parse HEAD)" = '0be3af42da83b9b5ab187c101ec6d2ce87a5fe04'
+          git -C MASPOB rev-parse HEAD > MASPOB_COMMIT.txt
+      - name: Run frozen method twice and require exact equality
+        run: |
+          set -euo pipefail
+          python maspob_gnn_ucb_v4.py dart_data pi-base-main.json MASPOB maspob-a.json > maspob-a.txt
+          python maspob_gnn_ucb_v4.py dart_data pi-base-main.json MASPOB maspob-b.json > maspob-b.txt
+          cmp maspob-a.json maspob-b.json
+          python - <<'PY'
+          import json
+          d=json.load(open('maspob-a.json'))
+          for dom in d['domains']:
+              for m in dom['methods'].values():
+                  assert m['uses_unqueried_truth'] is False
+                  assert m['uses_outcome_defined_target_universe_for_policy'] is False
+          print('MASPOB_DETERMINISM_AND_LEAKAGE_GATES_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maspob-determinism-120
+          path: |
+            maspob-*.json
+            maspob-*.txt
+            maspob_gnn_ucb_v4.py
+            MASPOB_COMMIT.txt
