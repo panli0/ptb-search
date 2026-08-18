@@ -1,11 +1,8 @@
 name: tmp-native-online-v4
 
 on:
-  push:
-    branches: [tmp-native-online-redo-20260818]
-    paths:
-      - 'native_online_baselines_v4.py'
-      - '.github/workflows/tmp-native-online-redo.yml'
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
