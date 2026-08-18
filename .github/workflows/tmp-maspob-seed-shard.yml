@@ -60,7 +60,7 @@ jobs:
           dom=os.environ['DOMAIN']; seed=int(os.environ['SEED']); rep=os.environ['REPEAT']
           sys.argv=['outcome_universe_audit_redo.py','dart_data','pi-base-main.json','MASPOB','unused.json','maspob',dom]
           spec=importlib.util.spec_from_file_location('strict_audit','outcome_universe_audit_redo.py')
-          m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+          m=importlib.util.module_from_spec(spec); sys.modules[spec.name]=m; spec.loader.exec_module(m)
           data=m.pi_data() if dom=='pi-base' else m.dart(dom)
           ids, txt, cov, eval_U, policy_targets, tn, nodes, edges=data
           env=m.StrictEnv(ids,cov)
