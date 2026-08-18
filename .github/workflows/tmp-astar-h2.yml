@@ -1,0 +1,54 @@
+name: tmp-astar-h2
+
+on:
+  push:
+    branches: [tmp-astar-h2-20260818]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  astar-h2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned open-source upstreams
+        run: |
+          pip install 'pyyaml==6.0.3' 'numpy==2.3.2' 'scikit-learn==1.7.1' \
+            'simpleai==0.8.3' 'ortools==9.14.6206' 'submodlib-py==0.0.3' 'mcts==1.0.4'
+      - name: Apply audited fixes and H2
+        run: |
+          set -euo pipefail
+          git apply native_online_baselines_v2.patch
+          git apply native_online_pair_predictor_v3.patch
+          git apply native_online_predictor_gate_v3.patch
+          git apply astar_h2.patch
+          grep -n 'HORIZON = 2' native_online_baselines_v2.py
+          grep -n 'class PairwiseRidgePredictor' native_online_baselines_v2.py
+          python -m py_compile native_online_baselines_v2.py
+      - name: Fetch frozen official datasets
+        run: |
+          set -euo pipefail
+          git clone https://github.com/rschwiebert/dart_data.git dart_data
+          git -C dart_data checkout 38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1
+          test "$(git -C dart_data rev-parse HEAD)" = "38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1"
+          curl --fail --location --retry 3 'https://pub-65041ca69d744da88ade13abd31ad834.r2.dev/refs/heads/main.json' -o pi-base-main.json
+          echo '3a59130cbcaa10fe84e6e2d00d597435e0a7da53d8d267b22621017901d69836  pi-base-main.json' | sha256sum -c -
+      - name: Run strict practical A star
+        run: |
+          set -euo pipefail
+          python native_online_baselines_v2.py dart_data pi-base-main.json result-astar-h2.json astar | tee stdout-astar-h2.txt
+          test -s result-astar-h2.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-online-v3-astar-h2
+          path: |
+            result-astar-h2.json
+            stdout-astar-h2.txt
+            native_online_baselines_v2.py
+            *.patch
