@@ -26,6 +26,13 @@ jobs:
         run: |
           pip install 'pyyaml==6.0.3' 'numpy==2.3.2' 'scikit-learn==1.7.1' \
             'simpleai==0.8.3' 'ortools==9.14.6206' 'submodlib-py==0.0.3' 'mcts==1.0.4'
+      - name: Apply audited sparse-domain predictor fix
+        run: |
+          set -euo pipefail
+          patch -p0 < native_online_v4_kernel_fix.patch
+          grep -n "public-text kernel smoother" native_online_baselines_v4.py
+          grep -n "underlying ring" native_online_baselines_v4.py
+          grep -n "blend_weight.*0.32" native_online_baselines_v4.py
       - name: Audit source contract
         run: |
           set -euo pipefail
@@ -33,6 +40,7 @@ jobs:
           grep -n "policy_targets = {rid for rid" native_online_baselines_v4.py
           grep -n "uses_outcome_defined_target_universe_for_policy.*False" native_online_baselines_v4.py
           grep -n "class PairwiseSGDPredictor" native_online_baselines_v4.py
+          grep -n "PREDICTOR_DEGENERATE" native_online_baselines_v4.py
           python -m py_compile native_online_baselines_v4.py
       - name: Fetch frozen official datasets
         run: |
@@ -60,5 +68,6 @@ jobs:
             result-${{ matrix.method }}.json
             stdout-${{ matrix.method }}.txt
             native_online_baselines_v4.py
+            native_online_v4_kernel_fix.patch
             DART_COMMIT.txt
             PIBASE_SHA256.txt
