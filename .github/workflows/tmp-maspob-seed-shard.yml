@@ -1,0 +1,88 @@
+name: tmp-maspob-seed-shard
+
+on:
+  pull_request:
+    branches: [main]
+
+env:
+  PYTHONHASHSEED: '0'
+
+jobs:
+  shard:
+    strategy:
+      fail-fast: false
+      matrix:
+        domain: [pi-base, ring, module]
+        seed: [0, 1, 2]
+        repeat: [a, b]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned dependencies
+        run: |
+          set -euo pipefail
+          pip install 'pyyaml==6.0.3' 'numpy==2.3.2' 'scikit-learn==1.7.1' 'torch==2.8.0' 'torch-geometric==2.6.1'
+      - name: Restore exact strict audit source
+        run: |
+          set -euo pipefail
+          git fetch origin 8def627f7e6dd0bfb0342583f33ac1b28a6b5fa6 --depth=1
+          git show 8def627f7e6dd0bfb0342583f33ac1b28a6b5fa6:outcome_universe_audit_redo.py > outcome_universe_audit_redo.py
+          grep -n "uses_outcome_defined_target_universe_for_policy.*False" outcome_universe_audit_redo.py
+          grep -n "orders = \[maspob_policy.*range(3)" outcome_universe_audit_redo.py
+          python -m py_compile outcome_universe_audit_redo.py
+      - name: Fetch frozen datasets and official MASPOB
+        run: |
+          set -euo pipefail
+          git clone https://github.com/rschwiebert/dart_data.git dart_data
+          git -C dart_data checkout 38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1
+          test "$(git -C dart_data rev-parse HEAD)" = '38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1'
+          curl --fail --location --retry 3 'https://pub-65041ca69d744da88ade13abd31ad834.r2.dev/refs/heads/main.json' -o pi-base-main.json
+          echo '3a59130cbcaa10fe84e6e2d00d597435e0a7da53d8d267b22621017901d69836  pi-base-main.json' | sha256sum -c -
+          git clone https://github.com/HZ1008/MASPOB.git MASPOB
+          git -C MASPOB checkout 0be3af42da83b9b5ab187c101ec6d2ce87a5fe04
+          test "$(git -C MASPOB rev-parse HEAD)" = '0be3af42da83b9b5ab187c101ec6d2ce87a5fe04'
+          git -C MASPOB rev-parse HEAD > MASPOB_COMMIT.txt
+      - name: Run exact one-seed shard
+        env:
+          DOMAIN: ${{ matrix.domain }}
+          SEED: ${{ matrix.seed }}
+          REPEAT: ${{ matrix.repeat }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import importlib.util, json, os, sys
+          dom=os.environ['DOMAIN']; seed=int(os.environ['SEED']); rep=os.environ['REPEAT']
+          sys.argv=['outcome_universe_audit_redo.py','dart_data','pi-base-main.json','MASPOB','unused.json','maspob',dom]
+          spec=importlib.util.spec_from_file_location('strict_audit','outcome_universe_audit_redo.py')
+          m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+          data=m.pi_data() if dom=='pi-base' else m.dart(dom)
+          ids, txt, cov, eval_U, policy_targets, tn, nodes, edges=data
+          env=m.StrictEnv(ids,cov)
+          order=m.maspob_policy(ids,txt,env,policy_targets,tn,nodes,edges,seed)
+          hits,auc=m.evaluate(order,cov,eval_U)
+          out={
+            'domain':dom,'seed':seed,'repeat':rep,
+            'source_commit':'8def627f7e6dd0bfb0342583f33ac1b28a6b5fa6',
+            'maspob_commit':'0be3af42da83b9b5ab187c101ec6d2ce87a5fe04',
+            'uses_unqueried_truth':False,
+            'uses_outcome_defined_target_universe_for_policy':False,
+            'policy_target_count':len(policy_targets),
+            'evaluation_coverable_target_count':len(eval_U),
+            'hits':hits,'auc':auc,'order':order,
+          }
+          fn=f'maspob-{dom}-seed{seed}-{rep}.json'
+          open(fn,'w').write(json.dumps(out,sort_keys=True,separators=(',',':')))
+          print(json.dumps({'domain':dom,'seed':seed,'repeat':rep,'hits':hits,'auc':auc}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: maspob-shard-${{ matrix.domain }}-seed${{ matrix.seed }}-${{ matrix.repeat }}
+          path: |
+            maspob-*.json
+            MASPOB_COMMIT.txt
