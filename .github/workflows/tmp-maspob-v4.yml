@@ -1,0 +1,55 @@
+name: tmp-maspob-v4
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  bench:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install open-source upstreams
+        run: |
+          pip install 'pyyaml==6.0.3' 'numpy==2.3.2' 'scikit-learn==1.7.1' 'torch==2.8.0' 'torch-geometric==2.6.1'
+      - name: Audit source contract
+        run: |
+          set -euo pipefail
+          grep -n 'policy_U=set(T)' maspob_gnn_ucb_v4.py
+          grep -n 'uses_outcome_defined_target_universe_for_policy.*False' maspob_gnn_ucb_v4.py
+          python -m py_compile maspob_gnn_ucb_v4.py
+      - name: Fetch frozen datasets and MASPOB
+        run: |
+          set -euo pipefail
+          git clone https://github.com/rschwiebert/dart_data.git dart_data
+          git -C dart_data checkout 38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1
+          test "$(git -C dart_data rev-parse HEAD)" = '38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1'
+          curl --fail --location --retry 3 'https://pub-65041ca69d744da88ade13abd31ad834.r2.dev/refs/heads/main.json' -o pi-base-main.json
+          echo '3a59130cbcaa10fe84e6e2d00d597435e0a7da53d8d267b22621017901d69836  pi-base-main.json' | sha256sum -c -
+          git clone https://github.com/HZ1008/MASPOB.git MASPOB
+          git -C MASPOB checkout 0be3af42da83b9b5ab187c101ec6d2ce87a5fe04
+          test "$(git -C MASPOB rev-parse HEAD)" = '0be3af42da83b9b5ab187c101ec6d2ce87a5fe04'
+          git -C dart_data rev-parse HEAD > DART_COMMIT.txt
+          sha256sum pi-base-main.json > PIBASE_SHA256.txt
+          git -C MASPOB rev-parse HEAD > MASPOB_COMMIT.txt
+      - name: Run strict MASPOB v4
+        run: |
+          set -euo pipefail
+          python maspob_gnn_ucb_v4.py dart_data pi-base-main.json MASPOB maspob_v4_results.json | tee maspob_v4_stdout.txt
+          test -s maspob_v4_results.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maspob-v4-results
+          path: |
+            maspob_v4_results.json
+            maspob_v4_stdout.txt
+            maspob_gnn_ucb_v4.py
+            DART_COMMIT.txt
+            PIBASE_SHA256.txt
+            MASPOB_COMMIT.txt
