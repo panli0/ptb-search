@@ -1,0 +1,10 @@
+name: tmp-native-online-v4-completed
+
+on:
+  workflow_dispatch:
+
+jobs:
+  archived:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Completed formal run 32114766499; workflow frozen to avoid accidental reruns.'
