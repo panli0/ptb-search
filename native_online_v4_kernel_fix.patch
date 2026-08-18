@@ -110,21 +110,29 @@
 +        # candidate-sensitive channel when the sparse-domain SGD geometry collapses.
 +        P = 0.68 * Ps + 0.32 * Pk
          return np.clip(P, 1e-4, 1.0 - 1e-4), 0
+ 
+ 
 @@ -601,7 +654,7 @@
+             'evaluation_coverable_targets': len(eval_U), 'method': method, 'adaptive': True,
              'uses_unqueried_truth': False, 'uses_outcome_defined_target_universe_for_policy': False,
              'strict_reveal_boundary': True, 'full_official_residual_target_set': True,
 -            'real_first_action_prefiltered': False,
 +            'real_first_action_prefiltered': False, 'public_object_metadata_only': True,
              'horizon': ASTAR_HORIZON if method == 'astar' else HORIZON,
              'hits_mean': means, 'auc_mean': float(np.mean([x['auc'] for x in seeds])), 'seeds': seeds}
-@@ -621,13 +674,14 @@
+ 
+@@ -619,12 +672,13 @@
+ res = {
      'protocol': ('Outcome-universe-safe native online benchmark. Policy logic sees all official theorem/rule converses, not the hindsight coverable subset. '
                   'The coverable subset is used only after the trajectory for evaluation. All methods share the legal information state, '
 -                 'cross-target online SGDClassifier predictor, warm-start, and post-commit reveal rule. Every remaining candidate is eligible '
 +                 'cross-target online SGDClassifier plus public-text kernel posterior, warm-start, and post-commit reveal rule. Every remaining candidate is eligible '
                   'as the real next action. Method-specific search/optimization semantics are preserved.'),
-@@ -635,6 +689,7 @@
+     'method': METHOD,
+     'upstream': UPSTREAMS[METHOD],
      'frozen': {'sgd_alpha': SGD_ALPHA, 'pair_hash_features': PAIR_FEATURES,
                 'pair_feature_blocks': ['object', 'target', 'elementwise_product', 'absolute_difference'],
 +               'public_text_kernel': {'char_hash_features': 192, 'ngrams': [3, 5], 'blend_weight': 0.32},
                 'default_horizon': HORIZON, 'astar_horizon': ASTAR_HORIZON,
+                'tree_future_branch': FUTURE_BRANCH, 'saa_scenarios': SAA_SCENARIOS,
+                'seeds': [0, 1, 2, 3, 4]},
