@@ -28,15 +28,15 @@ jobs:
         run: |
           set -euo pipefail
           pip install 'pyyaml==6.0.3' 'numpy==2.3.2' 'scikit-learn==1.7.1' \
-            'simpleai==0.8.3' 'ortools==9.14.6206' 'submodlib-py==0.0.3' 'mcts==1.0.4' 'mip==1.17.6'
+            'simpleai==0.8.3' 'ortools==9.14.6206' 'submodlib-py==0.0.3' 'mcts==1.0.4' 'pulp==3.3.2'
       - name: Apply frozen v4 predictor patch and deterministic solver repair
         run: |
           set -euo pipefail
           patch -p0 < native_online_v4_kernel_fix.patch
           python apply_deterministic_solver_budget_fix.py
           grep -n 'max_deterministic_time = 0.12' native_online_baselines_v4.py
-          grep -n 'model.optimize(max_nodes=1000)' native_online_baselines_v4.py
-          grep -n "model.seed =" native_online_baselines_v4.py
+          grep -n 'maxNodes=1000' native_online_baselines_v4.py
+          grep -n 'PULP_CBC_CMD' native_online_baselines_v4.py
           grep -n "uses_outcome_defined_target_universe_for_policy.*False" native_online_baselines_v4.py
           python -m py_compile native_online_baselines_v4.py
       - name: Fetch frozen official datasets
