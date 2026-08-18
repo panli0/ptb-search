@@ -36,24 +36,36 @@ jobs:
       - name: Install pinned open-source dependencies
         run: |
           set -euo pipefail
-          pip install 'pyyaml==6.0.3' 'numpy==2.3.2' 'scikit-learn==1.7.1' 'optuna==4.5.0' 'torch==2.8.0'
+          pip install 'pyyaml==6.0.3' 'numpy==2.3.2' 'scikit-learn==1.7.1' 'optuna==4.5.0'
+          if [ '${{ matrix.mode }}' = 'maspob' ]; then
+            pip install 'torch==2.8.0' 'torch-geometric==2.6.1'
+          fi
       - name: Audit source contract
         run: |
           set -euo pipefail
           grep -n "policy_targets = set(T)" outcome_universe_audit_redo.py
           grep -n "policy_targets = {rid for rid" outcome_universe_audit_redo.py
-          grep -n "raw revealed marginal gain" outcome_universe_audit_redo.py
           grep -n "uses_outcome_defined_target_universe_for_policy.*False" outcome_universe_audit_redo.py
           python -m py_compile outcome_universe_audit_redo.py
+          if [ '${{ matrix.mode }}' = 'tpe' ]; then
+            grep -n "Exact old public search space/order" tpe_exact_outcome_safe_redo.py
+            grep -n "Preserve old formal protocol: one seed, seed=0" tpe_exact_outcome_safe_redo.py
+            grep -n "gain = len(result - seen)" tpe_exact_outcome_safe_redo.py
+            python -m py_compile tpe_exact_outcome_safe_redo.py
+          fi
       - name: Fetch frozen official datasets and MASPOB
         run: |
           set -euo pipefail
           git clone https://github.com/rschwiebert/dart_data.git dart_data
           git -C dart_data checkout 38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1
           test "$(git -C dart_data rev-parse HEAD)" = "38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1"
-          git clone https://github.com/HZ1008/MASPOB.git MASPOB
-          git -C MASPOB checkout 0be3af42da83b9b5ab187c101ec6d2ce87a5fe04
-          test "$(git -C MASPOB rev-parse HEAD)" = "0be3af42da83b9b5ab187c101ec6d2ce87a5fe04"
+          if [ '${{ matrix.mode }}' = 'maspob' ]; then
+            git clone https://github.com/HZ1008/MASPOB.git MASPOB
+            git -C MASPOB checkout 0be3af42da83b9b5ab187c101ec6d2ce87a5fe04
+            test "$(git -C MASPOB rev-parse HEAD)" = "0be3af42da83b9b5ab187c101ec6d2ce87a5fe04"
+          else
+            mkdir MASPOB
+          fi
           curl --fail --location --retry 3 \
             'https://pub-65041ca69d744da88ade13abd31ad834.r2.dev/refs/heads/main.json' \
             -o pi-base-main.json
@@ -62,8 +74,12 @@ jobs:
         run: |
           set -euo pipefail
           tag='${{ matrix.mode }}-${{ matrix.domain }}'
-          python outcome_universe_audit_redo.py dart_data pi-base-main.json MASPOB \
-            "result-${tag}.json" '${{ matrix.mode }}' '${{ matrix.domain }}' | tee "stdout-${tag}.txt"
+          if [ '${{ matrix.mode }}' = 'tpe' ]; then
+            python tpe_exact_outcome_safe_redo.py pi-base-main.json "result-${tag}.json" | tee "stdout-${tag}.txt"
+          else
+            python outcome_universe_audit_redo.py dart_data pi-base-main.json MASPOB \
+              "result-${tag}.json" '${{ matrix.mode }}' '${{ matrix.domain }}' | tee "stdout-${tag}.txt"
+          fi
           test -s "result-${tag}.json"
       - uses: actions/upload-artifact@v4
         if: always()
@@ -73,3 +89,4 @@ jobs:
             result-*.json
             stdout-*.txt
             outcome_universe_audit_redo.py
+            tpe_exact_outcome_safe_redo.py
