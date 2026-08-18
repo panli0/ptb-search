@@ -1,7 +1,7 @@
 diff --git a/native_online_baselines_v2.py b/native_online_baselines_v2.py
 --- a/native_online_baselines_v2.py
 +++ b/native_online_baselines_v2.py
-@@ -276,12 +276,14 @@ def choose_psc(P_full, rems, residual_cols, weights=None):
+@@ -276,11 +276,14 @@ def choose_psc(P_full, rems, residual_cols, weights=None):
      P = np.asarray(P_full[np.ix_(rems, residual_cols)], dtype=float)
      if P.shape[1] == 0:
          return rems[0]
