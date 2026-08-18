@@ -24,6 +24,10 @@ jobs:
         run: |
           pip install 'pyyaml==6.0.3' 'numpy==2.3.2' 'scikit-learn==1.7.1' \
             'simpleai==0.8.3' 'ortools==9.14.6206' 'submodlib-py==0.0.3' 'mcts==1.0.4'
+      - name: Apply audited execution fix
+        run: |
+          git apply native_online_baselines_v2.patch
+          grep -n "budget = min(HORIZON, len(rems) - 1)" native_online_baselines_v2.py
       - name: Fetch frozen official datasets
         run: |
           git clone https://github.com/rschwiebert/dart_data.git dart_data
@@ -37,8 +41,10 @@ jobs:
           sha256sum pi-base-main.json | tee PIBASE_SHA256.txt
       - name: Run strict native online adapter
         run: |
+          set -o pipefail
           python native_online_baselines_v2.py dart_data pi-base-main.json \
             result-${{ matrix.method }}.json ${{ matrix.method }} | tee stdout-${{ matrix.method }}.txt
+          test -s result-${{ matrix.method }}.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -46,5 +52,7 @@ jobs:
           path: |
             result-${{ matrix.method }}.json
             stdout-${{ matrix.method }}.txt
+            native_online_baselines_v2.py
+            native_online_baselines_v2.patch
             DART_COMMIT.txt
             PIBASE_SHA256.txt
