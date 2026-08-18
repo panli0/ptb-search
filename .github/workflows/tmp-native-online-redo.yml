@@ -7,6 +7,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: tmp-native-online-redo-20260818
+  cancel-in-progress: true
+
 jobs:
   bench:
     strategy:
