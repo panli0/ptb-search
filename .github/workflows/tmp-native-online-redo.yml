@@ -3,6 +3,8 @@ name: tmp-native-online-redo
 on:
   push:
     branches: [tmp-native-online-redo-20260818]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
