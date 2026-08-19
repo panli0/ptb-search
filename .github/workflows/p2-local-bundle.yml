@@ -1,0 +1,31 @@
+name: P2 local data bundle
+on:
+  push:
+    branches: [p2-local-bundle-20260819]
+permissions:
+  contents: read
+jobs:
+  bundle:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: p2-local-bundle-20260819
+      - name: Collect frozen external-domain assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/p2_bundle/code
+          cp outcome_universe_audit_redo.py native_online_baselines_v4.py native_online_v4_kernel_fix.patch /tmp/p2_bundle/code/
+          cp p1_pibase_stability.py /tmp/p2_bundle/code/ || true
+          git clone https://github.com/rschwiebert/dart_data.git /tmp/p2_bundle/dart_data
+          git -C /tmp/p2_bundle/dart_data checkout 38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1
+          rm -rf /tmp/p2_bundle/dart_data/.git
+          curl --fail --location --retry 3 'https://pub-65041ca69d744da88ade13abd31ad834.r2.dev/refs/heads/main.json' -o /tmp/p2_bundle/pi-base-main.json
+          echo '3a59130cbcaa10fe84e6e2d00d597435e0a7da53d8d267b22621017901d69836  /tmp/p2_bundle/pi-base-main.json' | sha256sum -c -
+          printf '%s\n' 'DaRT commit 38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1' 'pi-Base SHA256 3a59130cbcaa10fe84e6e2d00d597435e0a7da53d8d267b22621017901d69836' > /tmp/p2_bundle/FROZEN_ASSETS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p2-local-external-assets
+          path: /tmp/p2_bundle/
+          retention-days: 2
