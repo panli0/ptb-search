@@ -1,0 +1,128 @@
+{
+  "status": "P1_COMPLETE",
+  "protocol": {
+    "cheap_instances_per_family": 20,
+    "action_pool_fraction": 0.75,
+    "paired_bootstrap_reps": 10000,
+    "primary_rank_metric": "median pairwise Kendall tau-b within family",
+    "tau_gate": {
+      "unstable_below": 0.4,
+      "stable_at_or_above": 0.6
+    },
+    "expensive_instances_per_external_family": 5
+  },
+  "family_tau": {
+    "Ring": 0.18349396085439343,
+    "Module": 0.18861560099668895,
+    "pi-Base": 0.34586767242043853,
+    "ETP": 1.0
+  },
+  "family_tau_mean": {
+    "Ring": 0.18513820237714834,
+    "Module": 0.15228242713372012,
+    "pi-Base": 0.33209589038645393,
+    "ETP": 0.911443088586605
+  },
+  "family_verdict": {
+    "Ring": "TAU_LT_0_4_RANKING_UNSTABLE",
+    "Module": "TAU_LT_0_4_RANKING_UNSTABLE",
+    "pi-Base": "TAU_LT_0_4_RANKING_UNSTABLE",
+    "ETP": "TAU_GE_0_6_RANKING_STABLE"
+  },
+  "key_paired_bootstrap": {
+    "piBase_small_first": {
+      "bootstrap95": [-13.372500000000002, -8.827500000000002],
+      "instances_better_than_random": 20,
+      "instances_equal_random": 0,
+      "mean_calls_diff_vs_random": -11.092500000000003,
+      "n": 20
+    },
+    "piBase_target_ucb": {
+      "bootstrap95": [4.292374999999999, 9.395062499999993],
+      "instances_better_than_random": 2,
+      "instances_equal_random": 0,
+      "mean_calls_diff_vs_random": 7.052499999999997,
+      "n": 20
+    },
+    "Ring_epsridge": {
+      "bootstrap95": [0.23493749999999847, 3.074999999999998],
+      "instances_better_than_random": 7,
+      "instances_equal_random": 0,
+      "mean_calls_diff_vs_random": 1.649999999999999,
+      "n": 20
+    },
+    "Module_target_ucb": {
+      "bootstrap95": [-1.4000000000000004, -0.23999999999999994],
+      "instances_better_than_random": 15,
+      "instances_equal_random": 0,
+      "mean_calls_diff_vs_random": -0.8175000000000001,
+      "n": 20
+    },
+    "ETP_FINAL": {
+      "bootstrap95": [-22.35, -20.4],
+      "instances_better_than_random": 20,
+      "instances_equal_random": 0,
+      "mean_calls_diff_vs_random": -21.4,
+      "n": 20
+    },
+    "ETP_EPAG": {
+      "bootstrap95": [-22.35, -20.4],
+      "instances_better_than_random": 20,
+      "instances_equal_random": 0,
+      "mean_calls_diff_vs_random": -21.4,
+      "n": 20
+    },
+    "ETP_GRAPH19": {
+      "bootstrap95": [-22.4, -20.4],
+      "instances_better_than_random": 20,
+      "instances_equal_random": 0,
+      "mean_calls_diff_vs_random": -21.45,
+      "n": 20
+    }
+  },
+  "cross_family_common_methods": {
+    "methods": ["random", "target_mean", "target_ucb", "target_eps", "psc", "wpsc", "bestfirst"],
+    "average_rank_60_instances": {
+      "random": 3.725,
+      "target_mean": 3.191666666666667,
+      "target_ucb": 4.216666666666667,
+      "target_eps": 3.933333333333333,
+      "psc": 4.3,
+      "wpsc": 4.275,
+      "bestfirst": 4.358333333333333
+    },
+    "friedman_stat": 14.614609571788385,
+    "friedman_p": 0.02347556641012785,
+    "nemenyi_cd": 1.1628330966543476,
+    "note": "Exploratory pooled 60-instance CD-style analysis. Instances are clustered within 3 source-families; family bootstrap and within-family tau are primary."
+  },
+  "ETP_provenance_recovery": {
+    "status": "PASS_EXACT_SCIENTIFIC_CONTENT_RECOVERED",
+    "official_outcomes_sha256": "b4f53f7ba0200bd1951907c3faa23abc721d3a14e2db1223be9a2ecb5aa9a612",
+    "recovered_compact_sha256": "3273bb7a5ee4a8697d4e266bd3cf666e22718b57f29e42d4d8b2c1aa7436c7a6",
+    "recovered_manifest_sha256": "fcb56cfd5d43666de836472db06e69e7c4e265fb513f397f8c3e4dd73ddf3243",
+    "actions": 1213,
+    "successes": 1200,
+    "fails": 13,
+    "note": "Repository compact copy had CRC damage. Historical scientific content was reconstructed and accepted only after both frozen compact and manifest hashes matched exactly. P1 ETP resampling itself used zero new solver calls."
+  },
+  "expensive_k5_paired_bootstrap": {
+    "Ring": {
+      "mcts": {"mean_calls_diff_vs_random": 9.559999999999999, "bootstrap95": [5.519999999999996, 13.060000000000002], "better_instances": 0, "n": 5},
+      "cpsat": {"mean_calls_diff_vs_random": 9.240000000000004, "bootstrap95": [4.110000000000002, 12.350000000000003], "better_instances": 1, "n": 5}
+    },
+    "Module": {
+      "mcts": {"mean_calls_diff_vs_random": -0.6899999999999998, "bootstrap95": [-1.1900000000000002, -0.06999999999999992], "better_instances": 4, "n": 5},
+      "cpsat": {"mean_calls_diff_vs_random": -0.8100000000000002, "bootstrap95": [-1.4700000000000006, -0.14999999999999963], "better_instances": 4, "n": 5}
+    },
+    "pi-Base": {
+      "mcts": {"mean_calls_diff_vs_random": 3.3499999999999943, "bootstrap95": [-0.6300000000000011, 6.619999999999993], "better_instances": 1, "n": 5},
+      "cpsat": {"mean_calls_diff_vs_random": 4.069999999999993, "bootstrap95": [0.9399999999999921, 7.199999999999994], "better_instances": 1, "n": 5}
+    }
+  },
+  "scientific_readout": {
+    "external": "All three external families have median pairwise tau < 0.4; specific planner ranking is highly instance-sensitive.",
+    "etp": "ETP has median pairwise tau = 1.0 and all three graph-prior planners beat random in 20/20 subsampled instances.",
+    "main": "P1 supports a real regime difference in feature informativeness/stability, while showing that much of the external planner-to-planner ordering is sampling noise."
+  }
+}
