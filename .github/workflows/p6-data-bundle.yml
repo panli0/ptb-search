@@ -2,6 +2,8 @@ name: P6 data bundle
 on:
   push:
     branches: [p6-data-20260819]
+  pull_request:
+    branches: [main]
 permissions:
   contents: read
 jobs:
