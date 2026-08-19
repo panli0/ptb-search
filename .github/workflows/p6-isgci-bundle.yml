@@ -7,7 +7,7 @@ permissions:
 jobs:
   bundle:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
@@ -16,20 +16,23 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p /tmp/p6_isgci
+          mkdir -p /tmp/p6_isgci /tmp/isgci_pkg
+          cd /tmp/isgci_pkg
           sudo apt-get update -qq
-          sudo apt-get install -y -qq sagemath-database-graphs >/dev/null
-          cp /usr/share/sagemath/graphs/isgci_sage.xml /tmp/p6_isgci/isgci_sage.xml
-          dpkg-query -W -f='${Version}\n' sagemath-database-graphs > /tmp/p6_isgci/ISGCI_PACKAGE_VERSION.txt
+          apt-get download sagemath-database-graphs >/dev/null
+          deb=$(ls sagemath-database-graphs_*.deb | head -1)
+          dpkg-deb -x "$deb" /tmp/isgci_unpack
+          xml=$(find /tmp/isgci_unpack -type f -name 'isgci_sage.xml' -print -quit)
+          test -n "$xml"
+          cp "$xml" /tmp/p6_isgci/isgci_sage.xml
+          dpkg-deb -f "$deb" Version > /tmp/p6_isgci/ISGCI_PACKAGE_VERSION.txt
           sha256sum /tmp/p6_isgci/isgci_sage.xml > /tmp/p6_isgci/ISGCI_XML_SHA256.txt
           python - <<'PY'
           import xml.etree.ElementTree as ET, json
           p='/tmp/p6_isgci/isgci_sage.xml'
-          root=ET.parse(p).getroot()
-          tags={}
+          root=ET.parse(p).getroot();tags={}
           for x in root.iter():
-              k=x.tag.split('}')[-1]
-              tags[k]=tags.get(k,0)+1
+              k=x.tag.split('}')[-1];tags[k]=tags.get(k,0)+1
           json.dump({'root_tag':root.tag,'tag_counts':tags},open('/tmp/p6_isgci/isgci_manifest.json','w'),indent=2,sort_keys=True)
           PY
           cat >/tmp/p6_isgci/P6_ISGCI_SOURCE_LOCK.md <<'EOF'
