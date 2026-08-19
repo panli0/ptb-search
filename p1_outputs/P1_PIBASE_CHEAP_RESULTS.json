@@ -1,0 +1,505 @@
+{
+  "domain": "pi-base",
+  "gold_reproduction": {
+    "all_exact": true,
+    "expected": {
+      "bestfirst": 185.2,
+      "psc": 185.2,
+      "random": 182.35,
+      "small_first": 175.0,
+      "target_eps": 183.9,
+      "target_mean": 189.8,
+      "target_ucb": 197.3,
+      "tpe": 177.0,
+      "wpsc": 185.4
+    },
+    "observed": {
+      "bestfirst": 185.2,
+      "psc": 185.2,
+      "random": 182.35,
+      "small_first": 175.0,
+      "target_eps": 183.9,
+      "target_mean": 189.8,
+      "target_ucb": 197.3,
+      "tpe": 177.0,
+      "wpsc": 185.4
+    }
+  },
+  "instances": [
+    {
+      "instance": 0,
+      "objects": 168,
+      "reachable_targets": 138,
+      "scores": {
+        "bestfirst": 142.2,
+        "psc": 142.2,
+        "random": 144.25,
+        "small_first": 131.0,
+        "target_eps": 142.7,
+        "target_mean": 141.3,
+        "target_ucb": 154.2,
+        "tpe": 132.0,
+        "wpsc": 142.2
+      },
+      "seed": 202608190000,
+      "tau_vs_full": 0.26482044885142486
+    },
+    {
+      "instance": 1,
+      "objects": 168,
+      "reachable_targets": 140,
+      "scores": {
+        "bestfirst": 145.0,
+        "psc": 145.0,
+        "random": 138.75,
+        "small_first": 123.0,
+        "target_eps": 137.5,
+        "target_mean": 139.9,
+        "target_ucb": 147.1,
+        "tpe": 146.0,
+        "wpsc": 145.0
+      },
+      "seed": 202608190001,
+      "tau_vs_full": 0.3825184261187248
+    },
+    {
+      "instance": 2,
+      "objects": 168,
+      "reachable_targets": 142,
+      "scores": {
+        "bestfirst": 144.4,
+        "psc": 144.4,
+        "random": 136.25,
+        "small_first": 124.0,
+        "target_eps": 144.6,
+        "target_mean": 136.8,
+        "target_ucb": 139.0,
+        "tpe": 150.0,
+        "wpsc": 144.4
+      },
+      "seed": 202608190002,
+      "tau_vs_full": -0.08827348295047495
+    },
+    {
+      "instance": 3,
+      "objects": 168,
+      "reachable_targets": 155,
+      "scores": {
+        "bestfirst": 146.8,
+        "psc": 146.8,
+        "random": 140.4,
+        "small_first": 132.0,
+        "target_eps": 143.3,
+        "target_mean": 136.8,
+        "target_ucb": 144.4,
+        "tpe": 156.0,
+        "wpsc": 146.8
+      },
+      "seed": 202608190003,
+      "tau_vs_full": 0.08827348295047495
+    },
+    {
+      "instance": 4,
+      "objects": 168,
+      "reachable_targets": 139,
+      "scores": {
+        "bestfirst": 141.8,
+        "psc": 141.6,
+        "random": 141.8,
+        "small_first": 129.0,
+        "target_eps": 142.5,
+        "target_mean": 138.3,
+        "target_ucb": 153.2,
+        "tpe": 136.0,
+        "wpsc": 141.6
+      },
+      "seed": 202608190004,
+      "tau_vs_full": 0.3188740696088466
+    },
+    {
+      "instance": 5,
+      "objects": 168,
+      "reachable_targets": 151,
+      "scores": {
+        "bestfirst": 137.8,
+        "psc": 137.8,
+        "random": 140.55,
+        "small_first": 134.0,
+        "target_eps": 142.3,
+        "target_mean": 145.0,
+        "target_ucb": 153.8,
+        "tpe": 145.0,
+        "wpsc": 137.8
+      },
+      "seed": 202608190005,
+      "tau_vs_full": 0.2988071523335984
+    },
+    {
+      "instance": 6,
+      "objects": 168,
+      "reachable_targets": 151,
+      "scores": {
+        "bestfirst": 137.6,
+        "psc": 137.6,
+        "random": 139.85,
+        "small_first": 131.0,
+        "target_eps": 139.9,
+        "target_mean": 139.4,
+        "target_ucb": 144.5,
+        "tpe": 138.0,
+        "wpsc": 137.6
+      },
+      "seed": 202608190006,
+      "tau_vs_full": 0.3236694374850748
+    },
+    {
+      "instance": 7,
+      "objects": 168,
+      "reachable_targets": 137,
+      "scores": {
+        "bestfirst": 144.2,
+        "psc": 144.2,
+        "random": 139.45,
+        "small_first": 132.0,
+        "target_eps": 146.2,
+        "target_mean": 140.4,
+        "target_ucb": 151.1,
+        "tpe": 157.0,
+        "wpsc": 144.2
+      },
+      "seed": 202608190007,
+      "tau_vs_full": 0.14712247158412492
+    },
+    {
+      "instance": 8,
+      "objects": 168,
+      "reachable_targets": 149,
+      "scores": {
+        "bestfirst": 141.8,
+        "psc": 141.8,
+        "random": 141.3,
+        "small_first": 121.0,
+        "target_eps": 142.6,
+        "target_mean": 138.8,
+        "target_ucb": 154.9,
+        "tpe": 140.0,
+        "wpsc": 141.8
+      },
+      "seed": 202608190008,
+      "tau_vs_full": 0.44136741475237473
+    },
+    {
+      "instance": 9,
+      "objects": 168,
+      "reachable_targets": 151,
+      "scores": {
+        "bestfirst": 134.4,
+        "psc": 134.4,
+        "random": 142.4,
+        "small_first": 121.0,
+        "target_eps": 141.3,
+        "target_mean": 141.3,
+        "target_ucb": 153.6,
+        "tpe": 145.0,
+        "wpsc": 134.4
+      },
+      "seed": 202608190009,
+      "tau_vs_full": 0.11952286093343935
+    },
+    {
+      "instance": 10,
+      "objects": 168,
+      "reachable_targets": 145,
+      "scores": {
+        "bestfirst": 143.2,
+        "psc": 143.2,
+        "random": 139.5,
+        "small_first": 125.0,
+        "target_eps": 140.0,
+        "target_mean": 138.1,
+        "target_ucb": 146.0,
+        "tpe": 141.0,
+        "wpsc": 143.2
+      },
+      "seed": 202608190010,
+      "tau_vs_full": 0.5002164033860248
+    },
+    {
+      "instance": 11,
+      "objects": 168,
+      "reachable_targets": 139,
+      "scores": {
+        "bestfirst": 139.2,
+        "psc": 139.2,
+        "random": 140.55,
+        "small_first": 125.0,
+        "target_eps": 142.0,
+        "target_mean": 138.0,
+        "target_ucb": 154.9,
+        "tpe": 152.0,
+        "wpsc": 139.2
+      },
+      "seed": 202608190011,
+      "tau_vs_full": -0.029424494316824985
+    },
+    {
+      "instance": 12,
+      "objects": 168,
+      "reachable_targets": 146,
+      "scores": {
+        "bestfirst": 137.2,
+        "psc": 137.2,
+        "random": 140.85,
+        "small_first": 124.0,
+        "target_eps": 141.1,
+        "target_mean": 135.8,
+        "target_ucb": 151.6,
+        "tpe": 137.0,
+        "wpsc": 137.2
+      },
+      "seed": 202608190012,
+      "tau_vs_full": 0.26482044885142486
+    },
+    {
+      "instance": 13,
+      "objects": 168,
+      "reachable_targets": 146,
+      "scores": {
+        "bestfirst": 137.0,
+        "psc": 137.0,
+        "random": 141.3,
+        "small_first": 128.0,
+        "target_eps": 142.9,
+        "target_mean": 142.5,
+        "target_ucb": 145.5,
+        "tpe": 147.0,
+        "wpsc": 137.0
+      },
+      "seed": 202608190013,
+      "tau_vs_full": 0.14712247158412492
+    },
+    {
+      "instance": 14,
+      "objects": 168,
+      "reachable_targets": 145,
+      "scores": {
+        "bestfirst": 140.4,
+        "psc": 140.4,
+        "random": 142.9,
+        "small_first": 139.0,
+        "target_eps": 139.8,
+        "target_mean": 134.0,
+        "target_ucb": 131.1,
+        "tpe": 130.0,
+        "wpsc": 140.4
+      },
+      "seed": 202608190014,
+      "tau_vs_full": -0.08827348295047495
+    },
+    {
+      "instance": 15,
+      "objects": 168,
+      "reachable_targets": 144,
+      "scores": {
+        "bestfirst": 141.4,
+        "psc": 141.4,
+        "random": 142.65,
+        "small_first": 138.0,
+        "target_eps": 140.2,
+        "target_mean": 141.9,
+        "target_ucb": 142.1,
+        "tpe": 140.0,
+        "wpsc": 141.4
+      },
+      "seed": 202608190015,
+      "tau_vs_full": 0.6179143806533247
+    },
+    {
+      "instance": 16,
+      "objects": 168,
+      "reachable_targets": 147,
+      "scores": {
+        "bestfirst": 138.8,
+        "psc": 138.8,
+        "random": 140.7,
+        "small_first": 139.0,
+        "target_eps": 145.1,
+        "target_mean": 139.0,
+        "target_ucb": 148.6,
+        "tpe": 136.0,
+        "wpsc": 138.8
+      },
+      "seed": 202608190016,
+      "tau_vs_full": 0.2390457218668787
+    },
+    {
+      "instance": 17,
+      "objects": 168,
+      "reachable_targets": 152,
+      "scores": {
+        "bestfirst": 138.8,
+        "psc": 138.8,
+        "random": 140.4,
+        "small_first": 133.0,
+        "target_eps": 136.1,
+        "target_mean": 136.7,
+        "target_ucb": 145.8,
+        "tpe": 142.0,
+        "wpsc": 138.8
+      },
+      "seed": 202608190017,
+      "tau_vs_full": 0.14712247158412492
+    },
+    {
+      "instance": 18,
+      "objects": 168,
+      "reachable_targets": 138,
+      "scores": {
+        "bestfirst": 140.8,
+        "psc": 140.8,
+        "random": 140.4,
+        "small_first": 134.0,
+        "target_eps": 139.8,
+        "target_mean": 139.2,
+        "target_ucb": 145.0,
+        "tpe": 148.0,
+        "wpsc": 140.8
+      },
+      "seed": 202608190018,
+      "tau_vs_full": 0.20597146021777488
+    },
+    {
+      "instance": 19,
+      "objects": 168,
+      "reachable_targets": 150,
+      "scores": {
+        "bestfirst": 142.2,
+        "psc": 142.2,
+        "random": 139.6,
+        "small_first": 129.0,
+        "target_eps": 139.2,
+        "target_mean": 132.7,
+        "target_ucb": 148.5,
+        "tpe": 144.0,
+        "wpsc": 142.2
+      },
+      "seed": 202608190019,
+      "tau_vs_full": 0.26482044885142486
+    }
+  ],
+  "paired_bootstrap_vs_random": {
+    "bestfirst": {
+      "bootstrap95": [
+        -1.620062500000003,
+        1.8799999999999968
+      ],
+      "instances_better_than_random": 11,
+      "instances_equal_random": 1,
+      "mean_calls_diff_vs_random": 0.057499999999998865,
+      "n": 20
+    },
+    "psc": {
+      "bootstrap95": [
+        -1.6699999999999988,
+        1.832499999999996
+      ],
+      "instances_better_than_random": 12,
+      "instances_equal_random": 0,
+      "mean_calls_diff_vs_random": 0.04749999999999801,
+      "n": 20
+    },
+    "small_first": {
+      "bootstrap95": [
+        -13.372500000000002,
+        -8.827500000000002
+      ],
+      "instances_better_than_random": 20,
+      "instances_equal_random": 0,
+      "mean_calls_diff_vs_random": -11.092500000000003,
+      "n": 20
+    },
+    "target_eps": {
+      "bootstrap95": [
+        -0.4875625000000082,
+        2.1700624999999993
+      ],
+      "instances_better_than_random": 8,
+      "instances_equal_random": 0,
+      "mean_calls_diff_vs_random": 0.7624999999999972,
+      "n": 20
+    },
+    "target_mean": {
+      "bootstrap95": [
+        -3.207499999999996,
+        -0.6224374999999976
+      ],
+      "instances_better_than_random": 15,
+      "instances_equal_random": 0,
+      "mean_calls_diff_vs_random": -1.8974999999999995,
+      "n": 20
+    },
+    "target_ucb": {
+      "bootstrap95": [
+        4.292374999999999,
+        9.395062499999993
+      ],
+      "instances_better_than_random": 2,
+      "instances_equal_random": 0,
+      "mean_calls_diff_vs_random": 7.052499999999997,
+      "n": 20
+    },
+    "tpe": {
+      "bootstrap95": [
+        -1.240000000000002,
+        6.082499999999998
+      ],
+      "instances_better_than_random": 8,
+      "instances_equal_random": 0,
+      "mean_calls_diff_vs_random": 2.4074999999999975,
+      "n": 20
+    },
+    "wpsc": {
+      "bootstrap95": [
+        -1.6399999999999963,
+        1.847499999999998
+      ],
+      "instances_better_than_random": 12,
+      "instances_equal_random": 0,
+      "mean_calls_diff_vs_random": 0.04749999999999801,
+      "n": 20
+    }
+  },
+  "protocol": {
+    "K": 20,
+    "action_pool_fraction": 0.75,
+    "bootstrap_reps": 10000,
+    "bootstrap_seed": 202608190777,
+    "commit_before_reveal": true,
+    "evaluation_universe": "union of coverage rows reachable by sampled spaces",
+    "gold_stochastic_seed_counts": {
+      "predicted_planners": 5,
+      "random": 20,
+      "target": 10,
+      "tpe": 1
+    },
+    "instance_base_seed": 202608190000,
+    "policy_target_universe": "all official theorem converses; unchanged by subsampling",
+    "primary_tau": "median pairwise Kendall tau-b across K instance ranking vectors",
+    "ridge_knn_note": "not defined in the pi-Base Gold ledger; not invented for P1",
+    "same_instance_pool_for_all_methods": true
+  },
+  "ranking_stability": {
+    "pair_count": 190,
+    "pairwise_tau_mean": 0.33209589038645393,
+    "pairwise_tau_median": 0.34586767242043853,
+    "pairwise_tau_p05_p95": [
+      -0.2308551855318114,
+      0.7893447191566353
+    ],
+    "tau_vs_full_mean": 0.22830190556977054,
+    "tau_vs_full_median": 0.25193308535915176,
+    "verdict": "TAU_LT_0_4_RANKING_UNSTABLE"
+  },
+  "status": "PASS",
+  "version": 1
+}
