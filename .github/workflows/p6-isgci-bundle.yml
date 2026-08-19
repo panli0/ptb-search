@@ -17,14 +17,14 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p /tmp/p6_isgci
-          cd /tmp
-          git -c http.https://github.com/.extraheader= clone --quiet https://github.com/graphclasses/graphclasses.git /tmp/graphclasses
-          git -C /tmp/graphclasses rev-parse HEAD > /tmp/p6_isgci/ISGCI_GIT_COMMIT.txt
-          cp /tmp/graphclasses/data/masterdata.xml /tmp/p6_isgci/masterdata.xml
-          sha256sum /tmp/p6_isgci/masterdata.xml > /tmp/p6_isgci/ISGCI_MASTERDATA_SHA256.txt
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq sagemath-database-graphs >/dev/null
+          cp /usr/share/sagemath/graphs/isgci_sage.xml /tmp/p6_isgci/isgci_sage.xml
+          dpkg-query -W -f='${Version}\n' sagemath-database-graphs > /tmp/p6_isgci/ISGCI_PACKAGE_VERSION.txt
+          sha256sum /tmp/p6_isgci/isgci_sage.xml > /tmp/p6_isgci/ISGCI_XML_SHA256.txt
           python - <<'PY'
           import xml.etree.ElementTree as ET, json
-          p='/tmp/p6_isgci/masterdata.xml'
+          p='/tmp/p6_isgci/isgci_sage.xml'
           root=ET.parse(p).getroot()
           tags={}
           for x in root.iter():
@@ -34,11 +34,11 @@ jobs:
           PY
           cat >/tmp/p6_isgci/P6_ISGCI_SOURCE_LOCK.md <<'EOF'
           # P6 ISGCI source lock
-          - Source: graphclasses/graphclasses `data/masterdata.xml`, commit recorded before evaluation.
+          - Source: Sage `sagemath-database-graphs` packaged ISGCI XML snapshot; package version and SHA recorded before evaluation.
           - Action: one graph class.
           - Public-at-commit features: class name text; class-definition type/tag structure; directed/undirected flag; no inclusion edges or derived inclusion counts.
-          - Hidden reveal: that class's official inclusion-row certificates from the frozen ISGCI database.
-          - Evaluation target universe: official inclusion relations represented in the frozen source; outcome-defined filtering remains evaluator-only.
+          - Hidden reveal: that class's official inclusion-row certificates from the frozen ISGCI snapshot.
+          - Evaluation target universe: inclusion relations represented in the frozen snapshot; outcome-defined filtering remains evaluator-only.
           - commit-before-reveal; no free skip; no recommit.
           - P1 K=20 75% action-pool subsamples, seeds 202608190000..019.
           - P2 residual-conditioned realized marginal gain with Ridge/GBDT/small MLP and grouped CV.
