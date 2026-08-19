@@ -1,0 +1,66 @@
+name: P1 Ring Module stability
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  cheap-stability:
+    strategy:
+      fail-fast: false
+      matrix:
+        domain: [ring, module]
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: p1-stability-ring-module-20260819
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact Gold dependencies
+        run: |
+          set -euo pipefail
+          pip install 'pyyaml==6.0.3' 'numpy==2.3.2' 'scikit-learn==1.7.1' 'scipy==1.16.1' \
+            'simpleai==0.8.3' 'ortools==9.14.6206' 'submodlib-py==0.0.3' 'mcts==1.0.4'
+      - name: Restore exact corrected native v4 predictor
+        run: |
+          set -euo pipefail
+          patch -p0 < native_online_v4_kernel_fix.patch
+          grep -n "uses_outcome_defined_target_universe_for_policy.*False" native_online_baselines_v4.py
+          python -m py_compile native_online_baselines_v4.py outcome_universe_audit_redo.py p1_ring_module_stability.py
+      - name: Fetch frozen DaRT data
+        run: |
+          set -euo pipefail
+          git clone https://github.com/rschwiebert/dart_data.git dart_data
+          git -C dart_data checkout 38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1
+          test "$(git -C dart_data rev-parse HEAD)" = '38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1'
+      - name: Run P1 cheap stability batch
+        run: |
+          set -euo pipefail
+          mkdir -p p1_outputs
+          PYTHONHASHSEED=0 python p1_ring_module_stability.py \
+            --domain '${{ matrix.domain }}' --dart-root dart_data \
+            --ou outcome_universe_audit_redo.py --nv native_online_baselines_v4.py \
+            --outdir p1_outputs | tee p1_outputs/P1_${{ matrix.domain }}_STDOUT.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: p1-${{ matrix.domain }}-cheap-stability
+          path: p1_outputs/
+          if-no-files-found: warn
+      - name: Archive scientific outputs on P1 branch
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name p1-audit-bot
+          git config user.email p1-audit-bot@users.noreply.github.com
+          git add p1_outputs
+          git commit -m "P1: archive ${{ matrix.domain }} cheap stability results" || exit 0
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin p1-stability-ring-module-20260819 && git push origin HEAD:p1-stability-ring-module-20260819 && exit 0
+            sleep $((i*2))
+          done
+          exit 1
