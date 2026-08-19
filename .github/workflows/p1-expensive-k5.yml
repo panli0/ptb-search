@@ -1,0 +1,53 @@
+name: P1 expensive K5
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  expensive:
+    strategy:
+      fail-fast: false
+      matrix:
+        domain: [pibase, ring, module]
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: p1-expensive-20260819
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact Gold dependencies
+        run: |
+          set -euo pipefail
+          pip install 'pyyaml==6.0.3' 'numpy==2.3.2' 'scikit-learn==1.7.1' 'scipy==1.16.1' \
+            'simpleai==0.8.3' 'ortools==9.14.6206' 'submodlib-py==0.0.3' 'mcts==1.0.4' 'pulp==3.3.0'
+      - name: Restore exact corrected deterministic Gold runner
+        run: |
+          set -euo pipefail
+          patch -p0 < native_online_v4_kernel_fix.patch
+          python apply_deterministic_solver_budget_fix.py
+          grep -n 'max_deterministic_time = 0.12' native_online_baselines_v4.py
+          python -m py_compile native_online_baselines_v4.py p1_expensive_k5.py
+      - name: Fetch frozen datasets
+        run: |
+          set -euo pipefail
+          git clone https://github.com/rschwiebert/dart_data.git dart_data
+          git -C dart_data checkout 38a000a67a1ca777ad35fdd7c6de8a4cc99adcb1
+          curl --fail --location --retry 3 'https://pub-65041ca69d744da88ade13abd31ad834.r2.dev/refs/heads/main.json' -o pi-base-main.json
+          echo '3a59130cbcaa10fe84e6e2d00d597435e0a7da53d8d267b22621017901d69836  pi-base-main.json' | sha256sum -c -
+      - name: Run expensive K5 batch
+        run: |
+          set -euo pipefail
+          mkdir -p p1_outputs
+          PYTHONHASHSEED=0 python p1_expensive_k5.py --domain '${{ matrix.domain }}' --dart-root dart_data \
+            --pi pi-base-main.json --nv native_online_baselines_v4.py --outdir p1_outputs | tee p1_outputs/P1_${{ matrix.domain }}_EXPENSIVE_STDOUT.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: p1-${{ matrix.domain }}-expensive-k5
+          path: p1_outputs/
+          if-no-files-found: warn
