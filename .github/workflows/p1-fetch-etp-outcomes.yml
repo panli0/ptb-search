@@ -1,0 +1,25 @@
+name: P1 fetch frozen ETP outcomes
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: p1-etp-outcomes-fetch-20260819
+      - name: Fetch exact frozen ETP dashboard image
+        run: |
+          set -euo pipefail
+          curl -fL --retry 5 --retry-delay 2 https://teorth.github.io/equational_theories/dashboard/outcomes.png -o outcomes.png
+          sha256sum outcomes.png
+          echo 'b4f53f7ba0200bd1951907c3faa23abc721d3a14e2db1223be9a2ecb5aa9a612  outcomes.png' | sha256sum -c -
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frozen-etp-outcomes-png
+          path: outcomes.png
+          if-no-files-found: error
