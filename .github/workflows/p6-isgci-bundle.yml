@@ -17,7 +17,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p /tmp/p6_isgci
-          git clone --quiet https://github.com/graphclasses/graphclasses.git /tmp/graphclasses
+          cd /tmp
+          git -c http.https://github.com/.extraheader= clone --quiet https://github.com/graphclasses/graphclasses.git /tmp/graphclasses
           git -C /tmp/graphclasses rev-parse HEAD > /tmp/p6_isgci/ISGCI_GIT_COMMIT.txt
           cp /tmp/graphclasses/data/masterdata.xml /tmp/p6_isgci/masterdata.xml
           sha256sum /tmp/p6_isgci/masterdata.xml > /tmp/p6_isgci/ISGCI_MASTERDATA_SHA256.txt
