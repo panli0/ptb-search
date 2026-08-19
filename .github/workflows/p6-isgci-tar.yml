@@ -1,0 +1,48 @@
+name: P6 ISGCI tar bundle
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  bundle:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: p6-data-20260819
+      - name: Freeze ISGCI source tar
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/p6_isgci_tar /tmp/isgci_src
+          curl --fail --location --retry 3 'https://archive.ubuntu.com/ubuntu/pool/universe/s/sagemath-database-graphs/sagemath-database-graphs_20210214%2Bdfsg.orig.tar.bz2' -o /tmp/isgci.tar.bz2
+          echo '793e92f6bf6af26899f36f7aec4563ce  /tmp/isgci.tar.bz2' | md5sum -c -
+          tar -xjf /tmp/isgci.tar.bz2 -C /tmp/isgci_src
+          xml=$(find /tmp/isgci_src -type f \( -name 'isgci_sage.xml' -o -name '*isgci*.xml' \) -print -quit)
+          test -n "$xml"
+          cp "$xml" /tmp/p6_isgci_tar/isgci_sage.xml
+          sha256sum /tmp/p6_isgci_tar/isgci_sage.xml > /tmp/p6_isgci_tar/ISGCI_XML_SHA256.txt
+          printf '%s\n' 'Ubuntu source package sagemath-database-graphs 20210214+dfsg-2; upstream orig tar MD5 793e92f6bf6af26899f36f7aec4563ce' > /tmp/p6_isgci_tar/ISGCI_SOURCE_VERSION.txt
+          python - <<'PY'
+          import xml.etree.ElementTree as ET,json
+          p='/tmp/p6_isgci_tar/isgci_sage.xml';root=ET.parse(p).getroot();tags={}
+          for x in root.iter():
+              k=x.tag.split('}')[-1];tags[k]=tags.get(k,0)+1
+          json.dump({'root_tag':root.tag,'tag_counts':tags},open('/tmp/p6_isgci_tar/isgci_manifest.json','w'),indent=2,sort_keys=True)
+          PY
+          cat >/tmp/p6_isgci_tar/P6_ISGCI_SOURCE_LOCK.md <<'EOF'
+          # P6 ISGCI source lock
+          - Frozen source: Ubuntu sagemath-database-graphs 20210214 orig source tar, checksum verified before evaluation.
+          - Action: one graph class.
+          - Public-at-commit features: class name text; definition type/tag structure; directed/undirected flag; no inclusion edges/counts.
+          - Hidden reveal: official inclusion-row certificates in the frozen snapshot.
+          - commit-before-reveal; no free skip; no recommit.
+          - P1 K=20, 75% action pool, seeds 202608190000..019; P2 grouped CV; P4 frozen v1 no tuning.
+          EOF
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p6-isgci-frozen-tar-bundle
+          path: /tmp/p6_isgci_tar/
+          retention-days: 3

@@ -1,0 +1,54 @@
+name: P6 ISGCI bundle
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  bundle:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: p6-data-20260819
+      - name: Freeze ISGCI source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/p6_isgci /tmp/isgci_pkg
+          cd /tmp/isgci_pkg
+          sudo apt-get update -qq
+          apt-get download sagemath-database-graphs >/dev/null
+          deb=$(ls sagemath-database-graphs_*.deb | head -1)
+          dpkg-deb -x "$deb" /tmp/isgci_unpack
+          xml=$(find /tmp/isgci_unpack -type f -name 'isgci_sage.xml' -print -quit)
+          test -n "$xml"
+          cp "$xml" /tmp/p6_isgci/isgci_sage.xml
+          dpkg-deb -f "$deb" Version > /tmp/p6_isgci/ISGCI_PACKAGE_VERSION.txt
+          sha256sum /tmp/p6_isgci/isgci_sage.xml > /tmp/p6_isgci/ISGCI_XML_SHA256.txt
+          python - <<'PY'
+          import xml.etree.ElementTree as ET, json
+          p='/tmp/p6_isgci/isgci_sage.xml'
+          root=ET.parse(p).getroot();tags={}
+          for x in root.iter():
+              k=x.tag.split('}')[-1];tags[k]=tags.get(k,0)+1
+          json.dump({'root_tag':root.tag,'tag_counts':tags},open('/tmp/p6_isgci/isgci_manifest.json','w'),indent=2,sort_keys=True)
+          PY
+          cat >/tmp/p6_isgci/P6_ISGCI_SOURCE_LOCK.md <<'EOF'
+          # P6 ISGCI source lock
+          - Source: Sage `sagemath-database-graphs` packaged ISGCI XML snapshot; package version and SHA recorded before evaluation.
+          - Action: one graph class.
+          - Public-at-commit features: class name text; class-definition type/tag structure; directed/undirected flag; no inclusion edges or derived inclusion counts.
+          - Hidden reveal: that class's official inclusion-row certificates from the frozen ISGCI snapshot.
+          - Evaluation target universe: inclusion relations represented in the frozen snapshot; outcome-defined filtering remains evaluator-only.
+          - commit-before-reveal; no free skip; no recommit.
+          - P1 K=20 75% action-pool subsamples, seeds 202608190000..019.
+          - P2 residual-conditioned realized marginal gain with Ridge/GBDT/small MLP and grouped CV.
+          - P4 uses the already frozen v1 gate with no tuning on ISGCI.
+          EOF
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p6-isgci-frozen-bundle
+          path: /tmp/p6_isgci/
+          retention-days: 3
