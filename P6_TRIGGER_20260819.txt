@@ -1,0 +1,1 @@
+Trigger P6 source acquisition after protocol lock. No scientific parameter changes.
