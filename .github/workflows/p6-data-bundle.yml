@@ -1,0 +1,133 @@
+name: P6 data bundle
+on:
+  push:
+    branches: [p6-data-20260819]
+permissions:
+  contents: read
+jobs:
+  bundle:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: p6-data-20260819
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Freeze TxGraffiti official dataset
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/p6
+          curl --fail --location --retry 3 \
+            'https://raw.githubusercontent.com/RandyRDavila/TxGraffiti2/main/expressive_graph_data.csv' \
+            -o /tmp/p6/txgraffiti_expressive_graph_data.csv
+          sha256sum /tmp/p6/txgraffiti_expressive_graph_data.csv > /tmp/p6/TXGRAFFITI_SHA256.txt
+          python - <<'PY'
+          import csv,json
+          p='/tmp/p6/txgraffiti_expressive_graph_data.csv'
+          with open(p,newline='') as f:
+              r=csv.reader(f); h=next(r); n=sum(1 for _ in r)
+          json.dump({'rows':n,'columns':len(h),'header':h},open('/tmp/p6/txgraffiti_manifest.json','w'),indent=2)
+          PY
+      - name: Install GAP and pinned Smallsemi 0.7.2
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq gap >/dev/null
+          mkdir -p "$HOME/.gap/pkg"
+          git clone --quiet --depth 1 --branch v0.7.2 https://github.com/gap-packages/smallsemi.git "$HOME/.gap/pkg/smallsemi"
+          git -C "$HOME/.gap/pkg/smallsemi" rev-parse HEAD > /tmp/p6/SMALLSEMI_GIT_COMMIT.txt
+      - name: Export deterministic Smallsemi property bank
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat >/tmp/p6/export_smallsemi.g <<'GAP'
+          if LoadPackage("smallsemi") <> true then Error("smallsemi load failed"); fi;
+          props := [
+            ["IsBand",IsBand],
+            ["IsCliffordSemigroup",IsCliffordSemigroup],
+            ["IsCommutativeSemigroup",IsCommutativeSemigroup],
+            ["IsCompletelyRegularSemigroup",IsCompletelyRegularSemigroup],
+            ["IsGroupAsSemigroup",IsGroupAsSemigroup],
+            ["IsIdempotentGenerated",IsIdempotentGenerated],
+            ["IsInverseSemigroup",IsInverseSemigroup],
+            ["IsLeftZeroSemigroup",IsLeftZeroSemigroup],
+            ["IsMonogenicSemigroup",IsMonogenicSemigroup],
+            ["IsMonoidAsSemigroup",IsMonoidAsSemigroup],
+            ["IsNilpotentSemigroup",IsNilpotentSemigroup],
+            ["IsOrthodoxSemigroup",IsOrthodoxSemigroup],
+            ["IsRectangularBand",IsRectangularBand],
+            ["IsRegularSemigroup",IsRegularSemigroup],
+            ["IsSelfDualSemigroup",IsSelfDualSemigroup],
+            ["IsSemigroupWithClosedIdempotents",IsSemigroupWithClosedIdempotents],
+            ["IsSemigroupWithZero",IsSemigroupWithZero],
+            ["IsSimpleSemigroup",IsSimpleSemigroup],
+            ["IsZeroGroup",IsZeroGroup],
+            ["IsZeroSemigroup",IsZeroSemigroup],
+            ["IsZeroSimpleSemigroup",IsZeroSimpleSemigroup]
+          ];
+          out := OutputTextFile("/tmp/p6/smallsemi_property_bank.csv", false);
+          SetPrintFormattingStatus(out,false);
+          AppendTo(out,"size,id");;
+          for q in props do AppendTo(out,",",q[1]); od; AppendTo(out,"\n");
+          for n in [4..6] do
+            total := NrSmallSemigroups(n);
+            if n=4 then step:=1; elif n=5 then step:=2; else step:=15; fi;
+            for i in [1,1+step..total] do
+              s:=SmallSemigroup(n,i);
+              AppendTo(out,String(n),",",String(i));
+              for q in props do
+                v:=q[2](s);
+                if v=true then AppendTo(out,",1"); else AppendTo(out,",0"); fi;
+              od;
+              AppendTo(out,"\n");
+            od;
+          od;
+          CloseStream(out);
+          QUIT_GAP(0);
+          GAP
+          gap -q /tmp/p6/export_smallsemi.g
+          sha256sum /tmp/p6/smallsemi_property_bank.csv > /tmp/p6/SMALLSEMI_BANK_SHA256.txt
+          python - <<'PY'
+          import csv,json
+          p='/tmp/p6/smallsemi_property_bank.csv'
+          with open(p,newline='') as f:
+              r=csv.reader(f); h=next(r); rows=list(r)
+          json.dump({'rows':len(rows),'columns':len(h),'sizes':{n:sum(1 for x in rows if x[0]==n) for n in ['4','5','6']},'header':h},open('/tmp/p6/smallsemi_manifest.json','w'),indent=2)
+          PY
+      - name: Write source lock
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat >/tmp/p6/P6_SOURCE_LOCK.md <<'EOF'
+          # P6 source lock — before benchmark evaluation
+          
+          ## TxGraffiti graph source
+          - Official source: RandyRDavila/TxGraffiti2 `expressive_graph_data.csv`.
+          - Action: one graph row.
+          - Public-at-commit features for v1: order, size, min_degree, max_degree, diameter, radius only.
+          - Hidden reveal: official boolean graph-class predicate columns beginning with `a ` or `an ` plus `a connected...`; candidate implication coverage is computed only after commit.
+          - Target universe: all ordered predicate implications A=>B that have at least one positive antecedent and at least one refuting graph in the frozen bank. Outcome-defined target filtering is evaluator-only, never policy input.
+          
+          ## Smallsemi source
+          - Official Smallsemi 0.7.2, pinned git tag v0.7.2; deterministic size 4-6 sample: all n=4, every 2nd n=5 ID, every 15th n=6 ID.
+          - Action: one SmallSemigroup(size,id).
+          - Public-at-commit features for v1: size only plus deterministic opaque ID excluded from model features.
+          - Hidden reveal: 21 exact Smallsemi boolean properties.
+          - Target universe: all ordered property implications A=>B refuted by at least one sampled semigroup; evaluator-only target filtering never enters policy features.
+          
+          ## Shared P6 protocol
+          - commit-before-reveal; no free skip; no recommit.
+          - P1: K=20, 75% action-pool subsamples, fixed seeds 202608190000..019.
+          - P2: residual-conditioned realized marginal gain, Ridge/GBDT/small MLP, grouped CV, CV-out simulated greedy calls@90.
+          - P4: frozen v1 shadow-gate hyperparameters from `P4_PROTOCOL_LOCK.json`; no tuning on either P6 source.
+          - P5 is ETP-specific and is not replicated.
+          EOF
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p6-frozen-source-bundle
+          path: /tmp/p6/
+          retention-days: 3
