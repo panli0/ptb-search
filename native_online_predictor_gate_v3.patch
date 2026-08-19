@@ -1,0 +1,45 @@
+--- a/native_online_baselines_v2.py
++++ b/native_online_baselines_v2.py
+@@ -508,7 +508,7 @@
+         if len(y) == 0 or np.all(y == y[0]):
+             # Public-text-only prior for the rare edge case of a single-class warm start.
+             base = 0.02 + 0.16 * self.public_similarity
+-            return np.clip(base, 1e-4, 1.0 - 1e-4), int(np.sum(y)) if len(y) else 0
++            return np.clip(base, 1e-4, 1.0 - 1e-4), 1
+         Xtr = self.F[obs].reshape(-1, self.F.shape[2])
+         clf = RidgeClassifier(alpha=RIDGE_ALPHA, class_weight='balanced')
+         clf.fit(Xtr, y)
+@@ -546,11 +546,24 @@
+ 
+     step = len(order)
+     single_class_steps = 0
++    first_prediction_diagnostic = None
+     while rem and not seen.all():
+         Pfull, fallback_flag = predictor.predict(obs, Yobs)
+         single_class_steps += int(bool(fallback_flag))
+         rems = sorted(rem)
+         residual_cols = np.flatnonzero(~seen).tolist()
++        if first_prediction_diagnostic is None and rems and residual_cols:
++            block = np.asarray(Pfull[np.ix_(rems, residual_cols)], dtype=float)
++            stds = np.std(block, axis=0)
++            variable_fraction = float(np.mean(stds > 1e-8))
++            first_prediction_diagnostic = {
++                'residual_targets': len(residual_cols),
++                'variable_target_fraction': variable_fraction,
++                'mean_across_candidate_std': float(np.mean(stds)),
++                'max_across_candidate_std': float(np.max(stds)),
++            }
++            if variable_fraction < 0.05:
++                raise RuntimeError(f'PREDICTOR_DEGENERATE variable_target_fraction={variable_fraction}')
+ 
+         if method == 'psc':
+             j = choose_psc(Pfull, rems, residual_cols)
+@@ -580,7 +593,7 @@
+     padded = fractions + [terminal] * max(0, n - len(fractions))
+     auc = float(np.mean(padded)) if padded else 0.0
+     seq_hash = hashlib.sha256('\n'.join(map(str, order)).encode()).hexdigest()
+-    return {'seed': seed, 'hits': hits, 'auc': auc, 'queries_run': len(order), 'order_sha256': seq_hash, 'single_class_fallback_steps': single_class_steps, 'order': order}
++    return {'seed': seed, 'hits': hits, 'auc': auc, 'queries_run': len(order), 'order_sha256': seq_hash, 'single_class_fallback_steps': single_class_steps, 'first_prediction_diagnostic': first_prediction_diagnostic, 'order': order}
+ 
+ 
+ def run_domain(name, data, method):

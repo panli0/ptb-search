@@ -1,0 +1,58 @@
+name: P1 pi-Base stability
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  stability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: p1-stability-pibase-20260819
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact Gold dependencies
+        run: |
+          set -euo pipefail
+          pip install 'pyyaml==6.0.3' 'numpy==2.3.2' 'scikit-learn==1.7.1' 'scipy==1.16.1' 'optuna==4.5.0' \
+            'simpleai==0.8.3' 'ortools==9.14.6206' 'submodlib-py==0.0.3' 'mcts==1.0.4'
+      - name: Restore exact corrected native v4 predictor
+        run: |
+          set -euo pipefail
+          patch -p0 < native_online_v4_kernel_fix.patch
+          grep -n "uses_outcome_defined_target_universe_for_policy.*False" native_online_baselines_v4.py
+          python -m py_compile p1_pibase_stability.py outcome_universe_audit_redo.py native_online_baselines_v4.py tpe_exact_outcome_safe_redo.py
+      - name: Fetch frozen pi-Base Gold JSON
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 'https://pub-65041ca69d744da88ade13abd31ad834.r2.dev/refs/heads/main.json' -o pi-base-main.json
+          echo '3a59130cbcaa10fe84e6e2d00d597435e0a7da53d8d267b22621017901d69836  pi-base-main.json' | sha256sum -c -
+      - name: Run P1 pi-Base cheap stability batch
+        run: |
+          set -euo pipefail
+          mkdir -p p1_outputs
+          PYTHONHASHSEED=0 python p1_pibase_stability.py --pi pi-base-main.json \
+            --ou outcome_universe_audit_redo.py --nv native_online_baselines_v4.py \
+            --tpe tpe_exact_outcome_safe_redo.py --outdir p1_outputs | tee p1_outputs/P1_pibase_STDOUT.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: p1-pibase-cheap-stability
+          path: p1_outputs/
+          if-no-files-found: warn
+      - name: Archive outputs on P1 branch
+        if: success()
+        run: |
+          set -euo pipefail
+          git restore native_online_baselines_v4.py
+          git config user.name p1-audit-bot
+          git config user.email p1-audit-bot@users.noreply.github.com
+          git add p1_outputs
+          git commit -m 'P1: archive pi-Base cheap stability results'
+          git pull --rebase origin p1-stability-pibase-20260819
+          git push origin HEAD:p1-stability-pibase-20260819

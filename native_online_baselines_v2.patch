@@ -1,0 +1,19 @@
+diff --git a/native_online_baselines_v2.py b/native_online_baselines_v2.py
+--- a/native_online_baselines_v2.py
++++ b/native_online_baselines_v2.py
+@@ -276,11 +276,14 @@ def choose_psc(P_full, rems, residual_cols, weights=None):
+     P = np.asarray(P_full[np.ix_(rems, residual_cols)], dtype=float)
+     if P.shape[1] == 0:
+         return rems[0]
++    if len(rems) == 1:
++        return rems[0]
+     w = [1.0] * P.shape[1] if weights is None else list(map(float, weights))
+     f = ProbabilisticSetCoverFunction(
+         n=len(rems), probs=P.tolist(), num_concepts=P.shape[1], concept_weights=w
+     )
+-    budget = min(HORIZON, len(rems))
++    # Submodlib requires budget to be strictly smaller than effective ground size.
++    budget = min(HORIZON, len(rems) - 1)
+     try:
+         ans = f.maximize(budget=budget, optimizer='LazyGreedy', show_progress=False,
+                          stopIfZeroGain=False, stopIfNegativeGain=False)
