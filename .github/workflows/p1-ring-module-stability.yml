@@ -30,7 +30,7 @@ jobs:
           set -euo pipefail
           patch -p0 < native_online_v4_kernel_fix.patch
           grep -n "uses_outcome_defined_target_universe_for_policy.*False" native_online_baselines_v4.py
-          python -m py_compile native_online_baselines_v4.py outcome_universe_audit_redo.py p1_ring_module_stability.py
+          python -m py_compile native_online_baselines_v4.py outcome_universe_audit_redo.py p1_ring_module_stability.py p1_loader_bootstrap.py
       - name: Fetch frozen DaRT data
         run: |
           set -euo pipefail
@@ -41,7 +41,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p p1_outputs
-          PYTHONHASHSEED=0 python p1_ring_module_stability.py \
+          PYTHONHASHSEED=0 python p1_loader_bootstrap.py \
             --domain '${{ matrix.domain }}' --dart-root dart_data \
             --ou outcome_universe_audit_redo.py --nv native_online_baselines_v4.py \
             --outdir p1_outputs | tee p1_outputs/P1_${{ matrix.domain }}_STDOUT.txt
