@@ -18,8 +18,23 @@ jobs:
           curl -fL --retry 5 --retry-delay 2 https://teorth.github.io/equational_theories/dashboard/outcomes.png -o outcomes.png
           sha256sum outcomes.png
           echo 'b4f53f7ba0200bd1951907c3faa23abc721d3a14e2db1223be9a2ecb5aa9a612  outcomes.png' | sha256sum -c -
+      - name: Reconstruct and verify exact frozen compact
+        run: |
+          set -euo pipefail
+          cat p1_etp_compact_outer_0{1,2,3,4,5,6}.b64 | tr -d '\n' | base64 -d > FINAL_ETP_MECHANISM_FRESH_COMPACT.json.gz.b64
+          test "$(wc -c < FINAL_ETP_MECHANISM_FRESH_COMPACT.json.gz.b64)" -eq 4936
+          base64 -d FINAL_ETP_MECHANISM_FRESH_COMPACT.json.gz.b64 | gzip -dc > final_compact.json
+          echo '3273bb7a5ee4a8697d4e266bd3cf666e22718b57f29e42d4d8b2c1aa7436c7a6  final_compact.json' | sha256sum -c -
+          python - <<'PY'
+          import json
+          z=json.load(open('final_compact.json'))
+          assert len(z)==1213, len(z)
+          print('COMPACT PASS',len(z))
+          PY
       - uses: actions/upload-artifact@v4
         with:
-          name: frozen-etp-outcomes-png
-          path: outcomes.png
+          name: frozen-etp-assets
+          path: |
+            outcomes.png
+            FINAL_ETP_MECHANISM_FRESH_COMPACT.json.gz.b64
           if-no-files-found: error
