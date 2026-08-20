@@ -1,0 +1,27 @@
+name: Temporary ETP outcomes recovery
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch exact frozen ETP outcomes
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 8 --retry-delay 2 https://teorth.github.io/equational_theories/dashboard/outcomes.png -o outcomes.png
+          echo 'b4f53f7ba0200bd1951907c3faa23abc721d3a14e2db1223be9a2ecb5aa9a612  outcomes.png' | sha256sum -c -
+          ls -lh outcomes.png
+      - uses: actions/upload-artifact@v4
+        with:
+          name: exact-frozen-etp-outcomes-20260820
+          path: outcomes.png
+          if-no-files-found: error
+          retention-days: 1
