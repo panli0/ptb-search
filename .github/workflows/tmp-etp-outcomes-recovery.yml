@@ -1,0 +1,46 @@
+name: Temporary ETP outcomes recovery
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Fetch exact frozen ETP outcomes
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 8 --retry-delay 2 https://teorth.github.io/equational_theories/dashboard/outcomes.png -o outcomes.png
+          echo 'b4f53f7ba0200bd1951907c3faa23abc721d3a14e2db1223be9a2ecb5aa9a612  outcomes.png' | sha256sum -c -
+          ls -lh outcomes.png
+      - name: Package exact Z3 Python runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install 'z3-solver==4.13.3.0'
+          python - <<'PY'
+          import pathlib, shutil, z3
+          print('Z3', z3.get_version_string(), z3.__file__)
+          assert z3.get_version_string().startswith('4.13.3')
+          src=pathlib.Path(z3.__file__).resolve().parent
+          shutil.copytree(src, pathlib.Path('z3_runtime')/'z3')
+          PY
+          tar -czf z3_runtime_py311_linux_x64.tar.gz -C z3_runtime z3
+          ls -lh z3_runtime_py311_linux_x64.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: exact-frozen-etp-assets-20260820
+          path: |
+            outcomes.png
+            z3_runtime_py311_linux_x64.tar.gz
+          if-no-files-found: error
+          retention-days: 1
